@@ -15,7 +15,7 @@ body {
 
 .bg-image-wrapper {
     height: 744px;
-    background-image: url("./assets/bg-image.jpg");
+    background-image: url("./assets/bg-image.png");
     background-position: bottom center;
 }
 
@@ -34,8 +34,7 @@ body {
 .menu {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;        
+    align-items: center;      
     font-size: 14px;
     list-style-type: none;
     padding: 0px;
@@ -113,13 +112,9 @@ a {
 .button-main-form {
     display: flex;
     align-items: center; 
-    
-     
-
 }
-.get-started {
-    width: 184px;
-    height: 46px;
+
+.button {
     background: #00AFDB;
     font-style: normal;
     font-weight: bold;
@@ -130,15 +125,16 @@ a {
     color: #ffffff;
     outline: none;
     border: none;
-    margin: auto auto 183px auto;
-       
-  
- 
+
 }
+#getstarted {
+    width: 184px;
+    height: 46px;   
+    margin: auto auto 183px auto;
+ }
 
 .button:hover {
-    background: none;
-    border: solid #00AFDB;
+    background-color: #009CC2;
     cursor: pointer;
 }
 
@@ -192,6 +188,9 @@ a {
     width: 407px;
     height: 233px;
     margin: 295px 248px 314px 268px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
     
 }
 
@@ -199,15 +198,16 @@ h2 {
     font-weight: 700;
     font-style: normal;
     font-size: 24px;
-    line-height: 120%;
-    display: flex;
-    align-items: flex-end;
+    line-height: 122%;
     letter-spacing: 1px;
     text-transform: uppercase;
+    margin: 0px;
+}
+
+.h2-rappresent, .h2-implement {
     color: #373737;
     width: 368px;
     height: 57px;
-    margin: 0px;
 }
 
 .content-image-1 {
@@ -220,13 +220,258 @@ h2 {
 }
 
 .contentblock p {
-height: 80px;
-font-style: normal;
-font-weight: 400;
-font-size: 14px;
-line-height: 145%;
-color: #4E4E4E;
-margin-top: 21px;
-margin-bottom: 28px;
+    height: 80px;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 145%;
+    color: #4E4E4E;
+    margin-top: 21px;
+    margin-bottom: 28px;
+}
+
+.our_community {
+    height: 504px;
+    display: flex;
+    background: #F5F6F7;
+}
+
+.contentblocktwo {
+    width: 298px;
+    height: 175px;
+    margin: 155px 139px 174px 269px; 
+    display: flex;   
+    flex-direction: column;
+    align-items: center;
+}
+
+.contentblocktwo .icon {
+    width: 45px;
+    height: 45px;
+    background-image: url("./assets/icon.svg");
+    background-size: cover;
+    flex: none;
+}
+
+h3 {
+    width: 162px;
+    height: 20px;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 20px;
+    text-align: center;
+    letter-spacing: 2.4px;
+    text-transform: uppercase;
+    color: #373737;
+    margin-top: 21px;
+    margin-bottom: 11px;
+ 
+}
+
+.contentblocktwo p {
+    width: 298px;
+    height: 80px;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 143%;
+    margin: 0;
+    text-align: center;
+    color: #4E4E4E;
 
 }
+
+.slider-items {
+    width: 894px;
+    height: 244px;
+    margin-top: 120px;
+    margin-bottom: 140px;
+    display: flex;
+    overflow: hidden;
+}
+
+#slider-item-1 {
+    width: 407px;
+    height: 244px;
+    background-image: url("./assets/slider-item-1.png");
+    background-size: cover;
+    margin-right: 30px;
+    flex: none;
+}
+#slider-item-2 {
+    width: 407px;
+    height: 244px;
+    background-image: url("./assets/slider-item-2.png");
+    background-size: cover;
+    margin-right: 30px;
+    flex: none;
+    
+}
+#slider-item-3 {
+    width: 407px;
+    height: 244px;
+    background-image: url("./assets/slider-item-3.png");
+    background-size: cover;
+    flex: none;
+    overflow: hidden;
+}
+
+.implement {
+    height: 842px;
+    display: flex;
+
+}
+.content-image-2 {
+    width: 407px;
+    height: 582px;
+    background-image: url("./assets/content-image-2.png");
+    background-size: cover;
+    margin: 120px 139px 140px 269px;
+
+}
+.implement-contentblock {
+    display: flex;   
+    flex-direction: column;
+    width: 407px;
+    height: 184px;
+    margin: 319px 378px 339px auto;
+}
+
+.implement-contentblock p {
+    height: 60px;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 145%;
+    color: #4E4E4E;
+    margin-top: 21px;
+    margin-bottom: 28px;
+}
+
+.subscribe {
+    height: 524px;
+    background-image: url("./assets/image-bg-2.png");
+    background-position: center;
+    display: flex;
+    justify-content: center;
+ }
+
+.emailform {
+    width: 406px;
+    height: 105px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 199px;
+    
+}
+
+.h2-subscribe {
+    color: #ffffff;
+    width: 381px;
+    height: 28px;
+}
+
+.form-subscribe {
+    display: flex;   
+}
+.email {
+    width: 316px;
+    height: 46px;
+    border: none;
+    border-radius: none;
+    padding: 0;
+    padding-left: 24px;
+    
+}
+
+.email::placeholder {
+    font-family: 'Roboto', sans-serif;    
+    color: #373737;
+    font-size: 14px;
+    line-height: 110%;
+    opacity: 0.5;
+}
+
+.email:focus {
+    outline: none;
+}
+
+#button-email {
+    width: 66px;
+    height: 46px;
+    background-image: url("./assets/fa-check.svg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: auto;
+    
+}
+
+.download {
+    height: 464px;
+    background: #F5F6F7;
+}
+
+.footer {
+    height: 111px;
+    background: #000000;
+    display: flex;
+    justify-content: space-between;
+    padding-top: 74px;
+    padding-right: 160px;
+    padding-left: 160px;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 140%;
+}
+
+.nav-items {
+    width: 236px;
+    height: 20px;
+    
+
+}
+
+.footer-nav {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #FFFFFF;
+    
+}
+
+.footer-nav li:not(:first-child)::before {
+    content: " | ";
+    position: relative;
+    left: -16px;
+    color:  #4E4E4E;
+}
+
+.footer-nav li a:hover {
+    text-decoration: none;
+    background-size: 100% 1px;
+    font-weight: bold;
+}
+
+
+.logo {
+    width: 44px;
+    height: 45px;
+    background-image: url("./assets/Logo.svg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: auto;
+    position: relative;
+    top: -14px;
+    left: -34px;
+}
+
+.copyright {
+    color: #818181;
+}
+
