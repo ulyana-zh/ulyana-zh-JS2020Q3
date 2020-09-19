@@ -1,8 +1,8 @@
 body {
     width: 1600px;
     margin: 0px;
-    
-
+    padding: 0px;
+    font-family: 'Roboto', sans-serif;    
 }
 .not_phototime_layout {
     margin: auto;   
@@ -17,7 +17,6 @@ body {
     height: 744px;
     background-image: url("./assets/bg-image.jpg");
     background-position: bottom center;
-    color: #ffffff;
 }
 
 .header {
@@ -42,6 +41,7 @@ body {
     padding: 0px;
     margin: 0 auto;    
     text-align: center;
+    color: #ffffff
 }
 .menu .about a{
     background-size: 100% 1px;
@@ -87,6 +87,7 @@ a {
     text-align: center;
     letter-spacing: 4.5px;
     text-transform: uppercase;
+    color: #ffffff
 }
 
 .text_under_title {
@@ -100,16 +101,23 @@ a {
     display: flex;
     align-items: center;
     text-align: center;
+    color: #ffffff
 }
 
 .button_main {
-    width: fit-content;
-    margin: auto auto 183px auto;
     display: flex;
-    align-items: center;
-    text-align: center;
+    align-items: center; 
+    
+      
 }
-.button_main button {
+.button-main-form {
+    display: flex;
+    align-items: center; 
+    
+     
+
+}
+.get-started {
     width: 184px;
     height: 46px;
     background: #00AFDB;
@@ -118,9 +126,14 @@ a {
     font-size: 14px;
     line-height: 16px;
     text-transform: uppercase;
+    text-align: center;
     color: #ffffff;
     outline: none;
     border: none;
+    margin: auto auto 183px auto;
+       
+  
+ 
 }
 
 .button:hover {
@@ -168,6 +181,52 @@ a {
 
  .socials a:hover {
     filter: drop-shadow(0 0 5px #ffffff);
+}
+
+.rappresent {
+    height: 842px;
+    display: flex;
+    }
+
+.contentblock {
+    width: 407px;
+    height: 233px;
+    margin: 295px 248px 314px 268px;
     
 }
 
+h2 {
+    font-weight: 700;
+    font-style: normal;
+    font-size: 24px;
+    line-height: 120%;
+    display: flex;
+    align-items: flex-end;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #373737;
+    width: 368px;
+    height: 57px;
+    margin: 0px;
+}
+
+.content-image-1 {
+    width: 407px;
+    height: 582px;
+    background-image: url("./assets/content-image-1.png");
+    background-size: cover;
+    margin: 120px 270px auto auto;
+    
+}
+
+.contentblock p {
+height: 80px;
+font-style: normal;
+font-weight: 400;
+font-size: 14px;
+line-height: 145%;
+color: #4E4E4E;
+margin-top: 21px;
+margin-bottom: 28px;
+
+}
