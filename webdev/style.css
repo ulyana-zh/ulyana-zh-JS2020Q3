@@ -412,6 +412,71 @@ h3 {
 .download {
     height: 464px;
     background: #F5F6F7;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.download-buttons {
+    display: flex;
+    width: 402px;
+    height: 46px;
+    justify-content: space-between;
+    position: relative;
+    top: 10px;
+}
+
+.h2-download {
+    color: #373737;
+    margin-top: 119px; 
+    margin-bottom: 22px;  
+}
+
+#download-button-id {
+    width: 127px;
+    height: 46px; 
+    font-size: 13px;
+    line-height: 16px;
+}
+
+#download-button-id:hover {
+    background-color: #009CC2;
+}
+.download-button::after {
+    content: " ";
+    display: inline-block;
+    position: relative;
+    top: 19px;
+    width: 59px;
+    height: 46px;
+    background-color: #009CC2; 
+}
+
+.download-button:first-child::after {
+    background-image: url("./assets/icon-apple.svg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: auto;    
+}
+
+.download-button:last-child::after {
+    background-image: url("./assets/icon-android.svg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: auto;    
+}
+.download p {
+    width: 480px;
+    height: 40px;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 140%;
+    font-weight: normal;
+    text-align: center;
+    color: #4E4E4E;
+    padding: 0;
+    margin: 0;
+
 }
 
 .footer {
