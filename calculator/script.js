@@ -46,7 +46,7 @@ class Calculator {
                     case '*': 
                   computation =  prev * current;
                     break;
-                    case '÷': 
+                    case '/': 
                   computation =  prev / current;
                     break;
                   case 'numx':
@@ -68,10 +68,11 @@ class Calculator {
     }
 
     negativeNumber () {
-        let negativeNumber;
+        this.currentOperand = this.currentOperand * (-1);
+        /*let negativeNumber;
         const currentNumber = parseFloat(this.currentOperand);
         negativeNumber = currentNumber * (-1);
-        this.currentOperand = negativeNumber;      
+        this.currentOperand = negativeNumber;  */    
     }
 
     getDisplayNumber(number) {
@@ -159,7 +160,7 @@ deleteButton.addEventListener('click', button => {
 negativeNumberButton.addEventListener('click', button => {
     calculator.negativeNumber();
     calculator.updateDisplay();
-    calculator.appendNumber();
+    ;
   })
 
   sqrtButton.addEventListener('click', button => {
