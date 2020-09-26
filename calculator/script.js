@@ -55,8 +55,7 @@ class Calculator {
                     default:
                     return;    
             }
-        computation = +computation.toFixed(14); 
-        /*computation = Math.round(computation * );  */
+        computation = +computation.toFixed(14);
         this.readyToReset = true;
         this.currentOperand = computation;
         this.operation = undefined;
@@ -68,11 +67,7 @@ class Calculator {
     }
 
     negativeNumber () {
-        this.currentOperand = this.currentOperand * (-1);
-        /*let negativeNumber;
-        const currentNumber = parseFloat(this.currentOperand);
-        negativeNumber = currentNumber * (-1);
-        this.currentOperand = negativeNumber;  */    
+        this.currentOperand = this.currentOperand * (-1);    
     }
 
     getDisplayNumber(number) {
