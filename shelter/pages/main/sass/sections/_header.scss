@@ -4,6 +4,8 @@
     align-items: center;
 }
 
+
+
 .header__logo-subtitle {
     font-size: 1.3rem;
     line-height: 15px;
@@ -22,4 +24,12 @@
 
 .navigation li:not(:last-child) {
     margin-right: 35px;
+}
+
+.navigation li:active {
+    border-bottom: 2px solid $color-primary;
+}
+
+.navigation li:hover {
+    color: $color-light-xl;
 }

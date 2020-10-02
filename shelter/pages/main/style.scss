@@ -1,18 +1,10 @@
 @import "./sass/constants";
 @import "./sass/bacis";
-@import "./sass/wrapper";
+@import "./sass/buttons";
 
 //sections
 @import "./sass/sections/header";
+@import "./sass/sections/start-screen";
+@import "./sass/sections/help";
+@import "./sass/sections/footer";
 
-.pets, .donation {
-    background-color: $color-light-l;;
-}
-
-.start-screen {
-    background: $start-screen-gradient-background;
-}
-
-.footer {
-    background: $footer-gradient-background;
-}
