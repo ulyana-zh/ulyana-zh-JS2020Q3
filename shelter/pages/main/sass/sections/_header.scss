@@ -1,0 +1,25 @@
+.wrapper__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header__logo-subtitle {
+    font-size: 1.3rem;
+    line-height: 15px;
+    /* identical to box height */
+    letter-spacing: 0.1em;
+    //color: $color-light-xl;
+}
+
+.navigation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    list-style-type: none;
+    padding: 0;
+}
+
+.navigation li:not(:last-child) {
+    margin-right: 35px;
+}

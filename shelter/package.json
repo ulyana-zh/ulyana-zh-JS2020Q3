@@ -1,0 +1,16 @@
+{
+  "name": "shelter",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "style": "sass --watch pages/main/style.scss pages/main/style.css",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rolling-scopes-school/ulyana-zh-JS2020Q3/tree/shelter"
+  },
+  "author": "ulyana zhivotenkova",
+  "license": "ISC"
+}
