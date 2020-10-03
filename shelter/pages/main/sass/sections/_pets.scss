@@ -1,8 +1,45 @@
 .wrapper__pets {
     @include flex();
     flex-direction: column;
+    h3 {
+        width: 400px;
+        margin-top: 80px;
+        margin-bottom: 60px;
+        text-align: center;
+    }
+}
+
+.pets__content {
+    @include flex();
 }
 
 .layout-3-colums {
     @include flex();
+    margin-left: 53px;
+    margin-right: 53px;
+    &__item:not(:last-child)  {
+        margin-right: 90px;
+    }
+}
+
+.layout-3-colums__item {
+    @include flex();
+    flex-direction: column;
+    background-color: $color-light-s;
+    border-radius: 9px;
+    &:hover {
+        cursor: pointer;
+    }
+    p {
+        margin-top: 26px;
+        margin-bottom: 30px;
+    }
+    .item-button {
+        margin-bottom: 30px;
+    }
+}
+
+.pets__button {
+    margin-top: 60px;
+    margin-bottom: 100px;
 }

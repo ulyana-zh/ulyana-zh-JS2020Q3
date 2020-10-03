@@ -1,17 +1,35 @@
 .wrapper__donation {
-    @include flex();
+    @include flex($justify: center);
+    .donation__img {
+        margin-right: 30px;
+        margin-top: -16px;
+    }
 }
 
 .donation__content {
-    margin-right: 143px;
     width: 380px;
+    margin-top: 82px;
+    margin-bottom: 81px;
+    h3 {
+        margin-right: 80px;
+    }
+    h5 {
+        margin: 20px 0;
+    }
+    p {
+        margin: 20px 0;
+    }
     
 }
 
 .credit-card {
     @include flex();
     background-color: $color_primary;
+    margin-right: 31px;
     border-radius: 9px;
     padding: 10px 15px;
-    margin-right: 31px;
+    &:hover {
+        cursor: pointer;
+        background-color: $color-primary-light;
+    }
 }

@@ -1,3 +1,18 @@
 .wrapper__about {
-    @include flex();
+    @include flex($justify: center);
+    .about__img {
+        margin-top: 80px;
+        margin-bottom: 96px;
+        margin-right: 120px;
+    }
+}
+.about__content {
+    width: 430px;
+    h3 {
+        margin-right: 60px;
+        margin-bottom: 25px;
+    }
+    p {
+        margin-bottom: 25px;
+    }
 }

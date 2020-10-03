@@ -1,14 +1,29 @@
 .wrapper__help {
     @include flex();
     flex-direction: column;
+    padding-top: 80px;
+    padding-bottom: 45px;
+    h3 {
+        width: 308px;
+        text-align: center;
+        margin-bottom: 60px;
+    }
 }
 
 .ico-list {
-    @include flex();
+    @include flex($justify: center);
+    width: 100%;
     flex-wrap: wrap;
+    padding: 0 15px;
     .ico-list__item {
         @include flex();
         flex-direction: column;
+        width: 20%;
+        text-align: center;
+        margin-bottom: 55px;
+        h4 {
+            margin-top: 30px;
+        }
     }
 }
 
