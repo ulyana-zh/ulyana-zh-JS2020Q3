@@ -9,29 +9,24 @@
     letter-spacing: 0.06em;
     color: $color-dark-3xl;
     cursor: pointer;  
-}
-
-.button:active {
-    border: none;
-}
-
-.button_colored {
-    background: $color-primary;
-    border: none;
-}
-
-.button_colored:hover {
-    background: $color-primary-light;     
-}
-
-.button_bordered {
-    background: none;   
-    border: 2px solid $color-primary;
-}
-
-.button_bordered:hover {
-    background: $color-primary-light;  
-    border: 2px solid $color-primary-light;   
+    &:active {
+        border: none;    
+    }
+    &_colored {
+        background: $color-primary;
+        border: none;
+        &:hover {
+            background: $color-primary-light;  
+        }
+    }
+    &_bordered {
+        background: none;   
+        border: 2px solid $color-primary;
+        &:hover {
+            background: $color-primary-light;  
+            border: 2px solid $color-primary-light;  
+        }
+    }
 }
 
 .button_arrow {

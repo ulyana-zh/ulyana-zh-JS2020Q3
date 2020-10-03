@@ -1,0 +1,17 @@
+.wrapper__donation {
+    @include flex();
+}
+
+.donation__content {
+    margin-right: 143px;
+    width: 380px;
+    
+}
+
+.credit-card {
+    @include flex();
+    background-color: $color_primary;
+    border-radius: 9px;
+    padding: 10px 15px;
+    margin-right: 31px;
+}

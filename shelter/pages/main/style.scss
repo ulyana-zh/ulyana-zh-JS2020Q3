@@ -1,10 +1,18 @@
+@import "../../node_modules/normalize-scss/sass/normalize";
+@include normalize();
+
 @import "./sass/constants";
+@import "./sass/mixins";
 @import "./sass/bacis";
 @import "./sass/buttons";
+@import "./sass/icons";
 
 //sections
 @import "./sass/sections/header";
 @import "./sass/sections/start-screen";
+@import "./sass/sections/about";
+@import "./sass/sections/pets";
 @import "./sass/sections/help";
+@import "./sass/sections/donation";
 @import "./sass/sections/footer";
 

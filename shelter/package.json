@@ -12,5 +12,8 @@
     "url": "git+https://github.com/rolling-scopes-school/ulyana-zh-JS2020Q3/tree/shelter"
   },
   "author": "ulyana zhivotenkova",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "normalize-scss": "^7.0.1"
+  }
 }

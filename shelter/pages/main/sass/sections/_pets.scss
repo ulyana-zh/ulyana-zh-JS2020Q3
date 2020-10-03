@@ -1,0 +1,8 @@
+.wrapper__pets {
+    @include flex();
+    flex-direction: column;
+}
+
+.layout-3-colums {
+    @include flex();
+}

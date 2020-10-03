@@ -1,3 +1,7 @@
+* {
+    box-sizing: border-box;
+}
+
 html {
     font-size: 10px;
 }
@@ -5,8 +9,6 @@ html {
 body {
     font-size: 1.6rem;
     font-family: Arial, Helvetica, sans-serif;
-    margin: 0;
-    padding: 0;
 }
 
 .wrapper {
@@ -14,39 +16,33 @@ body {
     margin: auto;
 }
 
-h1, h2, h3, h4, h5 {
-    font-family: Georgia, 'Times New Roman', Times, serif;
-    font-style: normal;
-    font-weight: normal;
-}
-
 h1 {
-    font-size: 3.2rem;
-    line-height: 110%;
-    letter-spacing: 0.06em;
+    @include font (3.2rem, 110%, 0.06em);
     color: $color-primary;
     margin: 0;
 }
 
 h2 {
-    font-size: 4.4rem;
-    line-height: 130%;
+    @include font(4.4rem, 130%);
     color: $color-light-xl;
-    margin: 0x;
+    margin: 0;
 }
 
 h3 {
-    font-size: 3.5rem;
-    line-height: 130%;
-    letter-spacing: 0.06em;
+    @include font(3.5rem, 130%, 0.06em);
     color: $color-dark-l;
+    margin: 0;
 }
 
 h4 {
+    @include font(2rem, 115%, 0.06em);
     color: $color-dark-l;
-    font-size: 2rem;
-    line-height: 115%;
-    letter-spacing: 0.06em;
+    margin: 0;
+}
+
+h5 {
+    @include font(1.5rem, 110%, 0.06em);
+    color: $color-dark-l;
 }
 
 a {
@@ -55,9 +51,19 @@ a {
 }
 
 .paragraph-l {
-    color: $color-dark-s;
+    //@include font($size: 1.5rem, $height: 160%, $family: "Arial, Helvetica, sans-serif");
+    color: $color-dark-xl;
     font-size: 1.5rem;
     line-height: 160%;  
+}
+
+.paragraph-s {
+    font-family: Arial;
+    font-style: italic;
+    font-weight: normal;
+    font-size: 1.2rem;
+    line-height: 150%;
+    color: $color-dark-m;
 }
 
 .pets, .donation {
