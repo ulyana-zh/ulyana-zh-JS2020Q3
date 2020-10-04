@@ -32,11 +32,9 @@
 .button-arrow {
     background: none;   
     border: 2px solid $color-primary;
-    padding: 19px 21px 19px 21px;   
-}
-
-
-.button-arrow:hover {
-    background: $color-primary-light;
-    border: 2px solid $color-primary-light;
+    padding: 21px 17px;
+    &:hover {
+        background: $color-primary-light;
+        border: 2px solid $color-primary-light;
+    }   
 }

@@ -1,5 +1,6 @@
 .wrapper__footer {
     @include flex($align: flex-start);
+    flex-wrap: wrap;
     padding-top: 20px;
     h3 {
         color: $color-light-xl;
@@ -9,6 +10,9 @@
     }
     .footer__img {
         margin-top: 20px;
+    }
+    a:hover {
+        color: $color-primary-light;
     }
 }
 

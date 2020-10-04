@@ -1,8 +1,9 @@
 .wrapper__donation {
     @include flex($justify: center);
+    flex-wrap: wrap;
     .donation__img {
         margin-right: 30px;
-        margin-top: -16px;
+        margin-top: -20px;
     }
 }
 
