@@ -9,8 +9,8 @@
     letter-spacing: 0.06em;
     color: $color-dark-3xl;
     cursor: pointer;  
-    &:active {
-        border: none;    
+    &:focus {
+        outline: none;    
     }
     &_colored {
         background: $color-primary;
@@ -27,6 +27,7 @@
             border: 2px solid $color-primary-light;  
         }
     }
+
 }
 
 .button-arrow {

@@ -674,15 +674,18 @@ a {
 }
 
 .header {
+  background-color: #ffffff;
+  height: 120px;
   width: 100%;
-  top: 60px;
-  position: absolute;
+  top: 0px;
+  position: sticky;
 }
 
 .wrapper__header {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  height: 100%;
 }
 
 .header__logo {
@@ -693,12 +696,13 @@ a {
 }
 .header__logo h1 {
   margin-bottom: 10px;
+  color: #545454;
 }
 .header__logo_subtitle {
   font-size: 1.3rem;
   line-height: 1.5rem;
   letter-spacing: 0.1em;
-  color: #ffffff;
+  color: #292929;
 }
 
 .header__nav {
@@ -716,65 +720,18 @@ a {
   font-weight: normal;
   list-style-type: none;
   padding: 0;
-  color: #CDCDCD;
+  color: #545454;
 }
 .navigation li:not(:last-child) {
   margin-right: 35px;
 }
 .navigation li:hover {
-  color: #ffffff;
+  color: #292929;
 }
 
 .active {
   padding-bottom: 3px;
   border-bottom: 3px solid #F1CDB3;
-}
-
-.wrapper__start-screen {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-}
-
-.start-screen__content {
-  max-width: 460px;
-  margin-right: 42px;
-  margin-top: 97px;
-}
-.start-screen__content h2 {
-  margin-right: 150px;
-}
-.start-screen__content p {
-  color: #CDCDCD;
-  margin-top: 42px;
-  margin-bottom: 41px;
-}
-
-.start-screen__img {
-  margin-top: 180px;
-}
-
-.wrapper__about {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.wrapper__about .about__img {
-  margin-top: 80px;
-  margin-bottom: 100px;
-  margin-right: 120px;
-}
-
-.about__content {
-  width: 430px;
-}
-.about__content h3 {
-  margin-right: 60px;
-  margin-bottom: 25px;
-}
-.about__content p {
-  margin-bottom: 25px;
 }
 
 .wrapper__pets {
@@ -796,18 +753,6 @@ a {
   justify-content: space-between;
 }
 
-.layout-columns {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  margin-left: 53px;
-  margin-right: 53px;
-}
-.layout-columns__item:not(:last-child) {
-  margin-right: 90px;
-}
-
 .layout-4-columns {
   display: flex;
   align-items: center;
@@ -822,19 +767,20 @@ a {
   flex-direction: column;
   background-color: #FAFAFA;
   border-radius: 9px;
+  margin-bottom: 30px;
 }
 .layout-columns__item:hover {
   cursor: pointer;
-}
-.layout-columns__item p {
-  margin-top: 30px;
-  margin-bottom: 30px;
 }
 .layout-columns__item .item-image {
   overflow: hidden;
   background-size: cover;
   border-top-left-radius: 9px;
   border-top-right-radius: 9px;
+}
+.layout-columns__item p {
+  margin-top: 30px;
+  margin-bottom: 30px;
 }
 .layout-columns__item .item-button {
   margin-bottom: 30px;
@@ -843,88 +789,31 @@ a {
   padding: 13px 43px;
 }
 
-.pets__button {
-  margin-top: 60px;
-  margin-bottom: 100px;
-}
-
-.wrapper__help {
+.buttons-section {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  flex-direction: column;
-  padding-top: 80px;
-  padding-bottom: 75px;
+  margin: 30px 0 101px 0;
+  width: 340px;
 }
-.wrapper__help h3 {
-  width: 310px;
-  text-align: center;
-  margin-bottom: 30px;
+.buttons-section .button_rounded {
+  padding: 0;
+  width: 51px;
+  height: 51px;
 }
-
-.ico-list {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 1030px;
-  flex-wrap: wrap;
+.buttons-section .button_colored {
+  border: 2px solid #F1CDB3;
 }
-.ico-list .ico-list__item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-direction: column;
-  text-align: center;
-  margin: 30px 60px 25px 60px;
+.buttons-section .button_colored:hover {
+  border: 2px solid #FDDCC4;
 }
-.ico-list .ico-list__item:first-child {
-  margin-left: 0px;
+.buttons-section .button:disabled {
+  background: none;
+  border: 2px solid #CDCDCD;
+  cursor: default;
 }
-.ico-list .ico-list__item:nth-child(5) {
-  margin-right: 0px;
-}
-.ico-list .ico-list__item h4 {
-  margin-top: 30px;
-}
-
-.wrapper__donation {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-.wrapper__donation .donation__img {
-  margin-right: 30px;
-  margin-top: -20px;
-}
-
-.donation__content {
-  width: 380px;
-  margin-top: 82px;
-  margin-bottom: 81px;
-}
-.donation__content h3 {
-  margin-right: 80px;
-}
-.donation__content h5 {
-  margin: 20px 0;
-}
-.donation__content p {
-  margin: 20px 0;
-}
-
-.credit-card {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background-color: #F1CDB3;
-  margin-right: 31px;
-  border-radius: 9px;
-  padding: 10px 15px;
-}
-.credit-card:hover {
-  cursor: pointer;
-  background-color: #FDDCC4;
+.buttons-section .button:disabled h4 {
+  color: #CDCDCD;
 }
 
 .wrapper__footer {
@@ -997,4 +886,4 @@ a {
   justify-content: flex-start;
 }
 
-/*# sourceMappingURL=style.css.map */
+/*# sourceMappingURL=pets.css.map */
