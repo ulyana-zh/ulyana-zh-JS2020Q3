@@ -3,7 +3,6 @@
     height: 120px;
     width: 100%;
     top: 0px;
-    //position: fixed;
     position: sticky;
 }
 
@@ -42,6 +41,9 @@
     }
     li:hover {
         color: $color-dark-3xl;
+    }
+    @include media-mobilesmall {
+        display: none;
     }
 }
 

@@ -18,6 +18,13 @@ body {
 .wrapper {
     max-width: $content-width;
     margin: auto;
+    @include media-tablet {
+        padding: 0 30px;
+    }
+
+    @include media-mobilesmall {
+        padding: 0 10px;
+    }
 }
 
 h1 {

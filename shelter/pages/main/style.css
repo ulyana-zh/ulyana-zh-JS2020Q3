@@ -470,6 +470,16 @@ body {
   max-width: 1200px;
   margin: auto;
 }
+@media (max-width: 768px) {
+  .wrapper {
+    padding: 0 30px;
+  }
+}
+@media (max-width: 320px) {
+  .wrapper {
+    padding: 0 10px;
+  }
+}
 
 h1 {
   font-size: 3.2rem;
@@ -673,6 +683,41 @@ a {
   height: 32px;
 }
 
+.hamburger__line, .hamburger::after, .hamburger::before {
+  content: "";
+  position: absolute;
+  display: inline-block;
+  width: 100%;
+  height: 2px;
+  background-color: #000000;
+}
+
+.hamburger {
+  position: relative;
+  display: none;
+  width: 30px;
+  height: 23px;
+  margin-right: 19px;
+}
+@media (max-width: 320px) {
+  .hamburger {
+    display: inline-block;
+  }
+}
+.hamburger::before {
+  top: 0;
+  left: 0;
+}
+.hamburger::after {
+  bottom: 0;
+  left: 0;
+}
+
+.hamburger__line {
+  top: calc(50% - 1px);
+  left: 0;
+}
+
 .header {
   width: 100%;
   top: 60px;
@@ -808,13 +853,6 @@ a {
   margin-right: 90px;
 }
 
-.layout-4-columns {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-}
-
 .layout-columns__item {
   display: flex;
   align-items: center;
@@ -822,6 +860,7 @@ a {
   flex-direction: column;
   background-color: #FAFAFA;
   border-radius: 9px;
+  margin-bottom: 30px;
 }
 .layout-columns__item:hover {
   cursor: pointer;
@@ -844,7 +883,7 @@ a {
 }
 
 .pets__button {
-  margin-top: 60px;
+  margin-top: 30px;
   margin-bottom: 100px;
 }
 
@@ -866,7 +905,7 @@ a {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 1030px;
+  max-width: 1030px;
   flex-wrap: wrap;
 }
 .ico-list .ico-list__item {
@@ -940,11 +979,26 @@ a {
 .wrapper__footer h4 {
   color: #F1CDB3;
 }
-.wrapper__footer .footer__img {
-  margin-top: 20px;
-}
 .wrapper__footer a:hover {
   color: #FDDCC4;
+}
+@media (max-width: 768px) {
+  .wrapper__footer {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+.footer__content {
+  width: 740px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+@media (max-width: 768px) {
+  .footer__content {
+    width: 640px;
+  }
 }
 
 .footer__content-1 {
@@ -967,6 +1021,17 @@ a {
 }
 .footer__content-2 .address-1 {
   margin-bottom: 32px;
+}
+
+.footer__img {
+  margin-top: 20px;
+}
+@media (max-width: 768px) {
+  .footer__img {
+    display: flex;
+    justify-content: center;
+    margin-top: 60px;
+  }
 }
 
 .ico_footer {

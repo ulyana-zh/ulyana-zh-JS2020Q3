@@ -8,11 +8,20 @@
     h4 {
         color: $color_primary;
     }
-    .footer__img {
-        margin-top: 20px;
-    }
     a:hover {
         color: $color-primary-light;
+    }
+    @include media-tablet {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+.footer__content {
+    width: 740px;
+    @include flex();
+    @include media-tablet {
+        width: 640px;
     }
 }
 
@@ -37,6 +46,15 @@
         margin-bottom: 32px;
     }
     
+}
+
+.footer__img {
+    margin-top: 20px;
+    @include media-tablet {
+        display: flex;
+        justify-content: center;
+        margin-top: 60px;
+    }
 }
 
 .ico_footer {

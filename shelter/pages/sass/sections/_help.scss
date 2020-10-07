@@ -12,7 +12,7 @@
 
 .ico-list {
     @include flex($justify: center);
-    width: 1030px;
+    max-width: 1030px;
     flex-wrap: wrap;
     .ico-list__item {
         @include flex();
