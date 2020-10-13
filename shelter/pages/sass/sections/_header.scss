@@ -2,6 +2,13 @@
     width: 100%;
     top: 60px;
     position: absolute;
+    @include media-tablet {
+        top: 30px;
+    }
+    @include media-mobilesmall {
+        top: 30px;
+    }
+    
 }
 
 .wrapper__header {
@@ -37,6 +44,9 @@
     }
     li:hover {
         color: $color-light-xl;
+    }
+    @include media-mobilesmall {
+        display: none;    
     }
 }
 

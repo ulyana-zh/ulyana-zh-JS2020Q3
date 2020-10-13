@@ -15,6 +15,9 @@
     @include media-tablet {
         padding: 0 94px;
     }
+    @include media-mobilesmall {
+        padding: 0 10px;
+    }
 }
 
 .pets__content {
@@ -22,8 +25,12 @@
 }
 
 .layout-4-columns {
-    @include flex();
+    @include flex($justify: center);
     flex-wrap: wrap;
+    column-gap: 40px;
+    // @include media-mobilesmall {
+    //     justify-content: center;
+    // }
 } 
 
 .layout-columns__item {
@@ -32,6 +39,7 @@
     flex-direction: column;
     background-color: $color-light-s;
     border-radius: 9px;
+    margin-bottom: 30px;
     &:hover {
         cursor: pointer;
     }
@@ -52,13 +60,27 @@
     .button_item {
         padding: 13px 43px;
     }
-    margin-bottom: 30px;
+    @include media-tablet {
+        &:nth-child(n + 7) {
+            display: none;
+        }
+    }
+    @include media-mobilesmall {
+        &:nth-child(n + 4) {
+            display: none;
+        }
+    }
+   
 }
 
 .buttons-section {
     @include flex();
     margin: 30px 0 101px 0;
     width: 340px;
+    @include media-mobilesmall {
+        width: 300px;
+        margin: 12px 0 42px 0;
+    }
     .button_rounded {
         padding: 0;
         width: 51px;

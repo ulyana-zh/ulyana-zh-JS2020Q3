@@ -12,16 +12,15 @@
     justify-content: $justify;
 }
 
-
-@mixin media-laptop {
-    @media (max-width: $content-width) { @content; }
-} 
-
 @mixin media-tablet {
-    @media (max-width: $tablet-width) { @content; }
+    @media (max-width: 1280px) { @content; }
 }
 
+@mixin media-mobile {
+    @media (max-width: 406px) { @content; }
+} 
+
 @mixin media-mobilesmall {
-    @media (max-width: $mobile-small-width) { @content; }
+    @media (max-width: 767px) { @content; }
 }
 
