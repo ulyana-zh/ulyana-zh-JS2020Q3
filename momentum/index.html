@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <link rel="preload" href="script.js" as="script">
+  <link rel="preload" href="style.css" as="style">
+  <link rel="preload" href="owfont-regular.css" as="style">
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="owfont-regular.css">
+  <link rel="preload" href="script.js" as="script">
+  <title>momentum</title>
+</head>
+<body class="body">
+  <div class="wrapper">
+    <div class="weather-div">
+      <div class="city" contenteditable="true">Moscow</div>
+      <div class="temperature-with-icon">
+        <i class="weather-icon owf"></i>
+        <div class="temperature"></div>
+      </div>
+      <div class="weather-description"></div>
+      <div class="humidity"></div>
+      <div class="wind-speed"></div>
+    </div>
+    <button class="update-icon"></button>
+    <div class="date-div">
+      <date class="date"></date>
+      <time class="time"></time>
+      <h1>
+        <span class="greeting"></span>
+        <!--<input class="name" type="text" class="name" placeholder="[Enter Your Name]" autocomplete="off" onkeydown="this.style.width = ((this.value.length + 1) * 20) + 'px';" maxlength="15">-->
+        <span class="name" contenteditable="true" tabindex="1"></span>
+      </h1>
+    </div>
+    <div class="focus-div">
+      <h2>What Is Your Focus For Today?</h2>
+      <h2 class="focus" contenteditable="true" tabindex="2"></h2>
+    </div>
+<div class="quote-div">
+      <button class="update-quote"></button>
+    <figure class="quote">
+      <blockquote>
+      </blockquote>
+      <figcaption> 
+      </figcaption>
+    </figure>
+</div>
+  </div>
+<script src="script.js"></script>  
+</body>
+</html>
