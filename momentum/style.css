@@ -4,6 +4,10 @@
   padding: 0;
 }
 
+html {
+  font-size: 10px;
+}
+
 body {
   font-family: 'Quicksand', sans-serif;
   display: flex;
@@ -15,15 +19,50 @@ body {
   width: 100vw;
   background-size: cover;
   background-position: center center;
-  color: #000000;
+  color: #ffffff;
   transition: background-image 1s ease-in-out;
   -webkit-user-select: none;
   -webkit-touch-callout: none;
   -moz-user-select: none;
 }
 
-.update-icon,
-.update-quote {
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1000px;
+  height: 100vh;
+  margin: 0 auto;
+  padding: 20px 10px;
+}
+
+.weather-div {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  min-height: 100px;
+}
+
+.city {
+  font-size: 2.5rem;
+}
+
+.temperature-with-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center; 
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.weather-icon {
+  margin-right: 5px;
+}
+
+.update-icon {
   background: none;
   border: none;
   background-image: url(../momentum/assets/icons/update.png);
@@ -32,18 +71,66 @@ body {
   background-size: cover;
 }
 
+.update-quote {
+  background: none;
+  border: none;
+  background-image: url(../momentum/assets/icons/update.png);
+  width: 20px;
+  height: 20px;
+  background-size: cover;
+  margin-bottom: 5px;
+}
+
+.update-quote:hover,
+.update-icon:hover {
+  border: none;
+  outline: none;
+  cursor: pointer;
+  animation: circle 0.7s ease-out;
+}
+
+.update-quote:active,
+.update-icon:active {
+  cursor: pointer;
+  transform: scale(1.2);
+}
+
+@keyframes circle {
+  0% {
+    transform: rotate(0)
+  }
+  100% {
+    transform: rotate(180deg);
+  }
+}
+
+
+button:focus,
+button:active {
+  outline: none;
+  border: none;
+}
+
+
+.date-div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
 
 .date {
- font-size: 3rem;
+ font-size: 6rem;
  
 }
 
 .time {
-  font-size: 8rem;
+  font-size: 12rem;
 }
 
 h1 {
-  margin-bottom: 3rem;
+  font-size: 4rem;
 }
 
 .name {
@@ -54,15 +141,38 @@ h1 {
 .focus {
   display: inline-block;
   min-width: 3rem;
+  font-size: 3rem;
 }
 
 h2 {
   margin-bottom: 0.5rem;
   opacity: 0.8;
+  font-size: 3rem;
 }
 
-@media (max-width: 700px) {
-  .time {
-    font-size: 6rem;
+.quote-div {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  max-width: 700px;
+  min-height: 80px;
+  transition: all 1s;
+}
+
+blockquote {
+  font-size: 1.5rem;
+  margin-bottom: 5px;
+}
+
+@media (max-width: 768px) {
+  html {
+    font-size: 8px;
+  }
+}
+
+@media (max-width: 370px) {
+  html {
+    font-size: 6px;
   }
 }

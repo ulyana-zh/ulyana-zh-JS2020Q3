@@ -117,24 +117,16 @@ function addZero(n) {
 }
 
 // Set Background and Greeting
-
 let j = 0;
 function setBgGreet() {
   let today = new Date(),
-    hour = today.getHours(),
-    min = today.getMinutes(),
-    sec = today.getSeconds();
-    
-  if (hour < 6) {
+    hour = today.getHours();
+   // Night 
+    if (hour < 6) {
     body.style.backgroundImage = `url(${randomFonts[j]})`;
     greeting.textContent = 'Good Night, '; 
-    if(min === 0 && sec === 0) {
-      body.style.backgroundImage = `url(${randomFonts[j+1]})`  
-      j++;
-    }
-    
-  }
-  else if (hour < 12) {
+    j++;
+    } else if (hour < 12) {
     // Morning
     body.style.backgroundImage =
       "url('../momentum/assets/images/morning/01.jpg')";
@@ -147,11 +139,9 @@ function setBgGreet() {
   } else {
     // Evening
     body.style.backgroundImage =
-      "url('../momentum/assets/images/evening/01.jpg')";
+    `url(${randomFonts[j]})`;
     greeting.textContent = 'Good Evening, ';
-    document.body.style.color = 'white';
   }
-  setInterval(setBgGreet, 10000)
 }
  
 // Get Name
@@ -229,34 +219,39 @@ async function getQuote() {
     setTimeout(getQuote, 100);
     return false;
   }
-    
-  
 }
-
 
 //Get Weather 
 async function getWeather() {  
   const url = `https://api.openweathermap.org/data/2.5/weather?q=${city.textContent}&lang=en&appid=4f9c79bc975d67f3955a8894ac82d130&units=metric`;
   const res = await fetch(url);
   const data = await res.json(); 
-  
-  if(data.weather === undefined) {
-    city.textContent= 'Your city was not found. Please, enter the correct city name'
-    throw new Error ('Please, enter the correct city');
-  } else {
+  try {
     weatherIcon.className = 'weather-icon owf';
     weatherIcon.classList.add(`owf-${data.weather[0].id}`);
     temperature.textContent = `${data.main.temp}°C`;
     weatherDescription.textContent = data.weather[0].description;
     humidity.textContent = `humidity: ${data.main.humidity}%`;
-    windSpeed.textContent = `wind speed: ${data.wind.speed}m/s`;
+    windSpeed.textContent = `wind speed: ${data.wind.speed}m/s`;   
+  } catch {
+    city.textContent= 'Your city was not found'
+    throw new Error ('Please, enter the correct city');
   }
   }
 
 function setCity(event) {
   if (event.code === 'Enter') {
     getWeather();
+    localStorage.setItem('city', event.target.innerText);
     city.blur();
+  }
+}
+
+function getCity() {
+  if (localStorage.getItem('city') === null) {
+    getWeather();
+  } else {
+    city.textContent = localStorage.getItem('city');
   }
 }
 
@@ -297,8 +292,7 @@ function viewBgImage(data) {
 } 
 
 
-
-
+//addEventListeners
 name.addEventListener('keypress', setName);
 name.addEventListener('click', clearInput);
 
@@ -320,8 +314,6 @@ document.addEventListener('DOMContentLoaded', getWeather);
 city.addEventListener('keypress', setCity);
 
 
-
-
 // Run
 showDate();
 showTime();
@@ -329,3 +321,4 @@ setBgGreet();
 getName();
 getFocus();
 getWeather();
+getCity();
