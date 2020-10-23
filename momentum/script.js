@@ -153,7 +153,7 @@ function nextImg() {
 function clearInput(e) {
   e.target.innerText = '';
 }
-
+let nameStorage = '';
 // Get Name
 function getName() {
   if (localStorage.getItem('name') === null || localStorage.getItem('name') === '') {
@@ -168,11 +168,16 @@ function setName(e) {
   if (e.type === 'keypress') {
     // Make sure enter is pressed
     if (e.which == 13 || e.keyCode == 13) {
-      localStorage.setItem('name', e.target.innerText);
-      name.blur();
+      if (localStorage.getItem('name') !== null && name.textContent === '') {
+        name.textContent = localStorage.getItem('name');
+        name.blur();
+      } else {
+        localStorage.setItem('name', e.target.innerText);
+        name.blur();
+      }
     }
   } else {
-    localStorage.setItem('name', e.target.innerText);
+    localStorage.getItem('name', e.target.innerText);
   }
 }
 
@@ -190,12 +195,17 @@ function setFocus(e) {
   if (e.type === 'keypress') {
     // Make sure enter is pressed
     if (e.which == 13 || e.keyCode == 13) {
+      if (localStorage.getItem('focus') !== null && focus.textContent === '') {
+        focus.textContent = localStorage.getItem('focus');
+        focus.blur();
+      } else {
       localStorage.setItem('focus', e.target.innerText);
       focus.blur();
-    }
+      } 
   } else {
-    localStorage.setItem('focus', e.target.innerText);
+    localStorage.getItem('focus', e.target.innerText);
   }
+}
 }
 
 // Get Quote
@@ -227,17 +237,23 @@ async function getWeather() {
     humidity.textContent = `humidity: ${data.main.humidity}%`;
     windSpeed.textContent = `wind speed: ${data.wind.speed}m/s`;   
   } catch {
-    city.textContent= 'Your city was not found'
-    throw new Error ('Please, enter the correct city');
-  }
+      city.textContent= 'Your city was not found'
+      throw new Error ('Please, enter the correct city');
+    }
   setTimeout(getWeather, 3600000)
   }
 
 function setCity(event) {
-  if (event.code === 'Enter' || event.code === 'click') {
-    getWeather();
-    localStorage.setItem('city', event.target.innerText);
-    city.blur();
+  if (event.code === 'Enter') {
+    if (localStorage.getItem('city') !== null && city.textContent === '') {
+      city.textContent = localStorage.getItem('city');
+      getWeather();
+      city.blur();
+    } else {
+      getWeather();
+      localStorage.setItem('city', event.target.innerText);
+      city.blur();
+    }
   }
 }
 
