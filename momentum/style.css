@@ -27,6 +27,35 @@ body {
   -moz-user-select: none;
 }
 
+.loading {
+  font-size: 2rem;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  z-index: 100;
+  transition: 0.6s;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color:rgba(0, 0, 0, 0.9);
+}
+
+.loader {
+  margin-top: 10px;
+  background-image: url(../momentum/assets/icons/update.png);
+  width: 30px;
+  height: 30px;
+  background-size: cover;
+  animation: circle 0.7s ease-out;
+}
+
+.overlay {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0,0,0,0.3));
+}
 
 .wrapper {
   display: flex;
@@ -46,6 +75,7 @@ body {
   align-items: center;
   min-height: 100px;
   margin-bottom: 5px;
+  font-size: 1.4rem;
 }
 
 .city {
@@ -96,6 +126,7 @@ body {
 .update-icon:active {
   cursor: pointer;
   transform: scale(1.2);
+  transition: 1s ease-out;
 }
 
 @keyframes circle {
@@ -121,15 +152,19 @@ button:active {
   justify-content: center;
   align-items: center;
   margin-bottom: 10px;
+  margin-top: 10px;
 }
 
 .date {
  font-size: 6rem;
- 
 }
 
 .time {
   font-size: 12rem;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 30% 7% 26% 7% 30%;
+
 }
 
 h1 {
@@ -142,9 +177,21 @@ h1 {
   max-width: 50rem;
 }
 
+.wrap {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.focus-div {
+  margin-bottom: 10px;
+}
+
 .focus {
   display: inline-block;
   min-width: 3rem;
+  max-width: 50rem;
   font-size: 3rem;
 }
 
@@ -154,14 +201,21 @@ h2 {
   font-size: 3rem;
 }
 
+.line {
+  width: 100%;
+  height: 3px;
+  background-color:rgba(255, 255, 255, 0.5);
+}
+
 .quote-div {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
   max-width: 700px;
-  min-height: 80px;
+  min-height: 90px;
   transition: all 1s;
+  font-size: 1.4rem;
 }
 
 blockquote {
@@ -169,14 +223,79 @@ blockquote {
   margin-bottom: 5px;
 }
 
-@media (max-width: 768px) {
+figcaption {
+  opacity: 0.7; 
+}
+
+@media screen and (max-width: 900px) {
   html {
     font-size: 8px;
   }
+  .date {
+    font-size: 4rem;
+  }
+  .weather-div {
+    font-size: 1.8rem;
+  }
+  .city {
+    font-size: 3rem;
+  }
+  .temperature-with-icon {
+    font-size: 2.5rem;
+  }
+  .quote-div {
+    font-size: 1.8rem;
+  }
+  blockquote {
+    font-size: 2rem;
+  }
 }
 
-@media (max-width: 370px) {
+@media screen and (max-width: 370px)  {
   html {
     font-size: 6px;
   }
+  .date {
+    font-size: 4rem;
+  }
+  .weather-div {
+    font-size: 2.4rem;
+  }
+  .city {
+    font-size: 3.5rem;
+  }
+  .temperature-with-icon {
+    font-size: 3rem;
+  }
+  .quote-div {
+    font-size: 2.4rem;
+  }
+  blockquote {
+    font-size: 2.6rem;
+  }
 }
+
+@media screen and (max-height: 414px) {
+  html {
+    font-size: 8px;
+  }
+  .date {
+    font-size: 4rem;
+  }
+  .weather-div {
+    font-size: 1.8rem;
+  }
+  .city {
+    font-size: 3rem;
+  }
+  .temperature-with-icon {
+    font-size: 2.5rem;
+  }
+  .quote-div {
+    font-size: 1.8rem;
+  }
+  blockquote {
+    font-size: 2rem;
+  }
+}
+

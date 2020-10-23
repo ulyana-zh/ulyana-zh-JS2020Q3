@@ -14,7 +14,10 @@ const time = document.querySelector('.time'),
   weatherDescription = document.querySelector('.weather-description'),
   city = document.querySelector('.city'),
   humidity = document.querySelector('.humidity'),
-  windSpeed = document.querySelector('.wind-speed');
+  windSpeed = document.querySelector('.wind-speed'),
+  hours = document.querySelector('.hour'),
+  minutes = document.querySelector('.min'),
+  seconds = document.querySelector('.sec');
 
 
 //Fonts Arrays
@@ -91,7 +94,10 @@ function showTime() {
     sec = today.getSeconds();
 
   // Output Time
-  time.innerHTML = `${hour}<span>:</span>${addZero(min)}<span>:</span>${addZero(sec)}`;
+  //time.innerHTML = `${hour}<span>:</span>${addZero(min)}<span>:</span>${addZero(sec)}`;
+  hours.innerText = `${hour}`;
+  minutes.innerText = `${addZero(min)}`;
+  seconds.innerText = `${addZero(sec)}`;
 
   if (today.getMinutes() == 00 && today.getSeconds() == 00) {
     currentImg++;
@@ -150,10 +156,21 @@ function nextImg() {
   1000);
 }
 
+const loader = document.querySelector('.loading')
+
+
+window.addEventListener('load', () => {
+  loader.classList.add('hide');
+  setTimeout(() => {
+    loader.remove();
+  },600)
+})
+
 function clearInput(e) {
   e.target.innerText = '';
 }
-let nameStorage = '';
+
+
 // Get Name
 function getName() {
   if (localStorage.getItem('name') === null || localStorage.getItem('name') === '') {
