@@ -92,13 +92,12 @@ function showTime() {
 
   // Output Time
   time.innerHTML = `${hour}<span>:</span>${addZero(min)}<span>:</span>${addZero(sec)}`;
-  setTimeout(showTime, 1000);
 
-  if (today.getMinutes() === 0 && today.getSeconds() === 0) {
+  if (today.getMinutes() == 00 && today.getSeconds() == 00) {
     currentImg++;
   }
 
-  if (currentImg === 24) {
+  if (currentImg == 24) {
     currentImg = 0;
   }
 
