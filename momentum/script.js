@@ -17,7 +17,8 @@ const time = document.querySelector('.time'),
   windSpeed = document.querySelector('.wind-speed'),
   hours = document.querySelector('.hour'),
   minutes = document.querySelector('.min'),
-  seconds = document.querySelector('.sec');
+  seconds = document.querySelector('.sec'),
+  loader = document.querySelector('.loading');
 
 
 //Fonts Arrays
@@ -153,11 +154,8 @@ function nextImg() {
   updateFont.disabled = true;
   setTimeout(() => {
   updateFont.disabled = false}, 
-  1000);
+  1500);
 }
-
-const loader = document.querySelector('.loading')
-
 
 window.addEventListener('load', () => {
   loader.classList.add('hide');
