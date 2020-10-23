@@ -96,12 +96,16 @@ body {
 }
 
 .update-icon {
+  position: absolute;
+  top: 25px;
+  left: 25px;
   background: none;
   border: none;
   background-image: url(../momentum/assets/icons/update.png);
   width: 30px;
   height: 30px;
   background-size: cover;
+  opacity: 0.8;
 }
 
 .update-quote {
@@ -119,7 +123,9 @@ body {
   border: none;
   outline: none;
   cursor: pointer;
+  opacity: 1;
   animation: circle 0.7s ease-out;
+  transition: 0.7s ease-out;
 }
 
 .update-quote:active,
@@ -161,10 +167,11 @@ button:active {
 
 .time {
   font-size: 12rem;
-  width: 100%;
+  width: 90%;
   display: grid;
-  grid-template-columns: 30% 7% 26% 7% 30%;
-
+  grid-template-columns: 30% 5% 30% 5% 30%;
+  align-items: center;
+  justify-items: center;
 }
 
 h1 {
@@ -227,12 +234,15 @@ figcaption {
   opacity: 0.7; 
 }
 
-@media screen and (max-width: 900px) {
+@media (max-width: 900px) {
   html {
     font-size: 8px;
   }
   .date {
     font-size: 4rem;
+  }
+  .time {
+    font-size: 9rem;
   }
   .weather-div {
     font-size: 1.8rem;
@@ -251,12 +261,15 @@ figcaption {
   }
 }
 
-@media screen and (max-width: 370px)  {
+@media (max-width: 420px)  {
   html {
     font-size: 6px;
   }
   .date {
     font-size: 4rem;
+  }
+  .time {
+    font-size: 9rem;
   }
   .weather-div {
     font-size: 2.4rem;
@@ -275,27 +288,4 @@ figcaption {
   }
 }
 
-@media screen and (max-height: 414px) {
-  html {
-    font-size: 8px;
-  }
-  .date {
-    font-size: 4rem;
-  }
-  .weather-div {
-    font-size: 1.8rem;
-  }
-  .city {
-    font-size: 3rem;
-  }
-  .temperature-with-icon {
-    font-size: 2.5rem;
-  }
-  .quote-div {
-    font-size: 1.8rem;
-  }
-  blockquote {
-    font-size: 2rem;
-  }
-}
 
