@@ -50,6 +50,7 @@ body {
 
 .city {
   font-size: 2.5rem;
+  min-width: 3rem;
 }
 
 .temperature-with-icon {

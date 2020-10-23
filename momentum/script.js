@@ -149,10 +149,14 @@ function nextImg() {
   updateFont.disabled = false}, 
   1000);
 }
- 
+
+function clearInput(e) {
+  e.target.innerText = '';
+}
+
 // Get Name
 function getName() {
-    if (localStorage.getItem('name') === null) {
+  if (localStorage.getItem('name') === null || localStorage.getItem('name') === '') {
     name.textContent = '[Enter Name]';
   } else {
     name.textContent = localStorage.getItem('name');
@@ -161,24 +165,20 @@ function getName() {
 
 // Set Name
 function setName(e) {
-    if (e.type === 'keypress') {
+  if (e.type === 'keypress') {
+    // Make sure enter is pressed
     if (e.which == 13 || e.keyCode == 13) {
-      if(e.target.innerText === '') {
-        e.target.innerText = '[Enter Name]'
-        name.blur();
-      } else {
-        localStorage.setItem('name', e.target.innerText);
-        name.blur();
-      }      
-    } 
-    } else {
+      localStorage.setItem('name', e.target.innerText);
+      name.blur();
+    }
+  } else {
     localStorage.setItem('name', e.target.innerText);
   }
 }
 
 // Get Focus
 function getFocus() {
-  if (localStorage.getItem('focus') === null) {
+  if (localStorage.getItem('focus') === null || localStorage.getItem('focus') === '') {
     focus.textContent = '[Enter Focus]';
   } else {
     focus.textContent = localStorage.getItem('focus');
@@ -188,30 +188,15 @@ function getFocus() {
 // Set Focus
 function setFocus(e) {
   if (e.type === 'keypress') {
+    // Make sure enter is pressed
     if (e.which == 13 || e.keyCode == 13) {
-      if(e.target.innerText === '') {
-        e.target.innerText = '[Enter Focus]';
-        focus.blur();
-      } else {
       localStorage.setItem('focus', e.target.innerText);
       focus.blur();
     }
-  }
   } else {
     localStorage.setItem('focus', e.target.innerText);
   }
 }
-
-function clearInput(e) {
-  e.target.innerText = '';
-}
-function defaultTextName(e) {
-  e.target.innerText === '' ? e.target.innerText = localStorage.getItem('name', e.target.innerText) : e.target.innerText = e.target.innerText;
-};
-
-function defaultTextFocus(e) {
-  e.target.innerText === '' ? e.target.innerText = localStorage.getItem('focus', e.target.innerText) : e.target.innerText = e.target.innerText;
-};
 
 // Get Quote
 async function getQuote() {  
@@ -245,10 +230,11 @@ async function getWeather() {
     city.textContent= 'Your city was not found'
     throw new Error ('Please, enter the correct city');
   }
+  setTimeout(getWeather, 3600000)
   }
 
 function setCity(event) {
-  if (event.code === 'Enter') {
+  if (event.code === 'Enter' || event.code === 'click') {
     getWeather();
     localStorage.setItem('city', event.target.innerText);
     city.blur();
@@ -256,7 +242,7 @@ function setCity(event) {
 }
 
 function getCity() {
-  if (localStorage.getItem('city') === null) {
+  if (localStorage.getItem('city') === null || localStorage.getItem('city') === '') {
     getWeather();
   } else {
     city.textContent = localStorage.getItem('city');
@@ -272,23 +258,23 @@ function shuffle(array) {
   return array;
 }
 
-// function randomItem(array) {
-//   let a = array[Math.floor(Math.random()*array.length)];
-//   return a;
-// }
-
 //addEventListeners
-name.addEventListener('keypress', setName);
-name.addEventListener('click', clearInput);
 
-name.addEventListener('blur', defaultTextName);
+
+name.addEventListener('click', clearInput);
+name.addEventListener('blur', getName);
+focus.addEventListener('click', clearInput);
+focus.addEventListener('blur', getFocus);
+
+
+name.addEventListener('keypress', setName);
 name.addEventListener('blur', setName);
 
-focus.addEventListener('click', clearInput);
 focus.addEventListener('keypress', setFocus);
-
-focus.addEventListener('blur', defaultTextFocus);
 focus.addEventListener('blur', setFocus);
+
+city.addEventListener('click', clearInput);
+city.addEventListener('blur', getCity);
 
 updateFont.addEventListener('click', nextImg);
 
