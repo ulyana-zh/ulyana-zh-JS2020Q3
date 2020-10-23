@@ -95,7 +95,7 @@ function showTime() {
 
   // Output Time
   //time.innerHTML = `${hour}<span>:</span>${addZero(min)}<span>:</span>${addZero(sec)}`;
-  hours.innerText = `${hour}`;
+  hours.innerText = `${addZero(hour)}`;
   minutes.innerText = `${addZero(min)}`;
   seconds.innerText = `${addZero(sec)}`;
 
