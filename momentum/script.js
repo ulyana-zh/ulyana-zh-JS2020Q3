@@ -1,46 +1,3 @@
-//Fonts Arrays
-const fontsDay1 = [
-  '01.jpg', '02.jpg', '03.jpg', '04.jpg', '05.jpg', '06.jpg'  
-]
-const fontsDay2 = [
-  '07.jpg', '08.jpg', '09.jpg', '10.jpg', '11.jpg', '12.jpg'  
-]
-const fontsDay3 = [
-  '13.jpg', '14.jpg', '15.jpg', '16.jpg', '17.jpg', '18.jpg'  
-]
-const fontsDay4 = [
-  '19.jpg', '20.jpg', '01.jpg', '02.jpg', '03.jpg', '04.jpg'  
-]
-
-const baseNight = '../momentum/assets/images/night/';
-const baseMorning = '../momentum/assets/images/morning/';
-const baseDay = '../momentum/assets/images/day/';
-const baseEvening = '../momentum/assets/images/evening/';
-
-function createArr(array) {
-  let arr = [], arr1 = [],
-  arr2 = [], arr3 = [], arr4 = [];   
- for(let i = 0; i<array.length; i++) {
-   arr1[i] = baseNight + array[i];
-   arr2[i] = baseMorning + array[i];
-   arr3[i] = baseDay + array[i];
-   arr4[i] = baseEvening + array[i];   
- } 
-  arr = arr1.concat(arr2, arr3, arr4)
-  return arr;
-}
-
-const day1 = createArr(fontsDay1); //0-23 index
-const day2 = createArr(fontsDay2); 
-const day3 = createArr(fontsDay3); 
-const day4 = createArr(fontsDay4); 
-const font = [day1, day2, day3, day4];
-
-
-shuffle(font);
-const randomFonts = font[0];
-
-
 // DOM Elements
 const time = document.querySelector('.time'),
   date = document.querySelector('.date'),
@@ -59,6 +16,32 @@ const time = document.querySelector('.time'),
   humidity = document.querySelector('.humidity'),
   windSpeed = document.querySelector('.wind-speed');
 
+
+//Fonts Arrays
+const numberImg = ['01.jpg', '02.jpg', '03.jpg', '04.jpg', '05.jpg', '06.jpg', '07.jpg', '08.jpg', '09.jpg', '10.jpg', '11.jpg', '12.jpg', 
+'13.jpg', '14.jpg', '15.jpg', '16.jpg', '17.jpg', '18.jpg', '19.jpg', '20.jpg']
+
+const baseNight = '../momentum/assets/images/night/';
+const baseMorning = '../momentum/assets/images/morning/';
+const baseDay = '../momentum/assets/images/day/';
+const baseEvening = '../momentum/assets/images/evening/';
+
+function createArr(base, array) {
+  let arr = [];
+  for(let i = 0; i<array.length; i++) {
+    arr[i] = base + array[i];
+  }
+  return arr;
+}
+let nightWall = createArr(baseNight, numberImg),
+morningWall = createArr(baseMorning, numberImg),
+dayWall = createArr(baseDay, numberImg),
+eveningWall = createArr(baseEvening, numberImg);
+
+
+let currentImg = new Date().getHours();
+let wallpapersArr = shuffle(nightWall)
+.slice(0, 6).concat(shuffle(morningWall).slice(0, 6)).concat(shuffle(dayWall).slice(0, 6)).concat(shuffle(eveningWall).slice(0, 6));
 
 //Show Date
 function showDate() {
@@ -99,6 +82,7 @@ switch(month) {
  setTimeout(showDate, 1000);
 }
 
+
 // Show Time
 function showTime() {
   let today = new Date(),
@@ -109,6 +93,18 @@ function showTime() {
   // Output Time
   time.innerHTML = `${hour}<span>:</span>${addZero(min)}<span>:</span>${addZero(sec)}`;
   setTimeout(showTime, 1000);
+
+  if (today.getMinutes() === 0 && today.getSeconds() === 0) {
+    currentImg++;
+  }
+
+  if (currentImg === 24) {
+    currentImg = 0;
+  }
+
+  body.style.backgroundImage = `url("${wallpapersArr[currentImg]}")`;
+
+  setTimeout(showTime, 1000);
 }
 
 // Add Zeros
@@ -117,31 +113,37 @@ function addZero(n) {
 }
 
 // Set Background and Greeting
-let j = 0;
 function setBgGreet() {
   let today = new Date(),
-    hour = today.getHours();
-   // Night 
-    if (hour < 6) {
-    body.style.backgroundImage = `url(${randomFonts[j]})`;
-    greeting.textContent = 'Good Night, '; 
-    j++;
-    } else if (hour < 12) {
+    hour = today.getHours(); 
+    
+    if (hour >=6 && hour < 12) {
     // Morning
-    body.style.backgroundImage =
-      "url('../momentum/assets/images/morning/01.jpg')";
       greeting.textContent = 'Good Morning, ';
-  } else if (hour < 18) {
+  } else if (hour >= 12 && hour < 18) {
     // Afternoon
-    body.style.backgroundImage =
-    "url('../momentum/assets/images/day/02.jpg')";
     greeting.textContent = 'Good Afternoon, ';    
-  } else {
+  } else if (hour >= 18 && hour < 24) {
     // Evening
-    body.style.backgroundImage =
-    `url(${randomFonts[j]})`;
     greeting.textContent = 'Good Evening, ';
+  }  else {
+    // Night 
+      greeting.textContent = 'Good Night, '; 
+    }
+  setTimeout(setBgGreet, 1000);
+}
+
+function nextImg() {
+  if (currentImg + 1 === 24) {
+    currentImg = 0;
+  } else {
+    currentImg++;
   }
+  body.style.backgroundImage = `url("${wallpapersArr[currentImg]}")`;
+  updateFont.disabled = true;
+  setTimeout(() => {
+  updateFont.disabled = false}, 
+  1000);
 }
  
 // Get Name
@@ -209,12 +211,14 @@ function defaultTextFocus(e) {
 
 // Get Quote
 async function getQuote() {  
-  const url = `https://cors-anywhere.herokuapp.com/https://api.forismatic.com/api/1.0/?method=getQuote&format=json&lang=en`;
+  const url = `https://api.quotable.io/random`;
   try {
     const res = await fetch(url);
     const data = await res.json(); 
-    blockquote.textContent = data.quoteText;
-    figcaption.textContent = data.quoteAuthor;
+    if(data.length < 200) {
+      blockquote.textContent = data.content;
+      figcaption.textContent = data.author;
+    }
   } catch {
     setTimeout(getQuote, 100);
     return false;
@@ -258,39 +262,16 @@ function getCity() {
 //Random functions
 function shuffle(array) {
   for (let i = array.length - 1; i > 0; i--) {
-    let j = Math.floor(Math.random() * (i + 1)); 
+    let j = Math.floor(Math.random() * (i + 1));
     [array[i], array[j]] = [array[j], array[i]];
   }
+  return array;
 }
 
-function randomItem(array) {
-  let a = array[Math.floor(Math.random()*array.length)];
-  return a;
-}
-
-
-//Fonts Slider
-function viewBgImage(data) {
-  const src = data;
-  const img = document.createElement('img');
-  img.src = src;
-  img.onload = () => {      
-   body.style.backgroundImage = `url(${src})`;
-  }; 
-}
-
-  let i = 0;
- function getImage() {   
-  const index = i % randomFonts.length;
-  const imageSrc = randomFonts[index];
-  viewBgImage(imageSrc);
-  i++;
-  updateFont.disabled = true;
-  setTimeout(function() { 
-    updateFont.disabled = false 
-  }, 1000);
-} 
-
+// function randomItem(array) {
+//   let a = array[Math.floor(Math.random()*array.length)];
+//   return a;
+// }
 
 //addEventListeners
 name.addEventListener('keypress', setName);
@@ -305,7 +286,7 @@ focus.addEventListener('keypress', setFocus);
 focus.addEventListener('blur', defaultTextFocus);
 focus.addEventListener('blur', setFocus);
 
-updateFont.addEventListener('click', getImage);
+updateFont.addEventListener('click', nextImg);
 
 document.addEventListener('DOMContentLoaded', getQuote);
 updateQuoteButton.addEventListener('click', getQuote);
