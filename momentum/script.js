@@ -138,7 +138,12 @@ function nextImg() {
   } else {
     currentImg++;
   }
-  body.style.backgroundImage = `url("${wallpapersArr[currentImg]}")`;
+  let src = wallpapersArr[currentImg];
+    const img = document.createElement("img");
+    img.src = src;
+    img.onload = () => {
+      document.body.style.backgroundImage = `url(${src})`;
+    };
   updateFont.disabled = true;
   setTimeout(() => {
   updateFont.disabled = false}, 
