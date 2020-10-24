@@ -182,7 +182,7 @@ function nextImg() {
   updateWallpaper.disabled = true;
   setTimeout(() => {
   updateWallpaper.disabled = false}, 
-  1500);
+  1000);
 }
 
 window.addEventListener('load', () => {
