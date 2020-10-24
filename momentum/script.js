@@ -49,6 +49,7 @@ let wallpapersArr = shuffle(nightWall)
 
 window.onload = () => {
   viewBgImage();
+  nextImg();
 }
 
 
@@ -164,7 +165,7 @@ function nextImg() {
   updateWallpaper.disabled = true;
   setTimeout(() => {
   updateWallpaper.disabled = false}, 
-  2000);
+  1500);
 }
 
 window.addEventListener('load', () => {
