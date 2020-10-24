@@ -139,22 +139,28 @@ function setBgGreet() {
   setTimeout(setBgGreet, 1000);
 }
 
+
+function viewBgImage(data) {
+  const src = data;
+  const img = document.createElement("img");
+    img.src = src;
+    img.onload = () => {
+      body.style.backgroundImage = `url(${src})`;
+    };
+}
+
 function nextImg() {
   if (currentImg + 1 === 24) {
     currentImg = 0;
   } else {
     currentImg++;
   }
-  let src = wallpapersArr[currentImg];
-    const img = document.createElement("img");
-    img.src = src;
-    img.onload = () => {
-      document.body.style.backgroundImage = `url(${src})`;
-    };
+  viewBgImage(wallpapersArr[currentImg]);
+    
   updateFont.disabled = true;
   setTimeout(() => {
   updateFont.disabled = false}, 
-  1500);
+  2000);
 }
 
 window.addEventListener('load', () => {
