@@ -49,7 +49,6 @@ let wallpapersArr = shuffle(nightWall)
 
 window.onload = () => {
   viewBgImage();
-  nextImg();
 }
 
 
@@ -145,13 +144,12 @@ function setBgGreet() {
   setTimeout(setBgGreet, 1000);
 }
 
-
-function viewBgImage(data) {
-  const src = data;
-  const img = document.createElement("img");
-    img.src = src;
-    img.onload = () => {
-      body.style.backgroundImage = `url(${src})`;
+function viewBgImage() {
+  let src = wallpapersArr[currentImg];
+    const img = document.createElement("img");	
+    img.src = src;	
+    img.onload = () => {	
+      document.body.style.backgroundImage = `url(${src})`;	
     };
 }
 
@@ -161,7 +159,7 @@ function nextImg() {
   } else {
     currentImg++;
   }
-  viewBgImage(wallpapersArr[currentImg]);
+  viewBgImage();
   updateWallpaper.disabled = true;
   setTimeout(() => {
   updateWallpaper.disabled = false}, 

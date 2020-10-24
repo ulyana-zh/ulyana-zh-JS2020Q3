@@ -176,7 +176,7 @@ button:active {
 
 .time {
   font-size: 12rem;
-  width: 85%;
+  width: 500px;
   display: grid;
   grid-template-columns: 30% 5% 30% 5% 30%;
   align-items: center;
@@ -252,6 +252,7 @@ figcaption {
   }
   .time {
     font-size: 9rem;
+    width: 300px;
   }
   .weather-div {
     font-size: 1.8rem;
@@ -279,6 +280,7 @@ figcaption {
   }
   .time {
     font-size: 9rem;
+    width: 230px;
   }
   .weather-div {
     font-size: 2.4rem;
