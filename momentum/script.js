@@ -37,6 +37,7 @@ function createArr(base, array) {
   }
   return arr;
 }
+
 let nightWall = createArr(baseNight, numberImg),
 morningWall = createArr(baseMorning, numberImg),
 dayWall = createArr(baseDay, numberImg),
@@ -51,6 +52,14 @@ window.onload = () => {
   viewBgImage();
 }
 
+function viewBgImage() {
+  let src = wallpapersArr[currentImg];
+  const img = document.createElement("img");	
+  img.src = src;	
+  img.onload = () => {	
+    document.body.style.backgroundImage = `url(${src})`;	
+  };
+}
 
 //Show Date
 function showDate() {
@@ -144,15 +153,6 @@ function setBgGreet() {
   setTimeout(setBgGreet, 1000);
 }
 
-function viewBgImage() {
-  let src = wallpapersArr[currentImg];
-    const img = document.createElement("img");	
-    img.src = src;	
-    img.onload = () => {	
-      document.body.style.backgroundImage = `url(${src})`;	
-    };
-}
-
 function nextImg() {
   if (currentImg + 1 === 24) {
     currentImg = 0;
@@ -176,8 +176,6 @@ window.addEventListener('load', () => {
 function clearInput(e) {
   e.target.innerText = '';
 }
-
-
 // Get Name
 function getName() {
   if (localStorage.getItem('name') === null || localStorage.getItem('name') === '') {
