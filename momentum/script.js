@@ -4,7 +4,7 @@ const time = document.querySelector('.time'),
   greeting = document.querySelector('.greeting'),
   name = document.querySelector('.name'),
   focus = document.querySelector('.focus'),
-  updateFont = document.querySelector('.update-icon'),
+  updateWallpaper = document.querySelector('.update-icon'),
   body = document.querySelector('.body'),
   blockquote = document.querySelector('blockquote'),
   figcaption = document.querySelector('figcaption'),
@@ -46,6 +46,11 @@ eveningWall = createArr(baseEvening, numberImg);
 let currentImg = new Date().getHours();
 let wallpapersArr = shuffle(nightWall)
 .slice(0, 6).concat(shuffle(morningWall).slice(0, 6)).concat(shuffle(dayWall).slice(0, 6)).concat(shuffle(eveningWall).slice(0, 6));
+
+window.onload = () => {
+  viewBgImage();
+}
+
 
 //Show Date
 function showDate() {
@@ -156,10 +161,9 @@ function nextImg() {
     currentImg++;
   }
   viewBgImage(wallpapersArr[currentImg]);
-    
-  updateFont.disabled = true;
+  updateWallpaper.disabled = true;
   setTimeout(() => {
-  updateFont.disabled = false}, 
+  updateWallpaper.disabled = false}, 
   2000);
 }
 
@@ -313,7 +317,7 @@ focus.addEventListener('blur', setFocus);
 city.addEventListener('click', clearInput);
 city.addEventListener('blur', getCity);
 
-updateFont.addEventListener('click', nextImg);
+updateWallpaper.addEventListener('click', nextImg);
 
 document.addEventListener('DOMContentLoaded', getQuote);
 updateQuoteButton.addEventListener('click', getQuote);
