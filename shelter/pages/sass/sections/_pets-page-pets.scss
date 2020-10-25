@@ -1,0 +1,106 @@
+.wrapper__pets {
+    @include flex();
+    flex-direction: column;
+    h3 {
+        max-width: 400px;
+        margin-top: 80px;
+        margin-bottom: 60px;
+        text-align: center;
+        @include media-tablet {
+            margin-top: 70px;
+            margin-bottom: 40px;
+            
+        }
+    }
+    @include media-tablet {
+        padding: 0 94px;
+    }
+    @include media-mobilesmall {
+        padding: 0 10px;
+    }
+}
+
+.pets__content {
+    @include flex();
+}
+
+.layout-4-columns {
+    @include flex($justify: center);
+    flex-wrap: wrap;
+    column-gap: 40px;
+    // @include media-mobilesmall {
+    //     justify-content: center;
+    // }
+} 
+
+.layout-columns__item {
+    @include flex();
+    flex-basis: 22.5%;
+    flex-direction: column;
+    background-color: $color-light-s;
+    border-radius: 9px;
+    margin-bottom: 30px;
+    &:hover {
+        cursor: pointer;
+        box-shadow: 0px 2px 35px 14px rgba(13, 13, 13, 0.04);
+        background-color: $color-light-xl;
+    }
+    .item-image {
+        overflow: hidden;
+        background-size: cover;
+        border-top-left-radius: 9px;
+        border-top-right-radius: 9px;
+    }
+    p {
+        margin-top: 30px;
+        margin-bottom: 30px;
+    }
+    .item-button {
+        margin-bottom: 30px;
+    }
+
+    .button_item {
+        padding: 13px 43px;
+    }
+    @include media-tablet {
+        &:nth-child(n + 7) {
+            display: none;
+        }
+    }
+    @include media-mobilesmall {
+        &:nth-child(n + 4) {
+            display: none;
+        }
+    }
+   
+}
+
+.buttons-section {
+    @include flex();
+    margin: 30px 0 101px 0;
+    width: 340px;
+    @include media-mobilesmall {
+        width: 300px;
+        margin: 12px 0 42px 0;
+    }
+    .button_rounded {
+        padding: 0;
+        width: 51px;
+        height: 51px;
+    }
+
+    .button_colored {
+        border: 2px solid $color_primary;
+        &:hover {
+            border: 2px solid $color_primary-light;   
+        }
+    } 
+    .button:disabled {
+        background: none;
+        border: 2px solid $color-dark-s;
+        cursor: default;
+        h4 {
+            color: $color-dark-s;
+        }
+    }
+}

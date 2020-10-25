@@ -1,0 +1,16 @@
+@import "../../node_modules/normalize-scss/sass/normalize";
+@include normalize();
+
+@import "../sass/base/constants";
+@import "../sass/base/mixins";
+@import "../sass/base/bacis";
+@import "../sass/base/buttons";
+@import "../sass/base/icons";
+@import "../sass/base/hamburger";
+
+//sections
+@import "./sections/header-page-pets";;
+@import "./sections/pets-page-pets";
+@import "./sections/footer";
+
+

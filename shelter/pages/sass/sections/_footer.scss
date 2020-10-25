@@ -1,0 +1,126 @@
+.wrapper__footer {
+    @include flex($align: flex-start);
+    flex-wrap: wrap;
+    padding-top: 20px;
+    h3 {
+        color: $color-light-xl;
+    }
+    h4 {
+        color: $color_primary;
+    }
+    a:hover {
+        color: $color-primary-light;
+    }
+    @include media-tablet {
+        flex-direction: column;
+        align-items: center;
+    }
+    @include media-mobilesmall {
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+    }
+}
+
+.footer__content {
+    margin-top: 36px;
+    width: 740px;
+    @include flex();
+    flex-wrap: wrap;
+    @include media-tablet {
+        flex-wrap: wrap;
+        margin-top: 11px;
+        width: 640px;
+    }
+    @include media-mobilesmall {
+        flex-wrap: wrap;
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+.footer__content-1 {
+    width: 279px;
+    h3 {
+        margin-bottom: 40px;
+    }
+    .email {
+        margin-bottom: 40px;
+    }
+    @include media-mobilesmall {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    @include media-mobilesmall {
+        margin-bottom: 40px;
+    }
+}
+
+.footer__content-2 {
+    width: 302px;
+    h3 {
+        margin-bottom: 34px;
+        @include media-mobilesmall {
+            width: 98%;
+            margin-bottom: 38px;
+        }
+    }
+    .address-1 {
+        margin-bottom: 32px;
+        @include media-mobilesmall {
+            text-align: left;
+            margin-bottom: 40px;
+        }
+    }
+    .address-2 {
+        @include media-mobilesmall {
+            text-align: left;
+        }
+    }
+    @include media-mobilesmall {
+        margin-bottom: 42px;
+    }
+    
+}
+
+.footer__img {
+    margin-top: 20px;
+    @include media-tablet {
+        display: flex;
+        justify-content: center;
+        margin-top: 65px;
+    }
+    @include media-mobilesmall {
+        display: flex;
+        justify-content: center;
+        margin-top: 0;
+    }
+    img {
+        width: 100%;
+        @include media-mobilesmall {
+            width: 87%;
+        }
+    }
+
+}
+
+.ico_footer {
+    margin-right: 20px;
+}
+
+.email {
+    @include flex($justify: flex-start); 
+}
+
+.phone {
+    @include flex($justify: flex-start);  
+}
+
+.address-1 {
+    @include flex($justify: flex-start);  
+}
+
+.address-2 {
+    @include flex($justify: flex-start);   
+}

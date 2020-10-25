@@ -1,0 +1,41 @@
+.button {
+    padding: 15px 45px 15px 45px;
+    border-radius: 100px;
+    font-family: Georgia;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 1.7rem;
+    line-height: 130%;
+    letter-spacing: 0.06em;
+    color: $color-dark-3xl;
+    cursor: pointer;  
+    &:focus {
+        outline: none;    
+    }
+    &_colored {
+        background: $color-primary;
+        border: none;
+        &:hover {
+            background: $color-primary-light;  
+        }
+    }
+    &_bordered {
+        background: none;   
+        border: 2px solid $color-primary;
+        &:hover {
+            background: $color-primary-light;  
+            border: 2px solid $color-primary-light;  
+        }
+    }
+
+}
+
+.button-arrow {
+    background: none;   
+    border: 2px solid $color-primary;
+    padding: 21px 17px;
+    &:hover {
+        background: $color-primary-light;
+        border: 2px solid $color-primary-light;
+    }   
+}
