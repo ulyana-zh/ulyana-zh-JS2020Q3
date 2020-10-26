@@ -74,6 +74,12 @@
             font-size: 13px;
         }
     }
+
+    h5 {
+        @media (max-width: 740px) {
+            margin: 5px 0;
+        }
+    }
     ul {
         padding-inline-start: 20px;
         color: $color-primary;

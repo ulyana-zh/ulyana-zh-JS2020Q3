@@ -902,6 +902,11 @@ a {
     font-size: 13px;
   }
 }
+@media (max-width: 740px) {
+  .item-info h5 {
+    margin: 5px 0;
+  }
+}
 .item-info ul {
   padding-inline-start: 20px;
   color: #F1CDB3;
