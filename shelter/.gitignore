@@ -1,3 +1,9 @@
 node_modules
 .vscode
+slick
+package-lock.json
+package.json
+pets.json
+pages\main\style.css.map
+pages\pets\pets.css.map
 
