@@ -36,7 +36,9 @@
 
 .layout-columns {
     @include flex();
-    flex-wrap: wrap;
+    position: relative;
+    overflow: hidden;
+    //flex-wrap: wrap;
     width: 82.5%;
     margin-left: 12px;
     margin-right: 12px; 
@@ -99,3 +101,4 @@
         margin-top: 42px;
     }
 }
+ 
