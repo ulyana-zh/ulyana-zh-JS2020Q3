@@ -7,8 +7,7 @@
     }
     @include media-mobilesmall {
         top: 30px;
-    }
-    
+    } 
 }
 
 .wrapper__header {
@@ -18,6 +17,7 @@
 .header__logo {
     @include flex();
     flex-direction: column;
+    transition: linear 0.5s;
     h1 {
         margin-bottom: 10px;
     }
@@ -29,6 +29,18 @@
     }
 }  
 
+.header__logo-active {
+    visibility: visible;
+    width: fit-content;
+    opacity: 1;
+    position: fixed;
+    top: 30px;
+    right: 110px;
+    z-index: 1;
+    transition: all 1.5s ease 0s;
+    animation: navLinksFade 1.5s;
+}
+
 .header__nav {
     max-width: 443px;
 }
@@ -39,18 +51,66 @@
     list-style-type: none;
     padding: 0;
     color: $color-dark-s;
+
+    li {
+        @include media-mobilesmall {
+            opacity: 0;
+            font-size: 32px;
+            line-height: 160%;
+            margin-bottom: 40px;
+        }
+    }
     li:not(:last-child) {
         margin-right: 35px;
+        @include media-mobilesmall {
+            margin-right: 0;
+        }
     }
     li:hover {
         color: $color-light-xl;
     }
-    @include media-mobilesmall {
-        display: none;    
+    @include media-mobilesmall {    
+        position: fixed;
+        right: 0;
+        top: 0;
+        margin-top: 0;
+        height: 100vh;
+        flex-direction: column;
+        align-items: center;
+        width: 320px;
+        transform: translateX(100%);
+        -webkit-transform: translateX(100%);
+        -moz-transform: translateX(100%);
+        background-color: $color-dark-3xl;
+        transition: transform .5s ease-in;
+        padding: 248px 0;
+        opacity: 0;
     }
 }
 
 .active {
     padding-bottom: 3px;
     border-bottom: 3px solid $color-primary;
+}
+
+.navigation-active {
+    opacity: 1;
+    transform: translateX(0%);
+    -webkit-transform: translateX(0%);
+    -moz-transform: translateX(0%);
+}
+
+@keyframes navLinksFade {
+    from {
+        opacity: 0;
+        transform: translateX(50px);
+        -webkit-transform: translateX(50px);
+        -moz-transform: translateX(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0px);
+        -webkit-transform: translateX(0px);
+        -moz-transform: translateX(0px);
+    }
 }

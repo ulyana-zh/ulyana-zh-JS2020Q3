@@ -9,6 +9,7 @@
 <body>
         <header class="header">
             <div class="wrapper wrapper__header">
+                <div class="overlay"></div>
                     <div class="header__logo">
                         <h1><a href="#">Cozy House</a></h1>
                         <div class="header__logo_subtitle">Shelter for pets in Boston</div>
@@ -17,8 +18,8 @@
                         <ul class="navigation">
                             <li><a href="#" class="active">About the shelter</a></li>
                             <li><a href="../pets/pets.html">Our pets</a></li>
-                            <li><a href="#help">Help the shelter</a></li>
-                            <li><a href="#contacts">Contacts</a></li>
+                            <li><a>Help the shelter</a></li>
+                            <li><a>Contacts</a></li>
                         </ul> 
                         <span class="hamburger">
                             <span class="hamburger__line"></span>
@@ -55,23 +56,23 @@
                     are looking for a house</h3>
                     <div class="pets__content">
                         <div class="button-arrow_left"><button class="button button-arrow"><img src="../../assets/icons/arrow-left.svg" alt="arrow"></button></div>
-                    <div class="layout-columns">
-                        <div class="layout-columns__item">
-                            <div class="item-image"><img src="../../assets/images/pets-katrine.jpg" alt="katrine"></div>
-                            <p class="item-title">Katrine</p>
-                            <div class="item-button"><button class="button button_bordered button_item">Learn more</button></div>
-                        </div>
-                        <div class="layout-columns__item">
-                            <div class="item-image"><img src="../../assets/images/pets-jennifer.jpg" alt="jennifer"></div>
-                            <p class="item-title">Jennifer</p>
-                            <div class="item-button"><button class="button button_bordered button_item">Learn more</button></div>
-                        </div>
-                        <div class="layout-columns__item">
-                            <div class="item-image"><img src="../../assets/images/pets-woody.jpg" alt="woody"></div>
-                            <p class="item-title">Woody</p>
-                            <div class="item-button"><button class="button button_bordered button_item">Learn more</button></div>
-                        </div>
-                    </div> 
+                        <div class="layout-columns">
+                            <div class="layout-columns__item layout-columns__item-1">
+                                <div class="item-image"><img src="../../assets/images/pets-katrine.jpg" alt="katrine"></div>
+                                <p class="item-title">Katrine</p>
+                                <div class="item-button"><button class="button button_bordered button_item">Learn more</button></div>
+                            </div>
+                            <div class="layout-columns__item layout-columns__item-2">
+                                <div class="item-image"><img src="../../assets/images/pets-jennifer.jpg" alt="jennifer"></div>
+                                <p class="item-title">Jennifer</p>
+                                <div class="item-button"><button class="button button_bordered button_item">Learn more</button></div>
+                            </div>
+                            <div class="layout-columns__item layout-columns__item-3">
+                                <div class="item-image"><img src="../../assets/images/pets-woody.jpg" alt="woody"></div>
+                                <p class="item-title">Woody</p>
+                                <div class="item-button"><button class="button button_bordered button_item">Learn more</button></div>
+                            </div>
+                        </div> 
                     <div class="button-arrow_right"><button class="button button-arrow"><img src="../../assets/icons/arrow-right.svg" alt="arrow"></button></div>
                     </div>
                 <div class="pets__button"><form action="../pets/pets.html"><button class="button button_colored">Get to know the rest</button></form></div>   
@@ -169,5 +170,74 @@
 
             </div>
     </footer>    
+    <template id="petCard">
+        <li class="slider__item">
+          <img class="slider__img" src="../../assets/images/pets-katrine.jpg" alt="" width="270" height="270">
+          <p class="slider__name">Katrine</p>
+          <a class="slider__btn" href="">Learn more</a>
+        </li>
+       </template>
+    <div class="popup popup__jennifer">
+        <div class="popup__body">
+            <div class="popup__content">
+                <button class="button button_bordered button_close">
+                    <div class="button_close__img"></div>
+                </button>
+                <img class="item-image" src="../../assets/images/pets-jennifer.jpg" alt="katrine">
+              <div class="item-info">
+                    <h3 class="item-name">Jennifer</h3>
+                    <h4 class="item-type">Dog - Labrador</h4>
+                    <h5 class='item-description'>Jennifer is a sweet 2 months old Labrador that is patiently waiting to find a new forever home. This girl really enjoys being able to go outside to run and play, but won't hesitate to play up a storm in the house if she has all of her favorite toys.</h5>
+                    <ul>
+                        <li class="age"><h5>Age: 2 month</h5></li>
+                        <li class="inoculations"><h5>Inoculations: none</h5></li>
+                        <li class="diseases"><h5>Diseases: none</h5></li>
+                        <li class="parasites"><h5>Parasites: none</h5></li>
+                    </ul>
+              </div>
+            </div>
+        </div>
+        <div class="popup popup__sophia">
+            <div class="popup__body">
+                <div class="popup__content">
+                    <button class="button button_bordered button_close">
+                        <div class="button_close__img"></div>
+                    </button>
+                    <img class="item-image" src="../../assets/images/pets-sophia.jpg" alt="katrine">
+                  <div class="item-info">
+                        <h3 class="item-name">Sophia</h3>
+                        <h4 class="item-type">Dog - Shih tzu</h4>
+                        <h5 class='item-description'>Sophia here and I'm looking for my forever home to live out the best years of my life. I am full of energy. Everyday I'm learning new things, like how to walk on a leash, go potty outside, bark and play with toys and I still need some practice.</h5>
+                        <ul>
+                            <li class="age"><h5>Age: 1 month</h5></li>
+                            <li class="inoculations"><h5>Inoculations: parvovirus</h5></li>
+                            <li class="diseases"><h5>Diseases: none</h5></li>
+                            <li class="parasites"><h5>Parasites: none</h5></li>
+                        </ul>
+                  </div>
+                </div>
+            </div>
+            <div class="popup popup__woody">
+                <div class="popup__body">
+                    <div class="popup__content">
+                        <button class="button button_bordered button_close">
+                            <div class="button_close__img"></div>
+                        </button>
+                        <img class="item-image" src="../../assets/images/pets-woody.jpg" alt="katrine">
+                      <div class="item-info">
+                            <h3 class="item-name">"Woody</h3>
+                            <h4 class="item-type">Dog - Golden Retriever</h4>
+                            <h5 class='item-description'>Woody is a handsome 3 1/2 year old boy. Woody does know basic commands and is a smart pup. Since he is on the stronger side, he will learn a lot from your training. Woody will be happier when he finds a new family that can spend a lot of time with him.</h5>
+                            <ul>
+                                <li class="age"><h5>Age: 3 years 6 months</h5></li>
+                                <li class="inoculations"><h5>Inoculations: adenovirus", "distemper</h5></li>
+                                <li class="diseases"><h5>Diseases: right back leg mobility reduced</h5></li>
+                                <li class="parasites"><h5>Parasites: none</h5></li>
+                            </ul>
+                      </div>
+                    </div>
+                </div>
+    </div>
+    <script src="script.js"></script>
     </body>
     </html>

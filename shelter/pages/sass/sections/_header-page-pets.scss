@@ -14,6 +14,7 @@
 .header__logo {
     @include flex();
     flex-direction: column;
+    transition: linear 0.5s;
     h1 {
         margin-bottom: 10px;
         color: $color-dark-l;
@@ -25,6 +26,23 @@
         color: $color-dark-3xl;
     }
 }  
+.header__logo-active {
+    visibility: visible;
+    width: fit-content;
+    opacity: 1;
+    position: fixed;
+    top: 30px;
+    right: 110px;
+    z-index: 1;
+    transition: all 1.5s ease 0s;
+    animation: navLinksFade 1.5s;
+    h1 {
+        color: $color_primary;
+    }
+    .header__logo_subtitle {
+        color: $color-light-xl;
+    }    
+}
 
 .header__nav {
     max-width: 443px;
@@ -36,19 +54,69 @@
     list-style-type: none;
     padding: 0;
     color: $color-dark-l;
+    li {
+        @include media-mobilesmall {
+            opacity: 0;
+            font-size: 32px;
+            line-height: 160%;
+            margin-bottom: 40px;
+        }
+    }
     li:not(:last-child) {
         margin-right: 35px;
+        @include media-mobilesmall {
+            margin-right: 0;
+        }
     }
-    li:hover {
-        color: $color-dark-3xl;
-    }
-    @include media-mobilesmall {
-        display: none;
+    @include media-mobilesmall {    
+        color: $color-dark-s;
+        position: fixed;
+        right: 0;
+        top: 0;
+        margin-top: 0;
+        height: 100vh;
+        flex-direction: column;
+        align-items: center;
+        width: 320px;
+        transform: translateX(100%);
+        -webkit-transform: translateX(100%);
+        -moz-transform: translateX(100%);
+        background-color: $color-dark-3xl;
+        transition: transform .5s ease-in;
+        padding: 248px 0;
+        opacity: 0;
     }
 }
 
 .active {
-    //color: $color-dark-xl;
     padding-bottom: 3px;
     border-bottom: 3px solid $color-primary;
+}
+
+.navigation-active {
+    opacity: 1;
+    transform: translateX(0%);
+    -webkit-transform: translateX(0%);
+    -moz-transform: translateX(0%);
+    li:hover {
+        color: $color-light-xl;
+    }
+    .active {
+        color: $color-light-xl;
+    }
+}
+
+@keyframes navLinksFade {
+    from {
+        opacity: 0;
+        transform: translateX(50px);
+        -webkit-transform: translateX(50px);
+        -moz-transform: translateX(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0px);
+        -webkit-transform: translateX(0px);
+        -moz-transform: translateX(0px);
+    }
 }

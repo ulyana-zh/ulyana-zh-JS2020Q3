@@ -1,0 +1,110 @@
+.popup {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: rgba(41, 41, 41, 0.6);
+    top: 0;
+    left: 0;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.8s ease 0s;
+
+    &__body {
+        min-height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    &__content {
+        display: flex;
+        background-color: $color-light-s; 
+        width: 900px;
+        height: 500px;
+        border-radius: 9px;
+        position: relative;
+        @media (max-width: 1000px) {
+            width: 630px;
+            height: 350px;
+        }
+        @media (max-width: 740px) {
+            width: 240px;
+            height: 341px;
+        }
+        &:hover {
+            cursor: pointer;
+            box-shadow: 0px 2px 35px 14px rgba(13, 13, 13, 0.04);
+        } 
+        .item-image {
+            height: 100%;
+            max-width: 500px;;
+            border-radius: 9px;
+            @media (max-width: 740px) {
+                display: none;
+            }
+        }
+    }
+}
+
+.popup-active {
+    opacity: 1;
+    visibility: visible;
+    transition: all 0.8s ease 0s;
+}
+
+.item-info {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    text-align: left;
+    padding: 50px 20px 88px 29px;
+    width: 45%;
+
+    @media (max-width: 1000px) {
+        padding: 10px 10px 37px 10px;
+    }
+
+    @media (max-width: 740px)  {
+        padding: 10px 10px 10px 10px; 
+        width: 100%;  
+    }
+
+    .item-description {
+        @media (max-width: 1000px) {
+            font-size: 13px;
+        }
+    }
+    ul {
+        padding-inline-start: 20px;
+        color: $color-primary;
+        margin: 0;
+
+        h5 {
+            margin-top: 5px;
+            margin-bottom: 5px;
+        }
+    }
+}
+
+.button_close {
+    position: absolute;
+    top: -52px;
+    right: -33px;
+    width: 52px;
+    height: 52px;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &__img {
+        width: 12px;
+        height: 12px;
+        background-image: url(../../../assets/icons/button-close.svg);
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position-y: 2px;
+    }
+}
+
+
