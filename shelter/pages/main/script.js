@@ -41,22 +41,39 @@ window.addEventListener('resize', () => {
   }
 })
 
-// //Popup and slider
+//Popup and slider
 
-// const popup = document.querySelector('.popup'),
-// popupJennifer = document.querySelector('.popup__jennifer'),
-// popupSophia = document.querySelector('.popup__sophia'),
-// popupCloseButton = document.querySelector('.button_close');
+const popup = document.querySelector('.popup'),
+popupJennifer = document.querySelector('.popup__jennifer'),
+popupSophia = document.querySelector('.popup__sophia'),
+popupKatrine = document.querySelector('.popup__katrine'),
+popupWoody = document.querySelector('.popup__woody');
 
 
-// document.querySelector('.layout-columns__item-1').addEventListener('click', () => {
-//   popupJennifer.classList.toggle('popup-active');  
-// })
+document.querySelector('.layout-columns__item-1').addEventListener('click', () => {
+  popupKatrine.classList.toggle('popup-active');  
+})
 
-// document.querySelector('.layout-columns__item-2').addEventListener('click', () => {
-//   popupSophia.classList.toggle('popup-active');  
-// })
+document.querySelector('.layout-columns__item-2').addEventListener('click', () => {
+  popupJennifer.classList.toggle('popup-active');    
+})
 
-// document.querySelector('.layout-columns__item-3').addEventListener('click', () => {
-//   popupSophia.classList.toggle('popup-active');  
-// })
+document.querySelector('.layout-columns__item-3').addEventListener('click', () => {
+  popupWoody.classList.toggle('popup-active');  
+})
+
+document.querySelector('.button_close-1').addEventListener('click', () => {
+  popupKatrine.classList.toggle('popup-active');  
+})
+
+document.querySelector('.button_close-2').addEventListener('click', () => {
+  popupJennifer.classList.toggle('popup-active');  
+})
+
+document.querySelector('.button_close-3').addEventListener('click', () => {
+  popupWoody.classList.toggle('popup-active');  
+})
+
+
+
+
