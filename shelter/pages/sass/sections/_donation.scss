@@ -34,9 +34,15 @@
     }
     h5 {
         margin: 20px 0;
+        @include media-mobile {
+            font-size: 1.4rem;
+        }
     }
     p {
         margin: 20px 0;
+        @include media-mobile {
+            text-align: justify;
+        }
     }
     @include media-tablet {
         margin-bottom: 58px;
