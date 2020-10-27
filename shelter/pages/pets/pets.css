@@ -931,7 +931,7 @@ a {
 .button_close__img {
   width: 12px;
   height: 12px;
-  background-image: url(../../../assets/icons/button-close.svg);
+  background-image: url("../../assets/icons/button-close.svg");
   background-repeat: no-repeat;
   background-size: cover;
   background-position-y: 2px;
