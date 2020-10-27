@@ -1074,7 +1074,11 @@ a {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  flex-wrap: wrap;
+}
+@media (max-width: 1279px) {
+  .wrapper__start-screen {
+    flex-wrap: wrap;
+  }
 }
 
 .start-screen__content {
