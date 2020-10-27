@@ -1172,6 +1172,7 @@ a {
 @media (max-width: 767px) {
   .about__img {
     margin-right: 0;
+    margin-top: 17px;
   }
 }
 .about__img img {
@@ -1193,6 +1194,12 @@ a {
 }
 .about__content p {
   margin: 0;
+}
+@media (max-width: 767px) {
+  .about__content p {
+    text-align: justify;
+    margin-bottom: 25px;
+  }
 }
 @media (max-width: 767px) {
   .about__content {
@@ -1452,8 +1459,18 @@ a {
 .donation__content h5 {
   margin: 20px 0;
 }
+@media (max-width: 406px) {
+  .donation__content h5 {
+    font-size: 1.4rem;
+  }
+}
 .donation__content p {
   margin: 20px 0;
+}
+@media (max-width: 406px) {
+  .donation__content p {
+    text-align: justify;
+  }
 }
 @media (max-width: 1279px) {
   .donation__content {
