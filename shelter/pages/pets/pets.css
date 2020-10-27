@@ -1053,7 +1053,7 @@ a {
   -webkit-transform: translateX(0%);
   -moz-transform: translateX(0%);
 }
-.navigation-active li:hover {
+.navigation-active li:hover(:nth-child(1n+3)) {
   color: #ffffff;
 }
 .navigation-active .active {
