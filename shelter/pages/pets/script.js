@@ -5,7 +5,9 @@ nav = document.querySelector('.navigation'),
 links = document.querySelectorAll('.navigation li'),
 overlay = document.querySelector('.overlay'),
 logo = document.querySelector('.header__logo'),
-body = document.querySelector('body');
+body = document.querySelector('body'),
+link = document.querySelector('.close-burger');
+    
 
 function slider() {
     nav.classList.toggle('navigation-active');
@@ -28,6 +30,12 @@ burger.addEventListener('click', () => {
 
 overlay.addEventListener('click', () => {
   slider();
+})
+
+link.addEventListener('click', () => {
+  if(nav.classList.contains('navigation-active')) {
+    slider();
+  }
 })
 
 window.addEventListener('keydown', (e) => {
