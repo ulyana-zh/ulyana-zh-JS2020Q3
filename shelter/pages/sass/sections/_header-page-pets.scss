@@ -98,7 +98,7 @@
     transform: translateX(0%);
     -webkit-transform: translateX(0%);
     -moz-transform: translateX(0%);
-    li:hover {
+    li:hover(:nth-child(1n+3)) {
         color: $color-light-xl;
     }
     .active {

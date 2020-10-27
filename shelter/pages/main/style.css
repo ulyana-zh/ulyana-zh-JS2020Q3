@@ -1021,7 +1021,7 @@ a {
     margin-right: 0;
   }
 }
-.navigation li:hover {
+.navigation li:not(:nth-child(1n+3)):hover {
   color: #ffffff;
 }
 @media (max-width: 767px) {
