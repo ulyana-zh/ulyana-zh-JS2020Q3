@@ -1,9 +1,14 @@
+window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+const recognition = new SpeechRecognition();
+
+let input = document.querySelector('.use-keyboard-input');
+
 const Keyboard = {
   elements: {
     main: null,
     keysContainer: null,
     keys: [],
-    textArea: null,
+    input: '',
   },
 
   eventHandlers: {
@@ -23,8 +28,6 @@ const Keyboard = {
   },
 
   init() {
-    let input = document.querySelector('.use-keyboard-input');
-
     // Create main elements
     this.elements.main = document.createElement("div");
     this.elements.keysContainer = document.createElement("div");
@@ -169,36 +172,7 @@ const Keyboard = {
 
          playing();
 
-
-    //Add voice record
-    
-   
-    const record = () => {
-      window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-      const recognition = new SpeechRecognition();  
-      recognition.lang = !this.properties.language ? 'ru-RU' : 'en-Us';
-
-    recognition.interimResults = true;
-
-    recognition.addEventListener('result', e => {
-      const transcript = Array.from(e.results)
-        .map(result => result[0])
-        .map(result => result.transcript)
-        .join('');
-        input.textContent = transcript;
-          if (e.results[0].isFinal) {
-            transcript += ` ${transcript}`; 
-          }
-    });
-
-    recognition.addEventListener('end', recognition.start);
-
-    recognition.start();    
-    } 
-
     //Add real keyboard keydown     
-    let input = document.querySelector('.use-keyboard-input');
-
     window.addEventListener("keydown", e => {
       if(typeof key === 'string') {
         if (key === e.key) {
@@ -238,7 +212,7 @@ const Keyboard = {
 
           keyElement.addEventListener("click", () => {
             this.properties.record = !this.properties.record;
-            record();
+            this.properties.record ? this._startRecord() : this._stopRecord();
             keyElement.classList.toggle("keyboard__key--active", this.properties.record);
             input.focus();
           });
@@ -251,6 +225,7 @@ const Keyboard = {
               this.properties.language = !this.properties.language;
               this.properties.shift = false;
               this.properties.capsLock = false;
+              
 
               while (this.elements.keysContainer.children.length > 0) {
                 this.elements.keysContainer.children[0].remove(); 
@@ -269,6 +244,7 @@ const Keyboard = {
             this.properties.language = !this.properties.language;
             this.properties.shift = false;
             this.properties.capsLock = false;
+            
             
             
             while (this.elements.keysContainer.children.length > 0) {
@@ -370,12 +346,11 @@ const Keyboard = {
             + this.properties.value.substring(this.properties.end, this.properties.value.length);
 
             let range = this.properties.end - this.properties.start;
-            if (range > 0) {
-              this.properties.end -= range;
-            }
+            if (range > 0) this.properties.end -= range;
 
             this.properties.start++;
             this.properties.end++;
+            
             this._triggerEvent("oninput");
             input.focus();
             input.setSelectionRange(this.properties.start, this.properties.end);
@@ -398,9 +373,7 @@ const Keyboard = {
 
           let range = this.properties.end - this.properties.start;
           input.setSelectionRange(this.properties.start, this.properties.end);
-          if (range>0) {
-            this.properties.end -= range;
-          }
+          if (range > 0) this.properties.end -= range;
           });
 
           break;
@@ -417,8 +390,6 @@ const Keyboard = {
             this._triggerEvent("oninput");
             input.focus();
           });
-                 
-
           break;
 
           case 'ArrowRight': 
@@ -459,10 +430,8 @@ const Keyboard = {
               + this.properties.value.substring(this.properties.end, this.properties.value.length);
 
               let range = this.properties.end - this.properties.start;
-              if (range > 0) {
-              this.properties.end-=range;
-              }
-            
+              if (range > 0) this.properties.end-=range;
+                          
               this.properties.start++;
               this.properties.end++;
               
@@ -479,9 +448,7 @@ const Keyboard = {
               + this.properties.value.substring(this.properties.end, this.properties.value.length);
 
               let range = this.properties.end - this.properties.start;
-              if (range > 0) {
-              this.properties.end-=range;
-              }
+              if (range > 0) this.properties.end-=range;
             
               this.properties.start++;
               this.properties.end++;
@@ -532,6 +499,34 @@ const Keyboard = {
         }
       } 
   }
+},
+
+_recordLanguage() {
+  recognition.lang = this.properties.language ? "en-US" : "ru-RU";
+},
+
+_startRecord() {
+  recognition.interimResults = true;
+  this._recordLanguage();
+
+  recognition.addEventListener("result", e => {
+    const transcript = Array.from(e.results)
+        .map(result => result[0])
+        .map(result => result.transcript)
+        .join("");
+
+      if (e.results[0].isFinal) {
+        input.value += ` ${transcript}`;
+      }
+  });
+  recognition.addEventListener("end", recognition.start);
+  recognition.start();
+},
+
+_stopRecord() {
+  recognition.abort();
+  recognition.stop();
+  recognition.removeEventListener('end', recognition.start);
 },
 
   open(initialValue, oninput, onclose) {
