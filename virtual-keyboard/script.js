@@ -1,22 +1,9 @@
-document.addEventListener('keydown', (e) => {
-    console.log(e);
-})
-
-// let input = document.querySelector('.use-keyboard-input');
-// input.focus();
-// input.addEventListener('blur', () => {
-//   input.focus();  
-// })
-
-// const start = input.selectionStart;
-// const end = input.selectionEnd;
-
-
 const Keyboard = {
   elements: {
     main: null,
     keysContainer: null,
     keys: [],
+    textArea: null,
   },
 
   eventHandlers: {
@@ -30,6 +17,7 @@ const Keyboard = {
     shift: false,
     language: true,
     sound: true,
+    record: false,
     start: 0,
     end: 0,
   },
@@ -62,6 +50,8 @@ const Keyboard = {
         });
       });
 
+      //this.elements.textArea = document.querySelector('.use-keyboard-input');
+
       element.addEventListener('click', () => {
         this.properties.start = input.selectionStart;
         this.properties.end = input.selectionEnd;
@@ -92,16 +82,16 @@ const Keyboard = {
       ['`', '~'], ['1', '!'], ['2', '@'], ['3', '#'], ['4', '$'], ['5', '%'], ['6', '^'], ['7', '&'], ['8', '*'], ['9', '('], ['0', ')'], ['-', '_'], ['=','+'], "Backspace",
       "q", "w", "e", "r", "t", "y", "u", "i", "o", "p", ['[', '{'], [']', '}'], 'en',
       "CapsLock", "a", "s", "d", "f", "g", "h", "j", "k", "l", [';', ':'], ["'", '"'],  "Enter",
-      "done", "Shift", "z", "x", "c", "v", "b", "n", "m", [',', '<'], ['.', '>'], ['/', '?'],
-      'sound',"space", 'ArrowLeft', 'ArrowRight'
+       "Shift", "z", "x", "c", "v", "b", "n", "m", [',', '<'], ['.', '>'], ['/', '?'],
+      'sound', "done", 'record', "space", 'ArrowLeft', 'ArrowRight'
     ];
 
     const keyLayoutRu = [
       'ё', ['1', '!'], ['2', '"'], ['3', '№'], ['4', ';'], ['5', '%'], ['6', ':'], ['7', '?'], ['8', '*'], ['9', '('], ['0', ')'], '-', '+', "Backspace",
       "й", "ц", "у", "к", "е", "н", "г", "ш", "щ", "з", 'х', 'ъ', 'ru',
       "CapsLock", "ф", "ы", "в", "а", "п", "р", "о", "л", "д", 'ж', 'э', "Enter",
-      "done", "Shift", "я", "ч", "с", "м", "и", "т", "ь", 'б', 'ю', ['.', ','],
-      'sound', "space", 'ArrowLeft', 'ArrowRight'
+       "Shift", "я", "ч", "с", "м", "и", "т", "ь", 'б', 'ю', ['.', ','],
+      'sound', "done", 'record', "space", 'ArrowLeft', 'ArrowRight'
     ];
 
     let keyLayout;
@@ -109,7 +99,7 @@ const Keyboard = {
       keyLayout = keyLayoutEn;
     } else {
       keyLayout = keyLayoutRu; 
-    }        
+    }     
 
     // Creates HTML for an icon
     const createIconHTML = (icon_name) => {
@@ -179,6 +169,33 @@ const Keyboard = {
 
          playing();
 
+
+    //Add voice record
+    
+   
+    const record = () => {
+      window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      const recognition = new SpeechRecognition();  
+      recognition.lang = !this.properties.language ? 'ru-RU' : 'en-Us';
+
+    recognition.interimResults = true;
+
+    recognition.addEventListener('result', e => {
+      const transcript = Array.from(e.results)
+        .map(result => result[0])
+        .map(result => result.transcript)
+        .join('');
+        input.textContent = transcript;
+          if (e.results[0].isFinal) {
+            transcript += ` ${transcript}`; 
+          }
+    });
+
+    recognition.addEventListener('end', recognition.start);
+
+    recognition.start();    
+    } 
+
     //Add real keyboard keydown     
     let input = document.querySelector('.use-keyboard-input');
 
@@ -204,7 +221,8 @@ const Keyboard = {
 
         case 'sound':
 
-          keyElement.classList.add("keyboard__key--wide", "keyboard__key--activatable", "keyboard__key--active");
+          keyElement.classList.add("keyboard__key--wide", "keyboard__key--activatable");
+          if(this.properties.sound) keyElement.classList.add("keyboard__key--active"); 
           keyElement.innerHTML = `<img src='./assets/volume.svg' width='20px' height='20px'></img>`;
           keyElement.addEventListener("click", () => {
             this.properties.sound = !this.properties.sound;
@@ -214,11 +232,26 @@ const Keyboard = {
           });
           break;
 
+        case 'record':
+          keyElement.classList.add("keyboard__key--wide", "keyboard__key--activatable");
+          keyElement.innerHTML = createIconHTML("mic");
+
+          keyElement.addEventListener("click", () => {
+            this.properties.record = !this.properties.record;
+            record();
+            keyElement.classList.toggle("keyboard__key--active", this.properties.record);
+            input.focus();
+          });
+        break;
+
         case "en":
 
           keyElement.innerText = 'en';
             keyElement.addEventListener("click", () => {
               this.properties.language = !this.properties.language;
+              this.properties.shift = false;
+              this.properties.capsLock = false;
+
               while (this.elements.keysContainer.children.length > 0) {
                 this.elements.keysContainer.children[0].remove(); 
               }
@@ -234,6 +267,8 @@ const Keyboard = {
             keyElement.innerText = 'ru';
             keyElement.addEventListener("click", () => {
             this.properties.language = !this.properties.language;
+            this.properties.shift = false;
+            this.properties.capsLock = false;
             
             
             while (this.elements.keysContainer.children.length > 0) {
@@ -252,9 +287,32 @@ const Keyboard = {
           keyElement.innerHTML = createIconHTML("backspace");
 
           keyElement.addEventListener("click", () => {
-            this.properties.value = this.properties.value.substring(0, this.properties.value.length - 1);
+            
+            if (this.properties.start !== this.properties.end) {
+              this.properties.value = this.properties.value.substring(0, this.properties.start)
+                + this.properties.value.substring(this.properties.end, this.properties.value.length);
+            }
+            else 
+              this.properties.value = this.properties.value.substring(0, this.properties.start-1) 
+                + this.properties.value.substring(this.properties.end, this.properties.value.length);
+            
             this._triggerEvent("oninput");
             input.focus();
+
+            let range = this.properties.end - this.properties.start;
+            if (range > 0) {
+              this.properties.end -= range;
+            }
+            else {
+              this.properties.start--;
+              this.properties.end--;
+            }
+
+            if (this.properties.start < 0) this.properties.start = 0;
+            if (this.properties.end < 0) this.properties.end = 0;
+
+            input.setSelectionRange(this.properties.start, this.properties.end);
+            
           });
 
           break;
@@ -287,6 +345,7 @@ const Keyboard = {
   
             keyElement.addEventListener("click", () => {
               this._toggleShift();
+
               for (let i = 0; i<keyLayout.length; i++) {
                 if (typeof keyLayout[i] !== 'string') { 
                   keyLayout[i].reverse();
@@ -297,30 +356,9 @@ const Keyboard = {
                     }
                 } 
               }
-              
               input.focus();
               keyElement.classList.toggle("keyboard__key--active", this.properties.shift);
             });
-
-            window.addEventListener("keydown", (e) => {
-              if (e.key === 'Shift') {
-                this._toggleShift();
-                for (let i = 0; i<keyLayout.length; i++) {
-                  if (typeof keyLayout[i] !== 'string') { 
-                    keyLayout[i].reverse();
-                      for (const key of this.elements.keys) {
-                            if (key.textContent === keyLayout[i][1]) {
-                              key.textContent = keyLayout[i][0];
-                            }
-                      }
-                  } 
-                }
-              }              
-              input.focus();
-              keyElement.classList.toggle("keyboard__key--active", this.properties.shift);
-              
-            });
-  
             break;
 
         case "Enter":
@@ -328,9 +366,19 @@ const Keyboard = {
           keyElement.innerHTML = createIconHTML("keyboard_return");
 
           keyElement.addEventListener("click", () => {
-            this.properties.value += "\n";
+            this.properties.value = this.properties.value.substring(0, this.properties.start) + "\n" 
+            + this.properties.value.substring(this.properties.end, this.properties.value.length);
+
+            let range = this.properties.end - this.properties.start;
+            if (range > 0) {
+              this.properties.end -= range;
+            }
+
+            this.properties.start++;
+            this.properties.end++;
             this._triggerEvent("oninput");
             input.focus();
+            input.setSelectionRange(this.properties.start, this.properties.end);
           });
 
           break;
@@ -340,18 +388,31 @@ const Keyboard = {
           keyElement.innerHTML = createIconHTML("space_bar");
 
           keyElement.addEventListener("click", () => {
-            this.properties.value += " ";
-            this._triggerEvent("oninput");
-            input.focus();
+            this.properties.value = this.properties.value.substring(0, this.properties.start) 
+            + ' ' 
+              + this.properties.value.substring(this.properties.end, this.properties.value.length);
+          this.properties.start++;
+          this.properties.end++;
+          this._triggerEvent("oninput");
+          input.focus();
+
+          let range = this.properties.end - this.properties.start;
+          input.setSelectionRange(this.properties.start, this.properties.end);
+          if (range>0) {
+            this.properties.end -= range;
+          }
           });
 
           break;
 
           case 'ArrowLeft': 
+          keyElement.classList.add('keyboard__key--wide');
           keyElement.innerHTML = createIconHTML("arrow_left");
           keyElement.addEventListener("click", () => {
             this.properties.start--;
             this.properties.end--;
+            if (this.properties.start < 0) this.properties.start = 0;
+            if (this.properties.end < 0) this.properties.end = 0;
             input.setSelectionRange(this.properties.start, this.properties.end);
             this._triggerEvent("oninput");
             input.focus();
@@ -361,10 +422,13 @@ const Keyboard = {
           break;
 
           case 'ArrowRight': 
+          keyElement.classList.add('keyboard__key--wide');
           keyElement.innerHTML = createIconHTML("arrow_right");
           keyElement.addEventListener("click", () => {
             this.properties.start++;
             this.properties.end++;
+            if (this.properties.start > this.properties.value.length) this.properties.start = this.properties.value.length;
+            if (this.properties.end > this.properties.value.length) this.properties.end = this.properties.value.length;
             input.setSelectionRange(this.properties.start, this.properties.end);
             this._triggerEvent("oninput");
             input.focus();
@@ -388,17 +452,43 @@ const Keyboard = {
           if(typeof key === 'string') {
             keyElement.textContent = key.toLowerCase();
             keyElement.addEventListener("click", () => {
-              this.properties.value += this.properties.capsLock || this.properties.shift ? key.toUpperCase() : key.toLowerCase();
+              key = this.properties.capsLock || this.properties.shift ? key.toUpperCase() : key.toLowerCase();
+              
+
+              this.properties.value = this.properties.value.substring(0, this.properties.start) + key 
+              + this.properties.value.substring(this.properties.end, this.properties.value.length);
+
+              let range = this.properties.end - this.properties.start;
+              if (range > 0) {
+              this.properties.end-=range;
+              }
+            
+              this.properties.start++;
+              this.properties.end++;
+              
               this._triggerEvent("oninput");
               input.focus();  
+              input.setSelectionRange(this.properties.start, this.properties.end);
             
             });
           } else {
-            keyElement.textContent = key[0];
+            this.properties.shift ? keyElement.textContent = key[1] : keyElement.textContent = key[0];
+
             keyElement.addEventListener("click", () => {
-              this.properties.value += key[0];
+              this.properties.value = this.properties.value.substring(0, this.properties.start) + keyElement.textContent 
+              + this.properties.value.substring(this.properties.end, this.properties.value.length);
+
+              let range = this.properties.end - this.properties.start;
+              if (range > 0) {
+              this.properties.end-=range;
+              }
+            
+              this.properties.start++;
+              this.properties.end++;
+              
               this._triggerEvent("oninput");
               input.focus(); 
+              input.setSelectionRange(this.properties.start, this.properties.end);
             });  
           }     
           break; 
@@ -410,8 +500,6 @@ const Keyboard = {
       if (insertLineBreak) {
         fragment.appendChild(document.createElement("br"));
       }
-
-
     });
     return fragment;
   },
@@ -427,7 +515,10 @@ const Keyboard = {
 
     for (const key of this.elements.keys) {
       if (key.childElementCount === 0) {
-        key.textContent = this.properties.capsLock ? key.textContent.toUpperCase() : key.textContent.toLowerCase();
+        if(key.textContent !== 'Shift' && key.textContent !== 'ru' && key.textContent !== 'en' ) {
+          key.textContent = this.properties.capsLock || this.properties.shift  ? key.textContent.toUpperCase() : key.textContent.toLowerCase();
+        }
+        
       } 
     }
   },
@@ -436,7 +527,9 @@ const Keyboard = {
     this.properties.shift = !this.properties.shift;
     for (const key of this.elements.keys) {
       if (key.childElementCount === 0) {
-          key.textContent = this.properties.shift ? key.textContent.toUpperCase() : key.textContent.toLowerCase();
+        if(key.textContent !== 'Shift' && key.textContent !== 'ru' && key.textContent !== 'en' ) {
+          key.textContent = this.properties.shift || this.properties.capsLock ? key.textContent.toUpperCase() : key.textContent.toLowerCase();
+        }
       } 
   }
 },
