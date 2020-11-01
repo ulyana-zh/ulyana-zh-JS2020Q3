@@ -101,6 +101,7 @@
   } 
   .keyboard__key {
     margin: 2px;
+    font-size: 0.9rem;
   }
   .keyboard__key--activatable::after {
     top: 5px;
