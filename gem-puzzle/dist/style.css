@@ -3,8 +3,7 @@
     margin: 0;
     padding: 0;
     user-select: none;
-    font-family: 'Bebas Neue', cursive;
-    
+    font-family: 'Bebas Neue', cursive; 
 }
 
 body {
@@ -14,8 +13,6 @@ body {
     justify-content: center;
     align-items: center;
     background: #4B79A1;  
-    background: -webkit-linear-gradient(to left, #283E51, #4B79A1); 
-    background: linear-gradient(to left, #283E51, #4B79A1);
 }
 
 .game {
@@ -33,6 +30,7 @@ body {
     align-items: center;
     justify-content: space-between;
     width: 100%;
+    color: rgb(220, 220, 220);
 }
 
 .title {
@@ -108,12 +106,12 @@ select {
     justify-content: center;
     align-items: center;
     border-radius: 5px;
-    transition: all 0.3s;
-    cursor: pointer;   
+    transition: all 0.3s;  
 }
 
 .hideCell {
     display: none;
+    cursor: move;
 }
 
 

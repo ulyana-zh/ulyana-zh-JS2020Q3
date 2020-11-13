@@ -1,4 +1,7 @@
-const { concat } = require("lodash");
+  const { concat } = require("lodash");
+  import _ from 'lodash'
+
+  document.body.style.background = "url('./src/assets/diagonales-decalees.png'), linear-gradient(to left, #283E51, #4B79A1)"
 
   const game = document.querySelector('.game')
   const field = document.createElement('div');
@@ -69,10 +72,15 @@ const { concat } = require("lodash");
   newGameDiv.append(newGame, fieldSizeOptions);
 
   let counter = 0;
-  let now = new Date();
+  let seconds = 0;
+  let timerOn = false;
   let rightCells;
   let soundOn = true;
   let timeout;
+  let number;
+  let empty;
+  let targetCell;
+  
  
   class eachCell {
     constructor(left, top, size, isEmpty, textContent) { //9, 16, 25, 36, 49, 64
@@ -239,71 +247,72 @@ isEqual() {
   return true;
 }
 
+isEmpty() {
+  for (let i = 0; i < this.cells.length; i++) {
+    if (this.cells[i].cell.textContent === '') {
+      empty = this.cells[i];
+      return empty;
+    }}
+}
+
  addEventListeners() {
-  field.addEventListener('click', () => {
-      now = new Date()
-      showTime();
-    }, {once: true})
-    
-   let a;
+  // field.addEventListener('click', () => {
+  //     showTime();
+  //   }, {once: true})
+      
   let emptyCell;
   for (let i = 0; i < this.cells.length; i++) {
       if (this.cells[i].cell.textContent === '') {
         emptyCell = this.cells[i];
-        a = function(b) {
-          emptyCell.cell.addEventListener('dragover', (e) => {
-            e.preventDefault();
-          })
-          emptyCell.cell.addEventListener('drop', (e) => {
-            //if (!this.cells[i].isMovable(emptyCell)) return;
-            emptyCell.move(b); 
-            //console.log(emptyCell)
-          })
-        } 
       }
       else {
           this.cells[i].cell.addEventListener('click', () => {
               if (!this.cells[i].isMovable(emptyCell)) return;
               this.cells[i].move(emptyCell);
+              console.log(this.cells[i])
               counter++;
               moves.innerText = `Moves: ${counter}`;
               playSound();
+              if(!timerOn) showTime();
               localStorage.setItem('cells', JSON.stringify(this.cells)); 
               //if (!randomPuzzle.isSolvable()) console.log('error');
               if (this.isEqual()) alert('Win!');
           });
-              //DragAndDrop
-              this.cells[i].cell.addEventListener('dragstart', () => { 
-                setTimeout(() => {
-                  //if (!this.cells[i].isMovable(emptyCell)) return;
-                  this.cells[i].cell.classList.add('hideCell');
-                }, 0)
-              })
-              this.cells[i].cell.addEventListener('dragend', () => { 
-                //if (!this.cells[i].isMovable(emptyCell)) return;
-                this.cells[i].cell.classList.remove('hideCell');
-              })
-              a(this.cells[i]);
-              
-
-             
-              // this.cells[i].cell.addEventListener('dragenter', () => {
-              //   if (!this.cells[i].isMovable(emptyCell)) return;
-                
-              // })
-              // this.cells[i].cell.addEventListener('dragleave', () => {
-              //   if (!this.cells[i].isMovable(emptyCell)) return;
-               
-              // })
-      
-            
-              
-            
-
-      }
+          //DragAndDrop
+          this.cells[i].cell.addEventListener('dragstart', (e) => { 
+            setTimeout(() => {
+              if (!this.cells[i].isMovable(emptyCell)) return;
+              this.cells[i].cell.classList.add('hideCell');
+              e.dataTransfer.effectAllowed = "copyMove";
+              e.dataTransfer.dropEffect = 'move';
+            }, 0)
+            targetCell = this.cells[i];
+            return targetCell;
+          })
+          this.cells[i].cell.addEventListener('dragend', (e) => { 
+            if (!this.cells[i].isMovable(emptyCell)) return;
+            this.cells[i].cell.classList.remove('hideCell');
+            e.dataTransfer.dropEffect = 'move';
+          })
+        }
+      }    
+      this.isEmpty();
+      empty.cell.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        e.dataTransfer.dropEffect = 'move';
+      })
+      empty.cell.addEventListener('drop', (e) => {
+        if (!empty.isMovable(targetCell)) return;
+        empty.move(targetCell); 
+        e.dataTransfer.dropEffect = 'move';
+        counter++;
+        moves.innerText = `Moves: ${counter}`;
+        playSound();
+        if(!timerOn) showTime();
+      })
+    }
   }
-}
-}
+
 fieldSizeOptions.addEventListener('change', () => {
   switch(fieldSizeOptions.options[fieldSizeOptions.selectedIndex].value) {
     case '3': number = 9;  break;
@@ -316,11 +325,11 @@ fieldSizeOptions.addEventListener('change', () => {
   return number;
 })
 
-const createGame = (number = 16) => {
-  let cells = new Cells(number);
+const createGame = (a = 16) => {
+  let cells = new Cells(a);
   cells.createRandomNumbers();
 
-  rightCells = new Cells(number);
+  rightCells = new Cells(a);
   rightCells.createNumbers();
   console.log(rightCells)
   
@@ -328,7 +337,7 @@ const createGame = (number = 16) => {
   cells.addEventListeners();
 
   time.innerHTML = `00:00:00`
-  moves.innerText = `Moves: 0`
+  moves.innerText = `Moves: 0`  
 
   if (!cells.isSolvable() || cells.isEqual()) return createRandomNumbers();
 }
@@ -349,25 +358,27 @@ const startNewGame = () => {
       createGame(number);
     } 
     counter = 0;
+    seconds = 0;
     countMoves();
-    now = new Date();
     stopTimer();
   })
 }
 
 const showTime = () => {
-  const newDate = new Date() - now.getTime();
-      let sec   = Math.abs(Math.floor(newDate / 1000) % 60); //sek
-      let min   = Math.abs(Math.floor(newDate / 1000/60) % 60); //min
-      let hours = Math.abs(Math.floor(newDate / 1000 / 60 / 60) % 24); //hours
+  timerOn = true;
+  let hours = parseInt(seconds / 3600 % 24); 
+  let min = parseInt(seconds / 60 % 60); 
+  let sec  = parseInt(seconds % 60);
       if (sec.toString().length === 1) sec   = '0' + sec;
       if (min.toString().length === 1) min   = '0' + min;
       if (hours.toString().length === 1) hours = '0' + hours;
       time.innerHTML = `${hours}:${min}:${sec}`;
+      seconds++;
       timeout = setTimeout(showTime, 1000);
  }
 
  const stopTimer = () => {
+   timerOn = false;
    clearTimeout(timeout);
  }
 
