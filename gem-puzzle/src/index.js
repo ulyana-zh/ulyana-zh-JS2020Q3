@@ -1,8 +1,11 @@
   const { concat } = require("lodash");
-  import _ from 'lodash'
+  import _, { compact } from 'lodash';
 
-  document.body.style.background = "url('./src/assets/diagonales-decalees.png'), linear-gradient(to left, #283E51, #4B79A1)"
+  import { wallpapersArr, shuffle } from './Images';
 
+  document.body.style.background = "url('./src/assets/diagonales-decalees.png'), linear-gradient(to right, #360033, #0b8793)";
+
+  // DOM 
   const game = document.querySelector('.game')
   const field = document.createElement('div');
   field.classList.add('field')
@@ -22,16 +25,20 @@
   const time = document.createElement('time');
   time.classList.add('time')
 
+  const pauseButton = document.createElement('button');
+  pauseButton.classList.add('pause');
+  pauseButton.innerHTML = `<img src='./src/assets/pause.svg' width='12px' height='12px'></img>`;
+
   const moves = document.createElement('moves');
   moves.classList.add('moves')
 
   const title = document.createElement('div');
   title.classList.add('title')
   title.innerText = "Let's Play!"
-  information.append(time, title, moves); 
+  information.append(time, pauseButton, title, moves); 
 
   const soundButton = document.createElement('button');
-  soundButton.innerHTML = `<img src='./src/assets/volume.svg' width='20px' height='20px'></img>`
+  soundButton.innerText = 'Sound On';
   soundButton.classList.add('soundButton');
 
   const sound = new Audio('./src/assets/Bulle.wav')
@@ -56,10 +63,13 @@
                    <option value="8">8x8</option>
                </select>`
 
+  const saveButton = document.createElement('button');
+  saveButton.classList.add('save')
+  saveButton.innerText = 'Save'
 
-  const solve = document.createElement('button');
-  solve.classList.add('solve')
-  solve.innerText = 'Solve'
+  const solveButton = document.createElement('button');
+  solveButton.classList.add('solve')
+  solveButton.innerText = 'Solve'
 
   const results = document.createElement('button');
   results.innerText = 'Best Results'
@@ -68,9 +78,10 @@
   menu.classList.add('menu')
   menu.innerText = 'Menu'
 
-  navigation.append(newGameDiv, fieldSizeOptions, soundButton, solve, results);
+  navigation.append(newGameDiv, saveButton, soundButton, solveButton, results);
   newGameDiv.append(newGame, fieldSizeOptions);
 
+  // Global Variables
   let counter = 0;
   let seconds = 0;
   let timerOn = false;
@@ -78,17 +89,32 @@
   let soundOn = true;
   let timeout;
   let number;
+  let indexOfWallpaper = 0;
   let empty;
   let targetCell;
+  let isShuffle = false;
+  let movesEmptyCell = [];
+  let movesTargetCell = [];
+  let emptyCellCoordinates = {
+    left: null,
+    top: null,
+  }
+  let targetCellCoordinates = {
+    left: null,
+    top: null,
+  }
   
- 
+ // Create One Cell
   class eachCell {
-    constructor(left, top, size, isEmpty, textContent) { //9, 16, 25, 36, 49, 64
+    constructor(left, top, size, isEmpty, textContent, background) { //9, 16, 25, 36, 49, 64
       this.size = size;
       this.isEmpty = isEmpty;
       this.left = left;
       this.top = top;
       this.textContent = textContent;
+      this.styleLeft = null;
+      this.styleTop = null;
+      this.background = background;
 
       this.cell = document.createElement('div');
       this.cell.classList.add('cell');
@@ -96,6 +122,7 @@
       if(this.isEmpty) {
         this.cell = document.createElement('div');
         this.cell.classList.add('emptyCell'); 
+        this.cell.style.background = 'none';
       }
   
       this.cellSize = fieldSize / Math.sqrt(this.size);
@@ -107,11 +134,23 @@
    
       this.cell.style.left = `${this.left * this.cellSize}px`;
       this.cell.style.top = `${this.top * this.cellSize}px`;
-    }
 
+      this.styleLeft = this.cell.style.left;
+      this.styleTop = this.cell.style.top;
+
+      if(!this.isEmpty) {
+        this.cell.style.background = `url(${wallpapersArr[indexOfWallpaper]})`;
+        this.cell.style.backgroundPosition = this.background;
+        this.cell.style.backgroundSize = `${fieldSize}px`;
+      }
+    }
     changePosition() {
       this.cell.style.left = `${this.left * this.cellSize}px`;
       this.cell.style.top = `${this.top * this.cellSize}px`; 
+
+      this.styleLeft = this.cell.style.left;
+      this.styleTop = this.cell.style.top;
+      this.createCoordinatesTargetCell();
     }
 
     move(secondCell) {
@@ -126,6 +165,21 @@
       secondCell.changePosition();
     }
 
+    createCoordinatesTargetCell() {
+      if(this.textContent !== '') {
+        targetCellCoordinates = {
+          left: this.styleLeft,
+          top: this.styleTop, 
+        }
+      } else {
+        emptyCellCoordinates = {
+          left: this.styleLeft,
+          top: this.styleTop, 
+        } 
+      }
+      return targetCellCoordinates, emptyCellCoordinates;
+    }
+
     isMovable(secondCell) {
       if (this.left === secondCell.left) {
           if (Math.abs(this.top - secondCell.top) === 1) return true;
@@ -136,80 +190,50 @@
       return;
   }
   }
-
+  // Create Field
   class Cells {
     constructor (size) { //9, 16, 25, 36, 49, 64
       this.size = size; 
       this.cells = [];
       this.arr = [];
+      this.sortedArr = [];
     }
 
-  createNumbers() {
-    let newObj = {};
-    if(localStorage.getItem('rightCells') === null) {
+createNumbers() {
+    //let newObj = {};
+    let newObjTwo = {};
+    if(localStorage.getItem("illSaveAllForYou") === null) {
       for(let j = 0; j < this.size; j++) {
-
         const left = j % Math.sqrt(this.size);
         const top = (j - left) / Math.sqrt(this.size); 
-        
-        if(j === this.size - 1) this.cells.push(new eachCell(left, top, this.size, true, '')) 
-        else this.cells.push(new eachCell(left, top, this.size, false, j + 1))
-      }
-      localStorage.setItem('rightCells', JSON.stringify(this.cells)); 
-    } else {
-      newObj = JSON.parse(localStorage.getItem('rightCells'))
-      newObj.forEach(cell => {
-        cell = new eachCell(cell.left, cell.top, cell.size, cell.isEmpty, cell.textContent);
-        this.cells.push(cell);
-      })  
-    }
-    return this.cells;
-  }  
+   
+        const background = `${(left / (Math.sqrt(this.size) - 1)) * 100}% ${(top / (Math.sqrt(this.size) - 1)) * 100}%`;
   
-  createRandomNumbers() {
-    let newObj = [];
-    for(let i = 0; i < this.size; i++) {
-      this.arr.push(i);
-    }
-    this.arr = this.arr.sort(() => {
-      return Math.random()-0.5;
-    })
-
-    if(localStorage.getItem('cells') === null) {
-    for(let j = 0; j < this.size; j++) {
-      const left = j % Math.sqrt(this.size);
-      const top = (j - left) / Math.sqrt(this.size); 
-
-            // const randomIndex = Math.floor(Math.random() * this.arr.length);
-            // const randomNumber = this.arr[randomIndex];
-            // this.arr.splice(randomIndex, 1);
-
-            // let textContent = 0;
-            // if (randomNumber === 0) textContent = '';
-            // else textContent = randomNumber;
-            // const isEmpty = (randomNumber === 0);
-
-      let textContent; 
-      if (this.arr[j] === 0) textContent = '';
-      else textContent = this.arr[j];
-      const isEmpty = (this.arr[j] === 0);      
-      this.cells.push(new eachCell(left, top, this.size, isEmpty, textContent))  
-      }} else {
-      newObj = JSON.parse(localStorage.getItem('cells'))
-      newObj.forEach(cell => {
-        cell = new eachCell(cell.left, cell.top, cell.size, cell.isEmpty, cell.textContent);
-        this.cells.push(cell);
-      })
-    }
-  }
-  appendToField() {
+        if(j === this.size - 1) this.cells.push(new eachCell(left, top, this.size, true, '', background)) 
+        else this.cells.push(new eachCell(left, top, this.size, false, j + 1, background))
+      }
+      //localStorage.setItem('rightCells', JSON.stringify(this.cells)); 
+    } else {
+      // newObj = JSON.parse(localStorage.getItem('rightCells'))
+      // newObj.forEach(cell => {
+      //   cell = new eachCell(cell.left, cell.top, cell.size, cell.isEmpty, cell.textContent);
+      //   this.cells.push(cell);
+      newObjTwo = JSON.parse(localStorage.getItem("illSaveAllForYou"));
+      newObjTwo.forEach(cell => {
+          cell = new eachCell(cell.left, cell.top, cell.size, cell.isEmpty, cell.textContent, cell.background);
+          this.cells.push(cell);
+        })  
+      }
+}    
+  
+appendToField() {
     this.cells.forEach(item => field.appendChild(item.cell));
     this.cells.forEach(item => {
       if(item.textContent !== '') item.cell.draggable = true;
     });
- }
+}
 
- sort() {
+sort() {
   let temp = this.cells.slice();
   temp.sort((a, b) => {
       if (a.top === b.top) return a.left - b.left;
@@ -225,7 +249,7 @@ isSolvable() {
 
   for (let i = 0; i < sortedBlocks.length; i++) {
       if (sortedBlocks[i].textContent === '') {
-          e = sortedBlocks[i].y + 1;
+          e = sortedBlocks[i].top + 1;
           continue;
       }
       let count = 0;
@@ -233,8 +257,7 @@ isSolvable() {
           if (sortedBlocks[j].textContent !== '' && sortedBlocks[i].textContent > sortedBlocks[j].textContent) count++;
       }
       sum += count;
-  }
-
+  }  
   sum += e;
   return !(sum & 1);
 }
@@ -255,11 +278,37 @@ isEmpty() {
     }}
 }
 
- addEventListeners() {
-  // field.addEventListener('click', () => {
-  //     showTime();
-  //   }, {once: true})
-      
+shuffle(n) {
+  for(let i = 0; i < n; i++) {
+    this.cells.forEach(item => {
+      if (!item.isMovable(empty)) return;
+      item.move(empty);   
+      movesEmptyCell.unshift(emptyCellCoordinates);
+      movesTargetCell.unshift(targetCellCoordinates);   
+      console.log(movesTargetCell);
+  }); 
+  } 
+}
+
+solve() {
+  solveButton.setAttribute('disabled', 'true')
+     for(let i = movesTargetCell.length - 1; i >= 0; i--) {
+     let self = this;
+      setTimeout(() => {
+      for (let cell of self.cells) {
+       if(cell.cell.style.top === movesTargetCell[i].top  && cell.cell.style.left === movesTargetCell[i].left) {
+         empty.cell.style.top = movesTargetCell[i].top;
+         empty.cell.style.left = movesTargetCell[i].left;
+         
+         cell.cell.style.top = movesEmptyCell[i].top;
+         cell.cell.style.left = movesEmptyCell[i].left; 
+         break;
+         
+       }}}, 300 * i);
+ } 
+}
+
+addEventListeners() {
   let emptyCell;
   for (let i = 0; i < this.cells.length; i++) {
       if (this.cells[i].cell.textContent === '') {
@@ -269,14 +318,14 @@ isEmpty() {
           this.cells[i].cell.addEventListener('click', () => {
               if (!this.cells[i].isMovable(emptyCell)) return;
               this.cells[i].move(emptyCell);
-              console.log(this.cells[i])
+              movesEmptyCell.unshift(emptyCellCoordinates);
+              movesTargetCell.unshift(targetCellCoordinates);
               counter++;
               moves.innerText = `Moves: ${counter}`;
               playSound();
+              pauseButton.removeAttribute('disabled', 'true');
               if(!timerOn) showTime();
-              localStorage.setItem('cells', JSON.stringify(this.cells)); 
-              //if (!randomPuzzle.isSolvable()) console.log('error');
-              if (this.isEqual()) alert('Win!');
+              if (this.isEqual()) alert(`Win! Your time: ${time.innerHTML}. Your Moves: ${counter}`);
           });
           //DragAndDrop
           this.cells[i].cell.addEventListener('dragstart', (e) => { 
@@ -293,7 +342,19 @@ isEmpty() {
             if (!this.cells[i].isMovable(emptyCell)) return;
             this.cells[i].cell.classList.remove('hideCell');
             e.dataTransfer.dropEffect = 'move';
+            movesEmptyCell.unshift(emptyCellCoordinates);
+        movesTargetCell.unshift(targetCellCoordinates);
           })
+          saveButton.addEventListener('click', () => {
+            localStorage.setItem("illSaveAllForYou", JSON.stringify(this.cells)); 
+
+          })
+          // window.onbeforeunload = () =>  {
+          //   localStorage.setItem("illSaveAllForYou", JSON.stringify(this.cells)); 
+          //   localStorage.setItem('andEvenYourTime', time.innerHTML);
+          //   localStorage.setItem('andEvenYourSeconds', seconds);
+          //   localStorage.setItem('andEvenYourMoves', counter);
+          // }
         }
       }    
       this.isEmpty();
@@ -308,57 +369,86 @@ isEmpty() {
         counter++;
         moves.innerText = `Moves: ${counter}`;
         playSound();
+        pauseButton.removeAttribute('disabled', 'true');
         if(!timerOn) showTime();
       })
-    }
+      solveButton.addEventListener('click', () => {
+        this.solve();
+        stopTimer();
+        //reverse = !reverse;
+      })
+    }    
   }
-
+let numberOfShuffles;
 fieldSizeOptions.addEventListener('change', () => {
   switch(fieldSizeOptions.options[fieldSizeOptions.selectedIndex].value) {
-    case '3': number = 9;  break;
-    case '4': number = 16; break;
-    case '5': number = 25;  break;
-    case '6': number = 36; break;
-    case '7': number = 49; break;
-    case '8': number = 64; break;
+    case '3': number = 9; numberOfShuffles = 20; break;
+    case '4': number = 16; numberOfShuffles = 30; break;
+    case '5': number = 25;  numberOfShuffles = 40; break;
+    case '6': number = 36; numberOfShuffles = 50; break;
+    case '7': number = 49; numberOfShuffles = 100; break;
+    case '8': number = 64; numberOfShuffles = 300; break;
   }  
   return number;
 })
 
+//let n = 20;
 const createGame = (a = 16) => {
   let cells = new Cells(a);
-  cells.createRandomNumbers();
-
-  rightCells = new Cells(a);
-  rightCells.createNumbers();
-  console.log(rightCells)
-  
+  cells.createNumbers();
   cells.appendToField();
   cells.addEventListeners();
+  if(isShuffle) {
+    numberOfShuffles += 5;  
+  }
+  if(numberOfShuffles === undefined) numberOfShuffles = 30;
+  cells.shuffle(numberOfShuffles);
+  pauseButton.setAttribute('disabled', 'true');
 
-  time.innerHTML = `00:00:00`
-  moves.innerText = `Moves: 0`  
+  //if(localStorage.getItem("illSaveAllForYou") === null) cells.shuffle(n);
+ 
+   
+  rightCells = new Cells(a);
+  rightCells.createNumbers();
+ 
+  if(localStorage.getItem('andEvenYourTime') === null) {
+    time.innerHTML = `00:00:00` 
+  } else {
+    time.innerHTML = localStorage.getItem('andEvenYourTime');
+    seconds = localStorage.getItem('andEvenYourSeconds');    
+  }
 
-  if (!cells.isSolvable() || cells.isEqual()) return createRandomNumbers();
-}
+  if(localStorage.getItem('andEvenYourMoves') === null) {
+    moves.innerText = `Moves: ${counter}`;
+   } else {
+    counter = localStorage.getItem('andEvenYourMoves');
+    moves.innerText = `Moves: ${counter}`;
+   }   
+  }
 
 const deleteGame = () => {
   field.innerHTML = '';
+  movesTargetCell = [];
+  movesEmptyCell = [];
 }
-
 
 const startNewGame = () => {
   newGame.addEventListener('click', () => {
     deleteGame();
     if(fieldSizeOptions.options[fieldSizeOptions.selectedIndex].value === '4') {
-      localStorage.removeItem('cells');
-      createGame();   
+      localStorage.removeItem('illSaveAllForYou');
+      createGame();  
     } else {
-      localStorage.removeItem('cells');
+      localStorage.removeItem('illSaveAllForYou');
       createGame(number);
     } 
+    indexOfWallpaper += 1;
+    if(indexOfWallpaper === wallpapersArr.length) indexOfWallpaper = 0;
+    isShuffle = true;
+    solveButton.removeAttribute('disabled', 'true')
     counter = 0;
     seconds = 0;
+    time.innerHTML = `00:00:00`;
     countMoves();
     stopTimer();
   })
@@ -374,17 +464,17 @@ const showTime = () => {
       if (hours.toString().length === 1) hours = '0' + hours;
       time.innerHTML = `${hours}:${min}:${sec}`;
       seconds++;
-      timeout = setTimeout(showTime, 1000);
- }
+      timeout = setTimeout(showTime, 1000);  
+}
 
- const stopTimer = () => {
+const stopTimer = () => {
    timerOn = false;
    clearTimeout(timeout);
- }
+}
 
- const countMoves = () => {
-    moves.innerText = `Moves: ${counter}`;
- }
+const countMoves = () => {
+    moves.innerText = `Moves: ${counter}`;   
+}
 
 const playSound = () => {
   if(soundOn) {
@@ -392,13 +482,35 @@ const playSound = () => {
     sound.play();
   }    
 }
+saveButton.addEventListener('click', () => {
+  localStorage.setItem('andEvenYourTime', time.innerHTML);
+  localStorage.setItem('andEvenYourSeconds', seconds);
+  localStorage.setItem('andEvenYourMoves', counter);
+})
 
 soundButton.addEventListener('click', () => {
   soundOn = !soundOn;
+  soundButton.classList.toggle('soundButtonOff');
+  if(soundButton.classList.contains('soundButtonOff')) {
+    soundButton.innerText = 'Sound off';
+  } else {
+    soundButton.innerText = 'Sound on'; 
+  }
+})
+
+pauseButton.addEventListener('click', () => {
+  timerOn === !timerOn; 
+  if(timerOn) {
+    stopTimer();
+  } else {
+    showTime();
+  }
 })
 
 window.onload = () => {
-  console.log('Hello, Webpack!');  
+  console.log('Привет, проверяющий! Если ты видишь это, желаю тебе хорошего дня:)');  
   createGame();  
   startNewGame(); 
 };
+
+
