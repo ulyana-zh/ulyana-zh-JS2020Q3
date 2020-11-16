@@ -15,6 +15,9 @@
   field.style.width = `${fieldSize}px`;
   field.style.height = `${fieldSize}px`;
 
+  const winMessage = document.createElement('div');
+  winMessage.classList.add('win-message');
+
   const information = document.createElement('div');
   information.classList.add('information')
 
@@ -71,14 +74,14 @@
   solveButton.classList.add('solve')
   solveButton.innerText = 'Solve'
 
-  const results = document.createElement('button');
-  results.innerText = 'Best Results'
+  const resultsButton = document.createElement('button');
+  resultsButton.innerText = 'Best Results'
 
   const menu = document.createElement('button');
   menu.classList.add('menu')
   menu.innerText = 'Menu'
 
-  navigation.append(newGameDiv, saveButton, soundButton, solveButton, results);
+  navigation.append(newGameDiv, saveButton, soundButton, solveButton, resultsButton);
   newGameDiv.append(newGame, fieldSizeOptions);
 
   // Global Variables
@@ -93,6 +96,7 @@
   let empty;
   let targetCell;
   let isShuffle = false;
+  let numberOfShuffles;
   let movesEmptyCell = [];
   let movesTargetCell = [];
   let emptyCellCoordinates = {
@@ -103,6 +107,8 @@
     left: null,
     top: null,
   }
+  let arrayOfBestResults = [];
+  let bestResultsObj = {};  
   
  // Create One Cell
   class eachCell {
@@ -196,12 +202,10 @@
       this.size = size; 
       this.cells = [];
       this.arr = [];
-      this.sortedArr = [];
     }
 
 createNumbers() {
-    //let newObj = {};
-    let newObjTwo = {};
+    let newObj = {};
     if(localStorage.getItem("illSaveAllForYou") === null) {
       for(let j = 0; j < this.size; j++) {
         const left = j % Math.sqrt(this.size);
@@ -212,19 +216,35 @@ createNumbers() {
         if(j === this.size - 1) this.cells.push(new eachCell(left, top, this.size, true, '', background)) 
         else this.cells.push(new eachCell(left, top, this.size, false, j + 1, background))
       }
-      //localStorage.setItem('rightCells', JSON.stringify(this.cells)); 
     } else {
-      // newObj = JSON.parse(localStorage.getItem('rightCells'))
-      // newObj.forEach(cell => {
-      //   cell = new eachCell(cell.left, cell.top, cell.size, cell.isEmpty, cell.textContent);
-      //   this.cells.push(cell);
-      newObjTwo = JSON.parse(localStorage.getItem("illSaveAllForYou"));
-      newObjTwo.forEach(cell => {
+      newObj = JSON.parse(localStorage.getItem("illSaveAllForYou"));
+      newObj.forEach(cell => {
           cell = new eachCell(cell.left, cell.top, cell.size, cell.isEmpty, cell.textContent, cell.background);
           this.cells.push(cell);
         })  
       }
 }    
+
+createRightNumbers() {
+  let newObjTwo = {};
+  if(localStorage.getItem("rightCells") === null) {
+    for(let j = 0; j < this.size; j++) {
+      const left = j % Math.sqrt(this.size);
+      const top = (j - left) / Math.sqrt(this.size); 
+ 
+      const background = `${(left / (Math.sqrt(this.size) - 1)) * 100}% ${(top / (Math.sqrt(this.size) - 1)) * 100}%`;
+
+      if(j === this.size - 1) this.cells.push(new eachCell(left, top, this.size, true, '', background)) 
+      else this.cells.push(new eachCell(left, top, this.size, false, j + 1, background))
+      localStorage.setItem('rightCells', JSON.stringify(this.cells)); 
+    }
+  } else {
+    newObjTwo = JSON.parse(localStorage.getItem('rightCells'))
+    newObjTwo.forEach(cell => {
+      cell = new eachCell(cell.left, cell.top, cell.size, cell.isEmpty, cell.textContent);
+      this.cells.push(cell);
+    })
+}} 
   
 appendToField() {
     this.cells.forEach(item => field.appendChild(item.cell));
@@ -240,26 +260,6 @@ sort() {
       return a.top - b.top;
   });
   return temp;
-}
-
-isSolvable() {
-  let sortedBlocks = this.sort();
-  let sum = 0;
-  let e = 0;
-
-  for (let i = 0; i < sortedBlocks.length; i++) {
-      if (sortedBlocks[i].textContent === '') {
-          e = sortedBlocks[i].top + 1;
-          continue;
-      }
-      let count = 0;
-      for (let j = i; j < sortedBlocks.length; j++) {
-          if (sortedBlocks[j].textContent !== '' && sortedBlocks[i].textContent > sortedBlocks[j].textContent) count++;
-      }
-      sum += count;
-  }  
-  sum += e;
-  return !(sum & 1);
 }
 
 isEqual() {
@@ -285,13 +285,17 @@ shuffle(n) {
       item.move(empty);   
       movesEmptyCell.unshift(emptyCellCoordinates);
       movesTargetCell.unshift(targetCellCoordinates);   
-      console.log(movesTargetCell);
   }); 
   } 
 }
 
 solve() {
   solveButton.setAttribute('disabled', 'true')
+  newGame.setAttribute('disabled', 'true')
+  if(localStorage.getItem('movesEmptyCell') !== null) {
+    movesTargetCell = JSON.parse(localStorage.getItem('movesTargetCell'))
+    movesEmptyCell = JSON.parse(localStorage.getItem('movesEmptyCell'))
+  }
      for(let i = movesTargetCell.length - 1; i >= 0; i--) {
      let self = this;
       setTimeout(() => {
@@ -303,9 +307,29 @@ solve() {
          cell.cell.style.top = movesEmptyCell[i].top;
          cell.cell.style.left = movesEmptyCell[i].left; 
          break;
-         
-       }}}, 300 * i);
- } 
+       }}}, 100 * i);     
+       setTimeout(() => {
+        this.addMessageAfterSolve();
+        newGame.removeAttribute('disabled', 'true')
+        stopTimer();
+       }, 100 * movesTargetCell.length)
+ }
+}
+
+addMessageAfterSolve() {
+  winMessage.classList.add('win-message__show');
+  winMessage.innerText = `OOPS!\nLet's try again!`;
+  field.append(winMessage);
+}
+
+addBestResults() {
+  bestResultsObj = {
+    time: time.innerHTML,
+    seconds: seconds,
+    moves: counter,
+  }  
+  arrayOfBestResults.push(bestResultsObj);
+  localStorage.setItem("yourBestResultsOnly", JSON.stringify(arrayOfBestResults)); 
 }
 
 addEventListeners() {
@@ -321,11 +345,21 @@ addEventListeners() {
               movesEmptyCell.unshift(emptyCellCoordinates);
               movesTargetCell.unshift(targetCellCoordinates);
               counter++;
+              this.addBestResults();
               moves.innerText = `Moves: ${counter}`;
               playSound();
               pauseButton.removeAttribute('disabled', 'true');
-              if(!timerOn) showTime();
-              if (this.isEqual()) alert(`Win! Your time: ${time.innerHTML}. Your Moves: ${counter}`);
+              if(!timerOn) showTime();              
+              if (this.isEqual()) {
+                winMessage.classList.add('win-message__show');
+                winMessage.innerText = `Congrats!\nYour time: ${time.innerHTML}\nYour Moves: ${counter}`;
+                field.append(winMessage);
+                this.cells.forEach(cell => {
+                  cell.cell.classList.add('cell__win-game');
+                })
+                stopTimer();
+                this.addBestResults();
+              } 
           });
           //DragAndDrop
           this.cells[i].cell.addEventListener('dragstart', (e) => { 
@@ -343,18 +377,21 @@ addEventListeners() {
             this.cells[i].cell.classList.remove('hideCell');
             e.dataTransfer.dropEffect = 'move';
             movesEmptyCell.unshift(emptyCellCoordinates);
-        movesTargetCell.unshift(targetCellCoordinates);
+            movesTargetCell.unshift(targetCellCoordinates);
           })
           saveButton.addEventListener('click', () => {
             localStorage.setItem("illSaveAllForYou", JSON.stringify(this.cells)); 
 
           })
-          // window.onbeforeunload = () =>  {
-          //   localStorage.setItem("illSaveAllForYou", JSON.stringify(this.cells)); 
-          //   localStorage.setItem('andEvenYourTime', time.innerHTML);
-          //   localStorage.setItem('andEvenYourSeconds', seconds);
-          //   localStorage.setItem('andEvenYourMoves', counter);
-          // }
+          window.onbeforeunload = () =>  {
+            localStorage.setItem("illSaveAllForYou", JSON.stringify(this.cells)); 
+            localStorage.setItem('andEvenYourTime', time.innerHTML);
+            localStorage.setItem('andEvenYourSeconds', seconds);
+            localStorage.setItem('andEvenYourMoves', counter);
+            localStorage.setItem('movesEmptyCell', JSON.stringify(movesEmptyCell));
+            localStorage.setItem('movesTargetCell', JSON.stringify(movesTargetCell));
+
+          }
         }
       }    
       this.isEmpty();
@@ -375,11 +412,9 @@ addEventListeners() {
       solveButton.addEventListener('click', () => {
         this.solve();
         stopTimer();
-        //reverse = !reverse;
       })
     }    
   }
-let numberOfShuffles;
 fieldSizeOptions.addEventListener('change', () => {
   switch(fieldSizeOptions.options[fieldSizeOptions.selectedIndex].value) {
     case '3': number = 9; numberOfShuffles = 20; break;
@@ -392,7 +427,6 @@ fieldSizeOptions.addEventListener('change', () => {
   return number;
 })
 
-//let n = 20;
 const createGame = (a = 16) => {
   let cells = new Cells(a);
   cells.createNumbers();
@@ -402,14 +436,11 @@ const createGame = (a = 16) => {
     numberOfShuffles += 5;  
   }
   if(numberOfShuffles === undefined) numberOfShuffles = 30;
-  cells.shuffle(numberOfShuffles);
+  if(localStorage.getItem("illSaveAllForYou") === null) cells.shuffle(numberOfShuffles);
   pauseButton.setAttribute('disabled', 'true');
-
-  //if(localStorage.getItem("illSaveAllForYou") === null) cells.shuffle(n);
- 
    
   rightCells = new Cells(a);
-  rightCells.createNumbers();
+  rightCells.createRightNumbers();
  
   if(localStorage.getItem('andEvenYourTime') === null) {
     time.innerHTML = `00:00:00` 
@@ -445,6 +476,8 @@ const startNewGame = () => {
     indexOfWallpaper += 1;
     if(indexOfWallpaper === wallpapersArr.length) indexOfWallpaper = 0;
     isShuffle = true;
+    localStorage.setItem('movesEmptyCell', JSON.stringify(movesEmptyCell));
+    localStorage.setItem('movesTargetCell', JSON.stringify(movesTargetCell));
     solveButton.removeAttribute('disabled', 'true')
     counter = 0;
     seconds = 0;
@@ -504,6 +537,34 @@ pauseButton.addEventListener('click', () => {
     stopTimer();
   } else {
     showTime();
+  }
+});
+
+resultsButton.addEventListener('click', () => {
+  if(localStorage.getItem("yourBestResultsOnly") === null) {
+    winMessage.classList.toggle('win-message__show');
+    winMessage.innerText = `Oops!\n There're no results yet`; 
+    field.append(winMessage);
+  } else {
+    winMessage.classList.toggle('win-message__show-results');
+    let res = JSON.parse(localStorage.getItem("yourBestResultsOnly"));
+    for(let i = 0; i < res.length; i++) {
+    if(res[i]=== undefined) winMessage = '';
+    // winMessage.innerHTML = 
+    // `<ul>
+    // <li>1. Time: ${res[1].time} Moves: ${res[1].moves}</li>
+    // <li>2. Time: ${res[2].time} Moves: ${res[2].moves}</li>
+    // <li>3. Time: ${res[3].time} Moves: ${res[3].moves}</li>
+    // <li>4. Time: ${res[4].time} Moves: ${res[4].moves}</li>
+    // <li>5. Time: ${res[5].time} Moves: ${res[5].moves}</li>
+    // <li>6. Time: ${res[6].time} Moves: ${res[6].moves}</li>
+    // <li>7. Time: ${res[3].time} Moves: ${res[3].moves}</li>
+    // <li>8. Time: ${res[3].time} Moves: ${res[3].moves}</li>
+    // <li>9. Time: ${res[3].time} Moves: ${res[3].moves}</li>
+    // <li>10. Time: ${res[3].time} Moves: ${res[3].moves}</li>
+    // </ul>`
+    }
+    field.append(winMessage);
   }
 })
 
