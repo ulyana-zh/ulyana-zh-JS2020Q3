@@ -3,67 +3,168 @@
     margin: 0;
     padding: 0;
     user-select: none;
+    font-family: 'Bebas Neue', cursive; 
 }
 
 body {
     width: 100%;
-    height: 100%;
+    height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
+    background: #4B79A1; 
 }
 
 .game {
-    max-width: 90%;
+    max-width: 100%;
     margin: 0 auto;
-    padding: 50px 10px;
+    padding: 50px 5px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    /* background: linear-gradient(to right, #360033, #0b8793);
+    box-shadow: 7px 7px 19px 0px rgba(0,0,0,0.5); */
 }
 
 .information {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
+    width: 100%;
+    color: rgb(220, 220, 220);
+    position: relative;
 }
 
-time {
-    margin-right: 20px;
+.title {
+    color: white;
+    font-size: 1.5rem;    
 }
 
 .field {
     overflow: hidden;
     background-color: white;
-    border: 2px solid black;
     border-radius: 5px;
     margin: 20px 0;
+    margin-bottom: 40px;
     position: relative;
-    background-color: grey;
+    background-color: white;
+    box-shadow: 7px 7px 19px 0px rgba(0,0,0,0.5);
+
 }
+
+/* .field__overlay {
+    overflow: hidden;
+    background-color: white;
+    border-radius: 5px;
+    margin: 20px 0;
+    margin-bottom: 40px;
+    position: relative;
+    background-color: white;
+    box-shadow: 7px 7px 19px 0px rgba(0,0,0,0.5);
+} */
 
 .navigation {
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: space-around;
 }
 
 button {
-    width: 100px;
+    width: 200px;
+    height: 30px;
     cursor: pointer;
+    margin: 5px;
+    border-radius: 5px;
+    border: none;
+    box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.5);
+    background: white;
 }
+
+button:active,
+button:hover,
+button:focus,
+select:focus,
+select:hover,
+select:focus {
+    outline: none;
+    border: none;
+}
+
+button:hover {
+    background: linear-gradient(to right, #360033, #0b8793);
+    color: white;
+}
+
+.new-game-div {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.new-game {
+    width: 145px;
+}
+
+.soundButtonOff {
+    background: #989898;
+}
+.pause {
+    width: 15px;
+    background: none;
+    border: none;
+    position: absolute;
+    left: 45px;
+    top: -2px;
+    box-shadow: none;
+}
+
+.pause:hover {
+  transform: scale(1.1);
+  box-shadow: none;
+  background: none;
+}
+
+select {
+    cursor: pointer;
+    width: 50px;
+    height: 29px;
+    text-align: center;
+    border-radius: 5px;
+    margin-right: 5px;
+    box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.5);
+}
+
 
 .cell {
     position: absolute;
-    background-color: rgba(255,255,255,0.8);
-    border: 8px solid grey;
+    background-color: white;
+    border: 2px solid white;
     display: flex;
     justify-content: center;
     align-items: center;
     border-radius: 5px;
     transition: all 0.3s;
     cursor: pointer;
-
+    color: white;
 }
 
+.cellWinGame {
+    opacity: 0.5;    
+}
+
+.emptyCell {
+    position: absolute;
+    background-color: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    transition: all 0.3s; 
+}
+
+.hideCell {
+    display: none;
+    cursor: move;
+}
