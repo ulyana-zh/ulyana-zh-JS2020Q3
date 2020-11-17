@@ -23,6 +23,26 @@ function shuffle(array) {
     return array;
 }
 
+function preloadImages(array) {
+  if (!preloadImages.list) {
+      preloadImages.list = [];
+  }
+  const list = preloadImages.list;
+  for (let i = 0; i < array.length; i++) {
+      const img = new Image();
+      img.onload = () => {
+          let index = list.indexOf(this);
+          if (index !== -1) {
+              list.splice(index, 1);
+          }
+      }
+      list.push(img);
+      img.src = array[i];
+  }
+}
+
+preloadImages(wallpapersArr);
+
 
 
 

@@ -17,14 +17,23 @@ body {
 
 .game {
     max-width: 100%;
+    max-height: 100vh;
     margin: 0 auto;
-    padding: 50px 5px;
+    padding: 50px 80px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    /* background: linear-gradient(to right, #360033, #0b8793);
-    box-shadow: 7px 7px 19px 0px rgba(0,0,0,0.5); */
+    background: linear-gradient(to right, #360033, #0b8793);
+    box-shadow: 7px 7px 19px 0px rgba(0,0,0,0.5); 
+}
+
+@media screen and (max-width: 700px) {
+  .game {
+      background: none;
+      box-shadow: none;
+      padding: 50px 0px;
+  }  
 }
 
 .information {
@@ -42,6 +51,9 @@ body {
 }
 
 .field {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     overflow: hidden;
     background-color: white;
     border-radius: 5px;
@@ -50,19 +62,29 @@ body {
     position: relative;
     background-color: white;
     box-shadow: 7px 7px 19px 0px rgba(0,0,0,0.5);
-
 }
 
-/* .field__overlay {
-    overflow: hidden;
-    background-color: white;
-    border-radius: 5px;
-    margin: 20px 0;
-    margin-bottom: 40px;
-    position: relative;
-    background-color: white;
-    box-shadow: 7px 7px 19px 0px rgba(0,0,0,0.5);
-} */
+.win-message {
+    text-align: center;
+    color: rgb(23, 0, 62);
+    z-index: 1;
+    font-size: 2rem;
+    background: linear-gradient(to right, #360033, #0b8893);
+    color: white;
+    display: none;
+    padding: 10px 20px;
+    box-shadow: 3px 3px 8px 0px rgba(0,0,0,0.5);
+    transition: all 0.3s; 
+}
+
+.win-message__show {
+    display: block;
+}
+
+.win-message__show-results {
+    display: block;
+    font-size: 1rem;
+}
 
 .navigation {
     display: flex;
@@ -136,7 +158,6 @@ select {
     box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.5);
 }
 
-
 .cell {
     position: absolute;
     background-color: white;
@@ -150,8 +171,8 @@ select {
     color: white;
 }
 
-.cellWinGame {
-    opacity: 0.5;    
+.cell__win-game {
+    opacity: 0.9    ;    
 }
 
 .emptyCell {
@@ -168,4 +189,6 @@ select {
     display: none;
     cursor: move;
 }
+
+
 
