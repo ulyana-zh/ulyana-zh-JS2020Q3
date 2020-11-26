@@ -1,0 +1,4 @@
+.wrapper__main {
+    @include flex();
+    flex-wrap: wrap;
+}

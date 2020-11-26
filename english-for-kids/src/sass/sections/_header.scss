@@ -1,0 +1,8 @@
+.header {
+    height: 50px;
+    background-color: rgb(34, 169, 176);
+}
+
+.wrapper__header {
+    @include flex();
+}

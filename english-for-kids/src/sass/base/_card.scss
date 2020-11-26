@@ -1,0 +1,15 @@
+.card {
+    width: 200px;
+    height: 200px;
+    border: 2px solid blue;
+
+
+    &__img {
+        height: 90%;
+        width: 100%;
+        border: 2px solid blue;
+    }
+    &__description {
+        @include flex();
+    }
+}

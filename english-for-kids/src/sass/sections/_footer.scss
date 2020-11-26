@@ -1,0 +1,17 @@
+.footer {
+    background-color: rgb(109, 148, 196);
+    color: white;
+}
+
+.wrapper__footer {
+    @include flex();
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.logo {
+img {
+    width: 100px;
+    height: 30px;
+}
+}
