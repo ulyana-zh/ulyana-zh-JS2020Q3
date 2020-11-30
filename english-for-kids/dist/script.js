@@ -35,24 +35,78 @@ var Card = /*#__PURE__*/function () {
     this.translation = translation;
     this.image = image;
     this.audio = audio;
-    this.nameOfCategory = '';
   } // Card generator
 
 
   _createClass(Card, [{
     key: "generateCard",
     value: function generateCard() {
-      var template = '';
       var card = document.createElement('div');
       card.classList.add('card');
+      this.cardWrapper = document.createElement('div');
+      this.cardWrapper.classList.add('card__wrapper');
+      card.append(this.cardWrapper);
       card.setAttribute('data-name', this.word);
-      if (this.image) template += "<img class=\"card__img\" src=".concat(this.image, ">");
-      template += "<div class=\"card__description\">";
-      if (this.word) template += "<div class=\"card__word\">".concat(this.word, "</div>");
-      template += " <button class=\"card__button\">btn</button>";
-      template += "</div>";
-      card.innerHTML = template;
+      this.cardFrontSide = document.createElement('div');
+      this.cardFrontSide.classList.add('card__side_front');
+      this.cardBackSide = document.createElement('div');
+      this.cardBackSide.classList.add('card__side_back');
+      this.cardWrapper.append(this.cardFrontSide, this.cardBackSide);
+      this.cardImage = document.createElement('img');
+      this.cardImage.classList.add('card__img');
+      this.cardImage.setAttribute('src', this.image);
+      this.cardDescription = document.createElement('div');
+      this.cardDescription.classList.add('card__description');
+      this.cardFrontSide.append(this.cardImage, this.cardDescription);
+      var cardWord = document.createElement('div');
+      cardWord.classList.add('card__word');
+      this.cardButton = document.createElement('button');
+      this.cardButton.classList.add('card__button');
+      this.cardButton.style.backgroundImage = "url('./src/assets/img/refresh.svg')";
+      this.cardDescription.append(cardWord, this.cardButton);
+      cardWord.innerHTML = this.word;
+      var cardImageBack = document.createElement('img');
+      cardImageBack.classList.add('card__img');
+      cardImageBack.setAttribute('src', this.image);
+      var cardDescriptionBack = document.createElement('div');
+      cardDescriptionBack.classList.add('card__description');
+      var cardTranslation = document.createElement('div');
+      cardTranslation.classList.add('card__word');
+      cardTranslation.innerHTML = this.translation;
+      cardDescriptionBack.append(cardTranslation);
+      this.cardBackSide.append(cardImageBack, cardDescriptionBack);
+      this.addEventListenersToCard(); //this.changeCardToPlayMode();
+
       return card;
+    } // Add flip to card
+
+  }, {
+    key: "addEventListenersToCard",
+    value: function addEventListenersToCard() {
+      var _this = this;
+
+      this.cardButton.addEventListener('click', function () {
+        _this.cardWrapper.classList.toggle('flip-card');
+      });
+      this.cardBackSide.addEventListener('mouseleave', function () {
+        _this.cardWrapper.classList.toggle('flip-card');
+      });
+      this.cardFrontSide.addEventListener('click', function () {
+        _this.playAudio();
+      });
+    }
+  }, {
+    key: "playAudio",
+    value: function playAudio() {
+      var audio = new Audio();
+      if (this.audio) audio.src = this.audio;
+      audio.load();
+      audio.play();
+    }
+  }, {
+    key: "changeCardToPlayMode",
+    value: function changeCardToPlayMode() {
+      this.cardImage.classList.toggle('card__img_play');
     }
   }]);
 
@@ -77,46 +131,46 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
 /* harmony export */ });
-var data = [['Action (set A)', 'Action (set B)', 'Animal (set A)', 'Animal (set B)', 'Clothes', 'Emotions'], [{
-  word: 'cry',
-  translation: 'плакать',
-  image: './src/assets/img/cry.jpg',
-  audio: './src/assets/audio/cry.mp3'
+var data = [['Animal', 'Action (set B)', 'Animal (set A)', 'Animal (set B)', 'Clothes', 'Emotions'], [{
+  word: 'panda',
+  translation: 'панда',
+  image: './src/assets/img/panda.jpg',
+  audio: './src/assets/audio/panda.mp3'
 }, {
-  word: 'dance',
-  translation: 'танцевать',
-  image: './src/assets/img/dance.jpg',
-  audio: './src/assets/audio/dance.mp3'
+  word: 'giraffe',
+  translation: 'жираф',
+  image: './src/assets/img/giraffe.jpg',
+  audio: './src/assets/audio/giraffe.mp3'
 }, {
-  word: 'dive',
-  translation: 'нырять',
-  image: './src/assets/img/dive.jpg',
-  audio: './src/assets/audio/dive.mp3'
+  word: 'koala',
+  translation: 'коала',
+  image: './src/assets/img/koala.jpg',
+  audio: './src/assets/audio/koala.mp3'
 }, {
-  word: 'draw',
-  translation: 'рисовать',
-  image: './src/assets/img/draw.jpg',
-  audio: './src/assets/audio/draw.mp3'
+  word: 'sloth',
+  translation: 'ленивец',
+  image: './src/assets/img/sloth.jpg',
+  audio: './src/assets/audio/sloth.mp3'
 }, {
-  word: 'fish',
-  translation: 'ловить рыбу',
-  image: './src/assets/img/fish.jpg',
-  audio: './src/assets/audio/fish.mp3'
+  word: 'elephant',
+  translation: 'слон',
+  image: './src/assets/img/elephant.jpg',
+  audio: './src/assets/audio/elephant.mp3'
 }, {
-  word: 'fly',
-  translation: 'летать',
-  image: './src/assets/img/fly.jpg',
-  audio: './src/assets/audio/fly.mp3'
+  word: 'monkey',
+  translation: 'обезьяна',
+  image: './src/assets/img/monkey.jpg',
+  audio: './src/assets/audio/monkey.mp3'
 }, {
-  word: 'hug',
-  translation: 'обнимать',
-  image: './src/assets/img/hug.jpg',
-  audio: './src/assets/audio/hug.mp3'
+  word: 'tiger',
+  translation: 'тигр',
+  image: './src/assets/img/tiger.jpg',
+  audio: './src/assets/audio/tiger.mp3'
 }, {
-  word: 'jump',
-  translation: 'прыгать',
-  image: './src/assets/img/jump.jpg',
-  audio: './src/assets/audio/jump.mp3'
+  word: 'lion',
+  translation: 'лев',
+  image: './src/assets/img/lion.jpg',
+  audio: './src/assets/audio/lion.mp3'
 }], [{
   word: 'open',
   translation: 'открывать',
@@ -371,6 +425,45 @@ var addEventListenersToNavigation = function addEventListenersToNavigation() {
 
 /***/ }),
 
+/***/ "./src/js/Switcher.js":
+/*!****************************!*\
+  !*** ./src/js/Switcher.js ***!
+  \****************************/
+/*! namespace exports */
+/*! export playMode [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export switchedButton [provided] [no usage info] [missing usage info prevents renaming] */
+/*! other exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_require__.r, __webpack_exports__, __webpack_require__.d, __webpack_require__.* */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "switchedButton": () => /* binding */ switchedButton,
+/* harmony export */   "playMode": () => /* binding */ playMode
+/* harmony export */ });
+var switchButton = document.querySelector('.switch-btn');
+var playMode = false;
+
+var switchedButton = function switchedButton() {
+  switchButton.addEventListener('click', function () {
+    switchButton.classList.toggle('switch-on');
+    whatIsTextButton();
+    playMode = !playMode;
+  });
+};
+
+var whatIsTextButton = function whatIsTextButton() {
+  if (switchButton.classList.contains('switch-on')) {
+    switchButton.innerText = 'Train'.toUpperCase();
+  } else {
+    switchButton.innerText = 'Play'.toUpperCase();
+  }
+};
+
+
+
+/***/ }),
+
 /***/ "./src/js/index.js":
 /*!*************************!*\
   !*** ./src/js/index.js ***!
@@ -384,6 +477,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Navigation__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Navigation */ "./src/js/Navigation.js");
 /* harmony import */ var _Cards_data__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Cards_data */ "./src/js/Cards_data.js");
 /* harmony import */ var _Card__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Card */ "./src/js/Card.js");
+/* harmony import */ var _Switcher__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Switcher */ "./src/js/Switcher.js");
+
 
 
 
@@ -406,6 +501,7 @@ var addCardsToDom = function addCardsToDom() {
 window.onload = function () {
   (0,_Navigation__WEBPACK_IMPORTED_MODULE_0__.default)();
   addCardsToDom();
+  (0,_Switcher__WEBPACK_IMPORTED_MODULE_3__.switchedButton)();
 };
 
 /***/ }),

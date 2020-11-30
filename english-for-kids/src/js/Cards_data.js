@@ -1,53 +1,53 @@
 const data = [ 
-    ['Action (set A)', 'Action (set B)', 'Animal (set A)', 'Animal (set B)', 'Clothes', 'Emotions'],
+    ['Animal', 'Action (set B)', 'Animal (set A)', 'Animal (set B)', 'Clothes', 'Emotions'],
     [
       {
-        word: 'cry',
-        translation: 'плакать',
-        image: './src/assets/img/cry.jpg',
-        audio: './src/assets/audio/cry.mp3'
+        word: 'panda',
+        translation: 'панда',
+        image: './src/assets/img/panda.jpg',
+        audio: './src/assets/audio/panda.mp3'
       },
       {
-        word: 'dance',
-        translation: 'танцевать',
-        image: './src/assets/img/dance.jpg',
-        audio: './src/assets/audio/dance.mp3'
+        word: 'giraffe',
+        translation: 'жираф',
+        image: './src/assets/img/giraffe.jpg',
+        audio: './src/assets/audio/giraffe.mp3'
       },
       {
-        word: 'dive',
-        translation: 'нырять',
-        image: './src/assets/img/dive.jpg',
-        audio: './src/assets/audio/dive.mp3'
+        word: 'koala',
+        translation: 'коала',
+        image: './src/assets/img/koala.jpg',
+        audio: './src/assets/audio/koala.mp3'
       },
       {
-        word: 'draw',
-        translation: 'рисовать',
-        image: './src/assets/img/draw.jpg',
-        audio: './src/assets/audio/draw.mp3'
+        word: 'sloth',
+        translation: 'ленивец',
+        image: './src/assets/img/sloth.jpg',
+        audio: './src/assets/audio/sloth.mp3'
       },
       {
-        word: 'fish',
-        translation: 'ловить рыбу',
-        image: './src/assets/img/fish.jpg',
-        audio: './src/assets/audio/fish.mp3'
+        word: 'elephant',
+        translation: 'слон',
+        image: './src/assets/img/elephant.jpg',
+        audio: './src/assets/audio/elephant.mp3'
       },
       {
-        word: 'fly',
-        translation: 'летать',
-        image: './src/assets/img/fly.jpg',
-        audio: './src/assets/audio/fly.mp3'
+        word: 'monkey',
+        translation: 'обезьяна',
+        image: './src/assets/img/monkey.jpg',
+        audio: './src/assets/audio/monkey.mp3'
       },
       {
-        word: 'hug',
-        translation: 'обнимать',
-        image: './src/assets/img/hug.jpg',
-        audio: './src/assets/audio/hug.mp3'
+        word: 'tiger',
+        translation: 'тигр',
+        image: './src/assets/img/tiger.jpg',
+        audio: './src/assets/audio/tiger.mp3'
       },
       {
-        word: 'jump',
-        translation: 'прыгать',
-        image: './src/assets/img/jump.jpg',
-        audio: './src/assets/audio/jump.mp3'
+        word: 'lion',
+        translation: 'лев',
+        image: './src/assets/img/lion.jpg',
+        audio: './src/assets/audio/lion.mp3'
       }
     ],
     [

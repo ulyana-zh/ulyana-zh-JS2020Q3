@@ -1,4 +1,12 @@
+main {
+    background-color: #e4e4ff;
+    min-height: calc(100vh - 100px);
+}
+
 .wrapper__main {
     @include flex();
     flex-wrap: wrap;
+    min-height: 600px;
+    padding: 20px 50px;
 }
+

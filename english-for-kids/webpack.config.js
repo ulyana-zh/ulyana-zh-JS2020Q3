@@ -31,10 +31,6 @@ module.exports = (env, options) => {
                   }
                 }
               },
-              // {
-              //   test: /\.css$/i,
-              //   use: [MiniCssExtractPlugin.loader, 'css-loader'],
-              // },
               {
                 test: /\.s[ac]ss$/i,
                 use: [
@@ -43,16 +39,8 @@ module.exports = (env, options) => {
                   "sass-loader",
                 ],
               },
-              // {
-              //   test: /.(png|svg|jpe?g|gif)$/,
-              //   use: [
-              //     {
-              //       loader: 'file-loader',
-              //     },
-              //   ]
-              // },  
               {
-                test: /\.(jpg|svg|png)$/,
+                test: /\.(jpg|png)$/,
                 use: {
                   loader: require.resolve("file-loader") + "?name=../[path][name].[ext]",
                 },
@@ -61,6 +49,10 @@ module.exports = (env, options) => {
                 test: /\.html$/i,
                 loader: 'html-loader',
               },  
+              {
+                test: /\.(woff(2)?|eot|ttf|otf|svg|)$/,
+                type: 'asset/inline',
+              } 
         ]
     },
 

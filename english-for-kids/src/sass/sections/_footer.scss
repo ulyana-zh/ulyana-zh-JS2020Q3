@@ -1,17 +1,27 @@
 .footer {
-    background-color: rgb(109, 148, 196);
+    background-color: rgb(110, 66, 164);
     color: white;
+    height: 50px;
+    font-size: 1rem;
 }
 
 .wrapper__footer {
     @include flex();
+    justify-content: flex-start;
     padding-top: 10px;
     padding-bottom: 10px;
 }
 
 .logo {
 img {
-    width: 100px;
-    height: 30px;
+    width: 80px;
+    height: 25px;
+}
+&__github {
+    margin: 0 10px;
+    img {
+        width: 25px;
+        height: 25px;
+    }
 }
 }

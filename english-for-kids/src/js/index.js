@@ -1,6 +1,7 @@
 import addEventListenersToNavigation from './Navigation';
 import data from './Cards_data';
 import Card from './Card';
+import { switchedButton } from './Switcher';
 
 const generateCards = (cardsData) => {
   const cards = [];
@@ -20,4 +21,7 @@ const addCardsToDom = () => {
 window.onload = () => {
   addEventListenersToNavigation();
   addCardsToDom();
+  switchedButton();
 };
+
+
