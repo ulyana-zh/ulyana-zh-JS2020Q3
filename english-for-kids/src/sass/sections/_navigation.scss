@@ -9,17 +9,32 @@
     top: 0;
     margin-top: 0;
     height: 100vh;
+    text-align: left;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
     width: 320px;
     transform: translateX(-100%);
     -webkit-transform: translateX(-100%);
     -moz-transform: translateX(-100%);
-    background-color: rgb(203, 255, 200);
+    background-color: rgb(117, 59, 144);
     transition: all .5s ease-in;
-    padding: 248px 0;
+    padding: 100px 20px 100px 70px;
     opacity: 1;
-    z-index: 1;
+    z-index: 2;
+
+    li {
+        margin: 5px 0;
+        &:hover {
+            transform: scale(1.05);
+            transition: all 0.3s;
+        }
+    }
+
+    li a {
+        color: white;
+        text-decoration: none;
+        font-size: 2.5rem;
+    }
 }
 
 .active {
@@ -32,19 +47,4 @@
     transform: translateX(0%);
     -webkit-transform: translateX(0%);
     -moz-transform: translateX(0%);
-}
-
-@keyframes navLinksFade {
-    from {
-        opacity: 0;
-        transform: translateY(-10px);
-        -webkit-transform: translateY(-10px);
-        -moz-transform: translateY(-10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0px);
-        -webkit-transform: translateY(0px);
-        -moz-transform: translateY(0px);
-    }
 }

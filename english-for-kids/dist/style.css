@@ -466,6 +466,7 @@ template {
   height: 23px;
   margin-right: 53px;
   transition: all 0.8s;
+  z-index: 3;
 }
 .hamburger::before {
   background-color: white;
@@ -494,7 +495,7 @@ template {
   position: absolute;
   top: 10px;
   left: 100px;
-  z-index: 2;
+  z-index: 3;
 }
 
 .overlay {
@@ -511,6 +512,7 @@ template {
 .overlay-active {
   visibility: visible;
   opacity: 0;
+  z-index: 1;
 }
 
 .fixed-position {
@@ -567,6 +569,7 @@ body {
   object-fit: cover;
   border-top-left-radius: 19px;
   border-top-right-radius: 19px;
+  transition: all 0.5s;
 }
 .card__img_play {
   height: 100%;
@@ -599,6 +602,9 @@ body {
   transition: 0.7s ease-out;
   cursor: pointer;
   transform: scale(1.01);
+}
+.card__button_play {
+  display: none;
 }
 
 .card__wrapper {
@@ -685,6 +691,32 @@ body {
   left: 60px;
 }
 
+.play-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 95px;
+  height: 38px;
+  border-radius: 19px;
+  background: #13b6bf;
+  z-index: 0;
+  padding: 0 8px;
+  cursor: pointer;
+  position: relative;
+  transition-duration: 0.5s;
+  text-transform: uppercase;
+  color: white;
+  box-shadow: inset 0px -1px 1px rgba(255, 255, 255, 0.28), inset 0px 1px 2px rgba(0, 0, 0, 0.25);
+}
+
+.play -on {
+  background: #4978c7;
+  justify-content: flex-start;
+}
+.play -on::after {
+  left: 60px;
+}
+
 .wrapper__header {
   display: flex;
   align-items: center;
@@ -736,17 +768,30 @@ body {
   top: 0;
   margin-top: 0;
   height: 100vh;
+  text-align: left;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   width: 320px;
   transform: translateX(-100%);
   -webkit-transform: translateX(-100%);
   -moz-transform: translateX(-100%);
-  background-color: #cbffc8;
+  background-color: #753b90;
   transition: all 0.5s ease-in;
-  padding: 248px 0;
+  padding: 100px 20px 100px 70px;
   opacity: 1;
-  z-index: 1;
+  z-index: 2;
+}
+.navigation li {
+  margin: 5px 0;
+}
+.navigation li:hover {
+  transform: scale(1.05);
+  transition: all 0.3s;
+}
+.navigation li a {
+  color: white;
+  text-decoration: none;
+  font-size: 2.5rem;
 }
 
 .active {
@@ -761,20 +806,6 @@ body {
   -moz-transform: translateX(0%);
 }
 
-@keyframes navLinksFade {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-    -webkit-transform: translateY(-10px);
-    -moz-transform: translateY(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0px);
-    -webkit-transform: translateY(0px);
-    -moz-transform: translateY(0px);
-  }
-}
 .wrapper__main {
   display: flex;
   align-items: center;

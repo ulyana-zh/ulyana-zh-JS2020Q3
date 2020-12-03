@@ -13,6 +13,7 @@
         object-fit: cover;
         border-top-left-radius: 19px;
         border-top-right-radius: 19px;
+        transition: all 0.5s;
 
         &_play {
             height: 100%;
@@ -49,6 +50,9 @@
             transition: 0.7s ease-out;
             cursor: pointer;
             transform: scale(1.01);
+        }
+        &_play {
+            display: none;
         }
     }
 }

@@ -1,7 +1,8 @@
 export default class Card {
   constructor({
-    word, translation, image, audio,
+    word, translation, image, audio, category,
   }) {
+    this.category = category;
     this.word = word;
     this.translation = translation;
     this.image = image;
@@ -10,14 +11,15 @@ export default class Card {
 
   // Card generator
   generateCard() {
-    const card = document.createElement('div');
-    card.classList.add('card');
+    this.card = document.createElement('div');
+    this.card.classList.add('card');
 
     this.cardWrapper = document.createElement('div');
     this.cardWrapper.classList.add('card__wrapper');
-    card.append(this.cardWrapper);
+    this.card.append(this.cardWrapper);
 
-    card.setAttribute('data-name', this.word);
+    if (this.category) this.card.setAttribute('data-category', this.category);
+    this.card.setAttribute('data-name', this.word.replace(/\s+/g, '-').toLowerCase());
 
     this.cardFrontSide = document.createElement('div');
     this.cardFrontSide.classList.add('card__side_front');
@@ -38,9 +40,14 @@ export default class Card {
 
     const cardWord = document.createElement('div');
     cardWord.classList.add('card__word');
+
     this.cardButton = document.createElement('button');
-    this.cardButton.classList.add('card__button');
-    this.cardButton.style.backgroundImage = `url('./src/assets/icons/refresh.svg')`;
+    if (this.category === 'main') {
+      this.cardButton.classList.add('card__button_play');
+    } else {
+      this.cardButton.classList.add('card__button');
+    }
+    this.cardButton.style.backgroundImage = 'url(\'./src/assets/icons/refresh.svg\')';
 
     this.cardDescription.append(cardWord, this.cardButton);
 
@@ -55,15 +62,15 @@ export default class Card {
 
     const cardTranslation = document.createElement('div');
     cardTranslation.classList.add('card__word');
-    cardTranslation.innerHTML = this.translation;
+    if (this.translation) cardTranslation.innerHTML = this.translation;
 
     cardDescriptionBack.append(cardTranslation);
 
     this.cardBackSide.append(cardImageBack, cardDescriptionBack);
 
     this.addEventListenersToCard();
-    //this.changeCardToPlayMode();
-    return card;
+    this.changeCardToPlayMode();
+    return this.card;
   }
 
   addEventListenersToCard() {
@@ -79,18 +86,24 @@ export default class Card {
       }
     });
     this.cardFrontSide.addEventListener('click', () => {
-        this.playAudio();   
+      if (!this.playMode) this.playAudio();
     });
   }
 
   playAudio() {
-    let audio = new Audio();
+    const audio = new Audio();
     if (this.audio) audio.src = this.audio;
     audio.load();
     audio.play();
-}
+  }
 
   changeCardToPlayMode() {
-    this.cardImage.classList.toggle('card__img_play')
+    document.querySelector('.switch-btn').addEventListener('click', () => {
+      this.playMode = !this.playMode;
+      if (this.category !== 'main') {
+        this.cardImage.classList.toggle('card__img_play');
+        this.cardDescription.classList.toggle('card__description_play');
+      }
+    });
   }
 }

@@ -1,11 +1,9 @@
 const switchButton = document.querySelector('.switch-btn');
-let playMode = false;
 
 const switchedButton = () => {
     switchButton.addEventListener('click', () => {
         switchButton.classList.toggle('switch-on');
         whatIsTextButton();
-        playMode = !playMode;
     })
 }
 
@@ -17,4 +15,4 @@ const whatIsTextButton = () => {
     }
 }
 
-export { switchedButton, playMode }
+export { switchedButton }

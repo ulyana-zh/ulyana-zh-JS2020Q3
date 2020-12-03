@@ -8,8 +8,8 @@ const body = document.querySelector('body');
 const generateNavigation = () => {
   data[0].forEach(element => {
     const category = document.createElement('li');
-    const className = element.replace(/\s+/g, '-').toLowerCase();
-    category.innerHTML = `<a href=# class='${className} category'>${element}</a>`
+    const dataName = element.replace(/\s+/g, '-').toLowerCase();
+    category.innerHTML = `<a href=# data-name=${dataName} class='category'>${element}</a>`
     nav.append(category);
   });
 }
