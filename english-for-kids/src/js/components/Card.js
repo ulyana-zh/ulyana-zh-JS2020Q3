@@ -1,3 +1,5 @@
+import { playMode } from '../Game_mode';
+
 export default class Card {
   constructor({
     word, translation, image, audio, category,
@@ -9,7 +11,6 @@ export default class Card {
     this.audio = audio;
   }
 
-  // Card generator
   generateCard() {
     this.card = document.createElement('div');
     this.card.classList.add('card');
@@ -68,8 +69,15 @@ export default class Card {
 
     this.cardBackSide.append(cardImageBack, cardDescriptionBack);
 
+    // Game mode 
+    if(playMode.isPlaying) {
+      if (this.category !== 'main') {
+        this.cardImage.classList.add('card__img_play');
+        this.cardDescription.classList.add('card__description_play');
+      }  
+    }
+
     this.addEventListenersToCard();
-    this.changeCardToPlayMode();
     return this.card;
   }
 
@@ -85,8 +93,8 @@ export default class Card {
         this.cardWrapper.classList.remove('flip-card');
       }
     });
-    this.cardFrontSide.addEventListener('click', () => {
-      if (!this.playMode) this.playAudio();
+    this.cardFrontSide.addEventListener('click', (e) => {
+      if(!e.target.classList.contains('card__button') && !playMode.isPlaying) this.playAudio();
     });
   }
 
@@ -95,15 +103,5 @@ export default class Card {
     if (this.audio) audio.src = this.audio;
     audio.load();
     audio.play();
-  }
-
-  changeCardToPlayMode() {
-    document.querySelector('.switch-btn').addEventListener('click', () => {
-      this.playMode = !this.playMode;
-      if (this.category !== 'main') {
-        this.cardImage.classList.toggle('card__img_play');
-        this.cardDescription.classList.toggle('card__description_play');
-      }
-    });
   }
 }

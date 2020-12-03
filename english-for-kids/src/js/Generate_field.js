@@ -1,5 +1,11 @@
 import data from './data/Cards_data';
 import Card from './components/Card';
+import { playMode } from './Game_mode';
+
+const cardsData = {
+  array: [],
+  currentCard: null,
+};
 
 const generateCards = (cardsData) => {
   const cards = [];
@@ -27,15 +33,12 @@ const addCardsToDom = (category) => {
   return cardsData;
 };
 
-const cardsData = {
-  array: [],
-};
-
 const chooseCategory = () => {
   const nav = document.querySelector('.navigation');
   const main = document.querySelector('.wrapper__main');
 
   nav.addEventListener('click', (e) => {
+    playMode.startGame = false;
     const targetCategory = e.target.getAttribute('data-name');
     if (targetCategory) {
       refreshField();
@@ -44,13 +47,14 @@ const chooseCategory = () => {
   });
 
   main.addEventListener('click', (e) => {
+    playMode.startGame = false;
     if (!e.target.classList.contains('wrapper')) {
       const clickedCard = e.target.closest('.card');
+      cardsData.currentCard = clickedCard.getAttribute('data-name');
       if (clickedCard.getAttribute('data-category') === 'main') {
-        const targetCategory = clickedCard.getAttribute('data-name');
-        if (targetCategory) {
+        if (cardsData.currentCard) {
           refreshField();
-          cardsData.array = addCardsToDom(targetCategory);
+          cardsData.array = addCardsToDom(cardsData.currentCard);
         }
       }
     } return cardsData.array;
