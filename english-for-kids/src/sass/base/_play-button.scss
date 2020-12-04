@@ -1,7 +1,7 @@
 .play-btn {
     align-items: center;
     justify-content: center;
-    width: 95px; 
+    width: 150px; 
     height: 38px; 
     border-radius: 19px;
     background: #13b6bf; 
@@ -16,6 +16,14 @@
     display: none;
 }
 
-.play-on {
+.flex {
     display: flex;
+}
+
+.none {
+    display: none;
+}
+
+.repeat {
+    background: #4978c7;
 }

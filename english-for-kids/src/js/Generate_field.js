@@ -41,18 +41,21 @@ const chooseCategory = () => {
     playMode.startGame = false;
     const targetCategory = e.target.getAttribute('data-name');
     if (targetCategory) {
+      playMode.startGame = false;
       refreshField();
       cardsData.array = addCardsToDom(targetCategory);
     } return cardsData.array;
   });
 
   main.addEventListener('click', (e) => {
-    playMode.startGame = false;
+    
     if (!e.target.classList.contains('wrapper')) {
       const clickedCard = e.target.closest('.card');
       cardsData.currentCard = clickedCard.getAttribute('data-name');
       if (clickedCard.getAttribute('data-category') === 'main') {
         if (cardsData.currentCard) {
+          playMode.startGame = false;
+          console.log(playMode.startGame)
           refreshField();
           cardsData.array = addCardsToDom(cardsData.currentCard);
         }

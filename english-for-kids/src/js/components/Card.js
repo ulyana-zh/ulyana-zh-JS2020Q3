@@ -88,9 +88,11 @@ export default class Card {
     this.cardBackSide.addEventListener('mouseleave', () => {
       this.cardWrapper.classList.toggle('flip-card');
     });
-    document.querySelector('.wrapper__main').addEventListener('mouseover', () => {
-      if (this.cardWrapper.classList.contains('flip-card')) {
-        this.cardWrapper.classList.remove('flip-card');
+    document.querySelector('.wrapper__main').addEventListener('mouseover', (e) => {
+      if(!e.target.closest('.card__side_back')) {
+        if (this.cardWrapper.classList.contains('flip-card')) {
+          this.cardWrapper.classList.remove('flip-card');
+        }
       }
     });
     this.cardFrontSide.addEventListener('click', (e) => {

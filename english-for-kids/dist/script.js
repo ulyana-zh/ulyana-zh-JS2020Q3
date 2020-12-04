@@ -8,13 +8,15 @@
   \*****************************/
 /*! namespace exports */
 /*! export playMode [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export setTimeoutToPlayMode [provided] [no usage info] [missing usage info prevents renaming] */
 /*! other exports [not provided] [no usage info] */
 /*! runtime requirements: __webpack_require__, __webpack_require__.r, __webpack_exports__, __webpack_require__.d, __webpack_require__.* */
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "playMode": () => /* binding */ playMode
+/* harmony export */   "playMode": () => /* binding */ playMode,
+/* harmony export */   "setTimeoutToPlayMode": () => /* binding */ setTimeoutToPlayMode
 /* harmony export */ });
 /* harmony import */ var _Generate_field__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Generate_field */ "./src/js/Generate_field.js");
 
@@ -23,25 +25,13 @@ var playMode = {
   startGame: false,
   wordsArray: [],
   audioArray: [],
+  clickedCard: null,
   currentCard: null,
   mistakes: 0,
+  timer: null,
   error: './src/assets/audio/error.mp3',
   correct: './src/assets/audio/correct.mp3'
 };
-document.querySelector('.switch-btn').addEventListener('click', function () {
-  playMode.isPlaying = !playMode.isPlaying;
-  document.querySelector('.play-btn').classList.toggle('play-on');
-  document.querySelectorAll('.card__img').forEach(function (card) {
-    if (!card.closest('[data-category="main"]') && card.closest('.card__side_front')) {
-      card.classList.toggle('card__img_play');
-    }
-  });
-  document.querySelectorAll('.card__description').forEach(function (card) {
-    if (!card.closest('[data-category="main"]') && card.closest('.card__side_front')) {
-      card.classList.toggle('card__description_play');
-    }
-  });
-});
 
 var shuffleArray = function shuffleArray(array) {
   return array.sort(function () {
@@ -73,58 +63,91 @@ var createAudioArray = function createAudioArray() {
 var setTargetCard = function setTargetCard() {
   document.querySelector('.wrapper__main').addEventListener('click', function (e) {
     if (!e.target.classList.contains('wrapper')) {
-      var clickedCard = e.target.closest('.card');
-      playMode.currentCard = clickedCard.getAttribute('data-name');
+      playMode.clickedCard = e.target.closest('.card');
     }
   });
-  return playMode.currentCard;
+  return playMode.clickedCard;
 };
 
-function clearArrays() {
+var clearArrays = function clearArrays() {
   playMode.wordsArray = [];
   playMode.audioArray = [];
-}
+};
 
-function shiftArrays() {
+var shiftArrays = function shiftArrays() {
   playMode.wordsArray.shift();
   playMode.audioArray.shift();
-}
+};
 
-function starGame() {
+var starGame = function starGame() {
   shuffleArray(_Generate_field__WEBPACK_IMPORTED_MODULE_0__.cardsData.array);
   clearArrays();
   playMode.wordsArray = createWordsArray();
   playMode.audioArray = createAudioArray();
   playAudio(playMode.audioArray[0]);
-}
-
-document.querySelector('.play-btn').addEventListener('click', function () {
-  playMode.startGame = true;
-  starGame();
-  if (playMode.startGame) checkWord();
-});
+};
 
 var checkWord = function checkWord() {
-  playMode.currentCard = setTargetCard();
+  playMode.clickedCard = setTargetCard();
   document.querySelector('.wrapper__main').addEventListener('click', function () {
-    if (playMode.isPlaying) {
-      console.log(playMode.wordsArray, playMode.currentCard);
+    playMode.currentCard = playMode.clickedCard.getAttribute('data-name');
 
-      if (playMode.wordsArray[0] === playMode.currentCard) {
+    if (playMode.isPlaying && playMode.startGame) {
+      if (playMode.currentCard === playMode.wordsArray[0]) {
+        playMode.clickedCard.classList.add('card_disabled');
+        playMode.clickedCard.removeEventListener('click', setTargetCard);
         shiftArrays();
         playAudio(playMode.correct);
         setTimeout(function () {
           return playAudio(playMode.audioArray[0]);
         }, 500);
       } else {
-        playMode.mistakes++;
+        playMode.mistakes += 1;
         playAudio(playMode.error);
-        console.log('false', playMode.mistakes);
       }
     }
   });
 };
 
+var setTimeoutToPlayMode = function setTimeoutToPlayMode() {
+  playMode.timer = setTimeout(checkWord);
+};
+
+var stopPlaying = function stopPlaying() {
+  playMode.startGame = false;
+  clearTimeout(playMode.timer);
+};
+
+document.querySelector('.switch-btn').addEventListener('click', function () {
+  playMode.isPlaying = !playMode.isPlaying;
+  document.querySelector('.play-btn').classList.toggle('flex');
+  document.querySelectorAll('.card__img').forEach(function (card) {
+    if (!card.closest('[data-category="main"]') && card.closest('.card__side_front')) {
+      card.classList.toggle('card__img_play');
+    }
+  });
+  document.querySelectorAll('.card__description').forEach(function (card) {
+    if (!card.closest('[data-category="main"]') && card.closest('.card__side_front')) {
+      card.classList.toggle('card__description_play');
+    }
+  });
+});
+var playButton = document.querySelector('.play-btn');
+var repeatButton = document.querySelector('.repeat');
+playButton.addEventListener('click', function () {
+  starGame();
+
+  if (playMode.wordsArray.length !== 0 && playMode.audioArray.length !== 0) {
+    stopPlaying();
+    playMode.startGame = true;
+    playMode.mistakes = 0;
+    playButton.classList.add('none');
+    repeatButton.classList.add('flex');
+  }
+});
+repeatButton.addEventListener('click', function () {
+  playAudio(playMode.audioArray[0]);
+});
 
 
 /***/ }),
@@ -200,6 +223,7 @@ var chooseCategory = function chooseCategory() {
     var targetCategory = e.target.getAttribute('data-name');
 
     if (targetCategory) {
+      _Game_mode__WEBPACK_IMPORTED_MODULE_2__.playMode.startGame = false;
       refreshField();
       cardsData.array = addCardsToDom(targetCategory);
     }
@@ -207,14 +231,14 @@ var chooseCategory = function chooseCategory() {
     return cardsData.array;
   });
   main.addEventListener('click', function (e) {
-    _Game_mode__WEBPACK_IMPORTED_MODULE_2__.playMode.startGame = false;
-
     if (!e.target.classList.contains('wrapper')) {
       var clickedCard = e.target.closest('.card');
       cardsData.currentCard = clickedCard.getAttribute('data-name');
 
       if (clickedCard.getAttribute('data-category') === 'main') {
         if (cardsData.currentCard) {
+          _Game_mode__WEBPACK_IMPORTED_MODULE_2__.playMode.startGame = false;
+          console.log(_Game_mode__WEBPACK_IMPORTED_MODULE_2__.playMode.startGame);
           refreshField();
           cardsData.array = addCardsToDom(cardsData.currentCard);
         }
@@ -335,9 +359,11 @@ var Card = /*#__PURE__*/function () {
       this.cardBackSide.addEventListener('mouseleave', function () {
         _this.cardWrapper.classList.toggle('flip-card');
       });
-      document.querySelector('.wrapper__main').addEventListener('mouseover', function () {
-        if (_this.cardWrapper.classList.contains('flip-card')) {
-          _this.cardWrapper.classList.remove('flip-card');
+      document.querySelector('.wrapper__main').addEventListener('mouseover', function (e) {
+        if (!e.target.closest('.card__side_back')) {
+          if (_this.cardWrapper.classList.contains('flip-card')) {
+            _this.cardWrapper.classList.remove('flip-card');
+          }
         }
       });
       this.cardFrontSide.addEventListener('click', function (e) {
@@ -480,35 +506,35 @@ __webpack_require__.r(__webpack_exports__);
 var data = [['Main', 'Space', 'Weather', 'Nature', 'Animals 1', 'Animals 2', 'Fruits', 'Colors', 'Sports'], [{
   category: 'main',
   word: 'Animals 1',
-  image: ''
+  image: './src/assets/img/panda.jpg'
 }, {
   category: 'main',
   word: 'Animals 2',
-  image: ''
+  image: './src/assets/img/dog.jpg'
 }, {
   category: 'main',
   word: 'Weather',
-  image: ''
+  image: './src/assets/img/rain.png'
 }, {
   category: 'main',
   word: 'Nature',
-  image: ''
+  image: './src/assets/img/forest.png'
 }, {
   category: 'main',
   word: 'Fruits',
-  image: ''
+  image: './src/assets/img/watermelon.jpg'
 }, {
   category: 'main',
   word: 'Colors',
-  image: ''
+  image: './src/assets/img/blue.jpg'
 }, {
   category: 'main',
   word: 'Sports',
-  image: ''
+  image: './src/assets/img/bicycle.jpg'
 }, {
   category: 'main',
   word: 'Space',
-  image: ''
+  image: './src/assets/img/rocket.jpg'
 }], [{
   category: 'animals-1',
   word: 'panda',
@@ -911,6 +937,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_Navigation__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./components/Navigation */ "./src/js/components/Navigation.js");
 /* harmony import */ var _components_Switcher__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/Switcher */ "./src/js/components/Switcher.js");
 /* harmony import */ var _Generate_field__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Generate_field */ "./src/js/Generate_field.js");
+/* harmony import */ var _Game_mode__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Game_mode */ "./src/js/Game_mode.js");
+
 
 
 
@@ -921,6 +949,7 @@ window.onload = function () {
   (0,_components_Navigation__WEBPACK_IMPORTED_MODULE_0__.addEventListenersToNavigation)();
   (0,_components_Switcher__WEBPACK_IMPORTED_MODULE_1__.switchedButton)();
   (0,_Generate_field__WEBPACK_IMPORTED_MODULE_2__.chooseCategory)();
+  (0,_Game_mode__WEBPACK_IMPORTED_MODULE_3__.setTimeoutToPlayMode)();
 };
 
 /***/ }),
