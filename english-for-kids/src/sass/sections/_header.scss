@@ -1,0 +1,7 @@
+.header {
+    //height: 50px;
+}
+
+.wrapper__header {
+    @include flex();
+}
