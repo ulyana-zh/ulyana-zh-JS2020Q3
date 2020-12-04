@@ -4,42 +4,42 @@ const data = [
       {
         category: 'main',
         word: 'Animals 1',
-        image: '',
+        image: './src/assets/img/panda.jpg',
       }, 
       {
         category: 'main',
         word: 'Animals 2',
-        image: '',
+        image: './src/assets/img/dog.jpg',
       }, 
       {
         category: 'main',
         word: 'Weather',
-        image: '',
+        image: './src/assets/img/rain.png',
       }, 
       {
         category: 'main',
         word: 'Nature',
-        image: '',
+        image: './src/assets/img/forest.png',
       }, 
       {
         category: 'main',
         word: 'Fruits',
-        image: '',
+        image: './src/assets/img/watermelon.jpg',
       }, 
       {
         category: 'main',
         word: 'Colors',
-        image: '',
+        image: './src/assets/img/blue.jpg',
       }, 
       {
         category: 'main',
         word: 'Sports',
-        image: '',
+        image: './src/assets/img/bicycle.jpg',
       }, 
       {
         category: 'main',
         word: 'Space',
-        image: '',
+        image: './src/assets/img/rocket.jpg',
       }, 
     ],
     [

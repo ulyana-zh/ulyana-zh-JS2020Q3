@@ -5,27 +5,13 @@ const playMode = {
   startGame: false,
   wordsArray: [],
   audioArray: [],
+  clickedCard: null,
   currentCard: null,
   mistakes: 0,
+  timer: null,
   error: './src/assets/audio/error.mp3',
-  correct: './src/assets/audio/correct.mp3'
+  correct: './src/assets/audio/correct.mp3',
 };
-
-document.querySelector('.switch-btn').addEventListener('click', () => {
-  playMode.isPlaying = !playMode.isPlaying;
-  document.querySelector('.play-btn').classList.toggle('play-on');
-
-  document.querySelectorAll('.card__img').forEach((card) => {
-    if (!card.closest('[data-category="main"]') && card.closest('.card__side_front')) {
-      card.classList.toggle('card__img_play');
-    }
-  });
-  document.querySelectorAll('.card__description').forEach((card) => {
-    if (!card.closest('[data-category="main"]') && card.closest('.card__side_front')) {
-      card.classList.toggle('card__description_play');
-    }
-  });
-});
 
 const shuffleArray = (array) => array.sort(() => Math.random() - 0.5);
 
@@ -53,53 +39,90 @@ const createAudioArray = () => {
 const setTargetCard = () => {
   document.querySelector('.wrapper__main').addEventListener('click', (e) => {
     if (!e.target.classList.contains('wrapper')) {
-      const clickedCard = e.target.closest('.card');
-      playMode.currentCard = clickedCard.getAttribute('data-name');
+      playMode.clickedCard = e.target.closest('.card');
     }
   });
-  return playMode.currentCard;
+  return playMode.clickedCard;
 };
 
-function clearArrays() {
+const clearArrays = () => {
   playMode.wordsArray = [];
   playMode.audioArray = [];
-}
+};
 
-function shiftArrays() {
+const shiftArrays = () => {
   playMode.wordsArray.shift();
   playMode.audioArray.shift();
-}
+};
 
-function starGame() {
+const starGame = () => {
   shuffleArray(cardsData.array);
   clearArrays();
   playMode.wordsArray = createWordsArray();
   playMode.audioArray = createAudioArray();
   playAudio(playMode.audioArray[0]);
-}
-
-document.querySelector('.play-btn').addEventListener('click', () => {
-    playMode.startGame = true;
-    starGame();
-    if (playMode.startGame) checkWord();
-  });
+};
 
 const checkWord = () => {
-  playMode.currentCard = setTargetCard();
+  playMode.clickedCard = setTargetCard();
   document.querySelector('.wrapper__main').addEventListener('click', () => {
-    if (playMode.isPlaying) {
-      console.log(playMode.wordsArray, playMode.currentCard);
-      if (playMode.wordsArray[0] === playMode.currentCard) {
+    playMode.currentCard = playMode.clickedCard.getAttribute('data-name');
+    if (playMode.isPlaying && playMode.startGame) {
+      if (playMode.currentCard === playMode.wordsArray[0]) {
+        playMode.clickedCard.classList.add('card_disabled');
+        playMode.clickedCard.removeEventListener('click', setTargetCard);
         shiftArrays();
         playAudio(playMode.correct);
-        setTimeout(() => playAudio(playMode.audioArray[0]), 500)
+        setTimeout(() => playAudio(playMode.audioArray[0]), 500);
       } else {
-        playMode.mistakes++;
+        playMode.mistakes += 1;
         playAudio(playMode.error);
-        console.log('false', playMode.mistakes);
       }
     }
   });
 };
 
-export { playMode };
+const setTimeoutToPlayMode = () => {
+  playMode.timer = setTimeout(checkWord);
+};
+
+const stopPlaying = () => {
+  playMode.startGame = false;
+  clearTimeout(playMode.timer);
+};
+
+document.querySelector('.switch-btn').addEventListener('click', () => {
+  playMode.isPlaying = !playMode.isPlaying;
+  document.querySelector('.play-btn').classList.toggle('flex');
+
+  document.querySelectorAll('.card__img').forEach((card) => {
+    if (!card.closest('[data-category="main"]') && card.closest('.card__side_front')) {
+      card.classList.toggle('card__img_play');
+    }
+  });
+  document.querySelectorAll('.card__description').forEach((card) => {
+    if (!card.closest('[data-category="main"]') && card.closest('.card__side_front')) {
+      card.classList.toggle('card__description_play');
+    }
+  });
+});
+
+const playButton = document.querySelector('.play-btn');
+const repeatButton = document.querySelector('.repeat');
+
+playButton.addEventListener('click', () => {
+  starGame();
+  if (playMode.wordsArray.length !== 0 && playMode.audioArray.length !== 0) {
+    stopPlaying();
+    playMode.startGame = true;
+    playMode.mistakes = 0;
+    playButton.classList.add('none');
+    repeatButton.classList.add('flex');
+  }
+});
+
+repeatButton.addEventListener('click', () => {
+  playAudio(playMode.audioArray[0]);
+});
+
+export { playMode, setTimeoutToPlayMode };

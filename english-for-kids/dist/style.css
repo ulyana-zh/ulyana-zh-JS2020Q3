@@ -563,6 +563,10 @@ body {
   margin: 0 10px 20px 10px;
   border-radius: 19px;
 }
+.card_disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
 .card__img {
   height: 80%;
   width: 100%;
@@ -694,7 +698,7 @@ body {
 .play-btn {
   align-items: center;
   justify-content: center;
-  width: 95px;
+  width: 150px;
   height: 38px;
   border-radius: 19px;
   background: #13b6bf;
@@ -709,8 +713,16 @@ body {
   display: none;
 }
 
-.play-on {
+.flex {
   display: flex;
+}
+
+.none {
+  display: none;
+}
+
+.repeat {
+  background: #4978c7;
 }
 
 .wrapper__header {
