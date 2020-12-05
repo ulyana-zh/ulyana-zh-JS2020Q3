@@ -20,7 +20,12 @@ export default class Card {
     this.card.append(this.cardWrapper);
 
     if (this.category) this.card.setAttribute('data-category', this.category);
-    this.card.setAttribute('data-name', this.word.replace(/\s+/g, '-').toLowerCase());
+
+    if (this.word !== 'milky way' && this.word !== 'ice skates') {
+      this.card.setAttribute('data-name', this.word.replace(/\s+/g, '-').toLowerCase());
+    } else {
+      this.card.setAttribute('data-name', this.word.replace(/\s+/g, ' ').toLowerCase());
+    }
 
     this.cardFrontSide = document.createElement('div');
     this.cardFrontSide.classList.add('card__side_front');
@@ -69,12 +74,12 @@ export default class Card {
 
     this.cardBackSide.append(cardImageBack, cardDescriptionBack);
 
-    // Game mode 
-    if(playMode.isPlaying) {
+    // Game mode
+    if (playMode.isPlaying) {
       if (this.category !== 'main') {
         this.cardImage.classList.add('card__img_play');
         this.cardDescription.classList.add('card__description_play');
-      }  
+      }
     }
 
     this.addEventListenersToCard();
@@ -89,14 +94,14 @@ export default class Card {
       this.cardWrapper.classList.toggle('flip-card');
     });
     document.querySelector('.wrapper__main').addEventListener('mouseover', (e) => {
-      if(!e.target.closest('.card__side_back')) {
+      if (!e.target.closest('.card__side_back')) {
         if (this.cardWrapper.classList.contains('flip-card')) {
           this.cardWrapper.classList.remove('flip-card');
         }
       }
     });
     this.cardFrontSide.addEventListener('click', (e) => {
-      if(!e.target.classList.contains('card__button') && !playMode.isPlaying) this.playAudio();
+      if (!e.target.classList.contains('card__button') && !playMode.isPlaying) this.playAudio();
     });
   }
 

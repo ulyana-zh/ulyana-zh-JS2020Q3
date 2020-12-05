@@ -7,6 +7,7 @@
   !*** ./src/js/Game_mode.js ***!
   \*****************************/
 /*! namespace exports */
+/*! export clearScore [provided] [no usage info] [missing usage info prevents renaming] */
 /*! export playMode [provided] [no usage info] [missing usage info prevents renaming] */
 /*! export setTimeoutToPlayMode [provided] [no usage info] [missing usage info prevents renaming] */
 /*! other exports [not provided] [no usage info] */
@@ -16,7 +17,8 @@
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "playMode": () => /* binding */ playMode,
-/* harmony export */   "setTimeoutToPlayMode": () => /* binding */ setTimeoutToPlayMode
+/* harmony export */   "setTimeoutToPlayMode": () => /* binding */ setTimeoutToPlayMode,
+/* harmony export */   "clearScore": () => /* binding */ clearScore
 /* harmony export */ });
 /* harmony import */ var _Generate_field__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Generate_field */ "./src/js/Generate_field.js");
 
@@ -30,8 +32,29 @@ var playMode = {
   mistakes: 0,
   timer: null,
   error: './src/assets/audio/error.mp3',
-  correct: './src/assets/audio/correct.mp3'
+  correct: './src/assets/audio/correct.mp3',
+  success: './src/assets/audio/success.mp3',
+  failure: './src/assets/audio/failure.mp3'
 };
+var wordsArray = playMode.wordsArray,
+    audioArray = playMode.audioArray,
+    clickedCard = playMode.clickedCard,
+    currentCard = playMode.currentCard,
+    mistakes = playMode.mistakes,
+    timer = playMode.timer;
+var error = playMode.error,
+    correct = playMode.correct,
+    success = playMode.success,
+    failure = playMode.failure;
+var switchButton = document.querySelector('.switch-btn');
+var playButton = document.querySelector('.play-btn');
+var repeatButton = document.querySelector('.repeat');
+var body = document.querySelector('body');
+var points = document.querySelector('.points');
+var overlay = document.querySelector('.overlay_result');
+var categoryName = document.querySelector('.category-name');
+var resultImage = document.querySelector('.result__img');
+var resultMessage = document.querySelector('.result__text');
 
 var shuffleArray = function shuffleArray(array) {
   return array.sort(function () {
@@ -48,105 +71,186 @@ var playAudio = function playAudio(audioSrc) {
 
 var createWordsArray = function createWordsArray() {
   _Generate_field__WEBPACK_IMPORTED_MODULE_0__.cardsData.array.forEach(function (card) {
-    playMode.wordsArray.push(card.word);
+    wordsArray.push(card.word);
   });
-  return playMode.wordsArray;
+  return wordsArray;
 };
 
 var createAudioArray = function createAudioArray() {
   _Generate_field__WEBPACK_IMPORTED_MODULE_0__.cardsData.array.forEach(function (card) {
-    playMode.audioArray.push(card.audio);
+    audioArray.push(card.audio);
   });
-  return playMode.audioArray;
+  return audioArray;
 };
 
 var setTargetCard = function setTargetCard() {
   document.querySelector('.wrapper__main').addEventListener('click', function (e) {
     if (!e.target.classList.contains('wrapper')) {
-      playMode.clickedCard = e.target.closest('.card');
+      clickedCard = e.target.closest('.card');
     }
   });
-  return playMode.clickedCard;
+  return clickedCard;
 };
 
 var clearArrays = function clearArrays() {
-  playMode.wordsArray = [];
-  playMode.audioArray = [];
+  wordsArray = [];
+  audioArray = [];
 };
 
 var shiftArrays = function shiftArrays() {
-  playMode.wordsArray.shift();
-  playMode.audioArray.shift();
+  wordsArray.shift();
+  audioArray.shift();
 };
 
 var starGame = function starGame() {
   shuffleArray(_Generate_field__WEBPACK_IMPORTED_MODULE_0__.cardsData.array);
   clearArrays();
-  playMode.wordsArray = createWordsArray();
-  playMode.audioArray = createAudioArray();
-  playAudio(playMode.audioArray[0]);
+  wordsArray = createWordsArray();
+  audioArray = createAudioArray();
+  playAudio(audioArray[0]);
+};
+
+var stopPlaying = function stopPlaying() {
+  playMode.startGame = false;
+  clearTimeout(timer);
+};
+
+var createRightStar = function createRightStar() {
+  var star = document.createElement('div');
+  star.classList.add('star', 'star_right');
+  points.append(star);
+};
+
+var createWrongStar = function createWrongStar() {
+  var star = document.createElement('div');
+  star.classList.add('star', 'star_wrong');
+  points.append(star);
+};
+
+var clearScore = function clearScore() {
+  points.innerHTML = '';
+};
+
+var showResultSuccess = function showResultSuccess() {
+  overlay.classList.add('overlay_result-active');
+  body.classList.add('fixed-position');
+  resultImage.classList.add('result__img_success');
+  resultMessage.innerText = 'Congratulations!';
+  playAudio(success);
+};
+
+var showResultFailure = function showResultFailure() {
+  overlay.classList.add('overlay_result-active');
+  body.classList.add('fixed-position');
+  resultImage.classList.add('result__img_failure');
+
+  if (mistakes === 1) {
+    resultMessage.innerText = "Oops! You have ".concat(mistakes, " mistake. Try again!");
+  } else {
+    resultMessage.innerText = "Oops! You have ".concat(mistakes, " mistakes. Try again!");
+  }
+
+  playAudio(failure);
+};
+
+var deleteResult = function deleteResult() {
+  resultImage.classList.remove('result__img_success');
+  resultImage.classList.remove('result__img_failure');
+  overlay.classList.remove('overlay_result-active');
+  clearScore();
+  (0,_Generate_field__WEBPACK_IMPORTED_MODULE_0__.refreshField)();
+  stopPlaying();
+  repeatButton.classList.remove('flex');
+  body.classList.remove('fixed-position');
+  categoryName.innerText = 'main'.toUpperCase();
+  (0,_Generate_field__WEBPACK_IMPORTED_MODULE_0__.addCardsToDom)('main');
 };
 
 var checkWord = function checkWord() {
-  playMode.clickedCard = setTargetCard();
-  document.querySelector('.wrapper__main').addEventListener('click', function () {
-    playMode.currentCard = playMode.clickedCard.getAttribute('data-name');
+  clickedCard = setTargetCard();
+  document.querySelector('.wrapper__main').addEventListener('click', function (e) {
+    if (e.target.classList.contains('wrapper__main')) return;
+    currentCard = clickedCard.getAttribute('data-name');
 
-    if (playMode.isPlaying && playMode.startGame) {
-      if (playMode.currentCard === playMode.wordsArray[0]) {
-        playMode.clickedCard.classList.add('card_disabled');
-        playMode.clickedCard.removeEventListener('click', setTargetCard);
+    if (playMode.isPlaying && playMode.startGame && wordsArray.length) {
+      if (currentCard === wordsArray[0]) {
+        clickedCard.classList.add('card_disabled');
+        createRightStar();
         shiftArrays();
-        playAudio(playMode.correct);
+        playAudio(correct);
         setTimeout(function () {
-          return playAudio(playMode.audioArray[0]);
+          return playAudio(audioArray[0]);
         }, 500);
       } else {
-        playMode.mistakes += 1;
-        playAudio(playMode.error);
+        createWrongStar();
+        mistakes += 1;
+        playAudio(error);
+      }
+
+      if (!wordsArray.length) {
+        if (!mistakes) {
+          showResultSuccess();
+          setTimeout(function () {
+            return deleteResult();
+          }, 5000);
+        } else {
+          showResultFailure();
+          setTimeout(function () {
+            return deleteResult();
+          }, 5000);
+        }
       }
     }
   });
 };
 
 var setTimeoutToPlayMode = function setTimeoutToPlayMode() {
-  playMode.timer = setTimeout(checkWord);
+  timer = setTimeout(checkWord);
 };
 
-var stopPlaying = function stopPlaying() {
-  playMode.startGame = false;
-  clearTimeout(playMode.timer);
-};
-
-document.querySelector('.switch-btn').addEventListener('click', function () {
+switchButton.addEventListener('click', function () {
   playMode.isPlaying = !playMode.isPlaying;
-  document.querySelector('.play-btn').classList.toggle('flex');
-  document.querySelectorAll('.card__img').forEach(function (card) {
-    if (!card.closest('[data-category="main"]') && card.closest('.card__side_front')) {
-      card.classList.toggle('card__img_play');
+  stopPlaying();
+  clearScore();
+  body.classList.toggle('play-mode');
+  var card = document.querySelector('[data-category="main"]');
+
+  if (switchButton.classList.contains('switch-on') && !card) {
+    playButton.classList.add('flex');
+  } else {
+    playButton.classList.remove('flex');
+  }
+
+  repeatButton.classList.remove('flex');
+  document.querySelectorAll('.card__img').forEach(function (elem) {
+    if (!elem.closest('[data-category="main"]') && elem.closest('.card__side_front')) {
+      elem.classList.toggle('card__img_play');
     }
   });
-  document.querySelectorAll('.card__description').forEach(function (card) {
-    if (!card.closest('[data-category="main"]') && card.closest('.card__side_front')) {
-      card.classList.toggle('card__description_play');
+  document.querySelectorAll('.card__description').forEach(function (elem) {
+    if (!elem.closest('[data-category="main"]') && elem.closest('.card__side_front')) {
+      elem.classList.toggle('card__description_play');
+    }
+  });
+  document.querySelectorAll('.card').forEach(function (elem) {
+    if (elem.classList.contains('card_disabled')) {
+      elem.classList.remove('card_disabled');
     }
   });
 });
-var playButton = document.querySelector('.play-btn');
-var repeatButton = document.querySelector('.repeat');
 playButton.addEventListener('click', function () {
   starGame();
+  playButton.classList.remove('flex');
+  repeatButton.classList.add('flex');
 
-  if (playMode.wordsArray.length !== 0 && playMode.audioArray.length !== 0) {
+  if (wordsArray.length && audioArray.length) {
     stopPlaying();
     playMode.startGame = true;
-    playMode.mistakes = 0;
-    playButton.classList.add('none');
-    repeatButton.classList.add('flex');
+    mistakes = 0;
   }
 });
 repeatButton.addEventListener('click', function () {
-  playAudio(playMode.audioArray[0]);
+  playAudio(audioArray[0]);
 });
 
 
@@ -184,10 +288,15 @@ var cardsData = {
   array: [],
   currentCard: null
 };
+var playButton = document.querySelector('.play-btn');
+var switchButton = document.querySelector('.switch-btn');
+var repeatButton = document.querySelector('.repeat');
+var categoryName = document.querySelector('.category-name');
+categoryName.innerText = 'Main'.toUpperCase();
 
-var generateCards = function generateCards(cardsData) {
+var generateCards = function generateCards(cardsDataArray) {
   var cards = [];
-  cardsData.forEach(function (card) {
+  cardsDataArray.forEach(function (card) {
     cards.push(new _components_Card__WEBPACK_IMPORTED_MODULE_1__.default(card));
   });
   return cards;
@@ -208,11 +317,11 @@ var refreshField = function refreshField() {
 
 var addCardsToDom = function addCardsToDom(category) {
   var main = document.querySelector('.wrapper__main');
-  var cardsData = filterCategories(category);
-  generateCards(cardsData).forEach(function (card) {
+  var currentCardsData = filterCategories(category);
+  generateCards(currentCardsData).forEach(function (card) {
     main.append(card.generateCard());
   });
-  return cardsData;
+  return currentCardsData;
 };
 
 var chooseCategory = function chooseCategory() {
@@ -220,9 +329,30 @@ var chooseCategory = function chooseCategory() {
   var main = document.querySelector('.wrapper__main');
   nav.addEventListener('click', function (e) {
     _Game_mode__WEBPACK_IMPORTED_MODULE_2__.playMode.startGame = false;
+    (0,_Game_mode__WEBPACK_IMPORTED_MODULE_2__.clearScore)();
     var targetCategory = e.target.getAttribute('data-name');
+    nav.childNodes.forEach(function (category) {
+      if (!e.target.classList.contains('navigation')) {
+        if (category.innerText === e.target.innerText) {
+          categoryName.innerText = e.target.innerText.toUpperCase();
+          category.classList.add('active');
+        } else {
+          category.classList.remove('active');
+        }
+      }
+    });
 
     if (targetCategory) {
+      if (repeatButton && !switchButton.classList.contains('switch-on')) {
+        if (targetCategory === 'main') {
+          repeatButton.classList.remove('flex');
+          playButton.classList.remove('flex');
+        } else {
+          repeatButton.classList.remove('flex');
+          playButton.classList.add('flex');
+        }
+      }
+
       _Game_mode__WEBPACK_IMPORTED_MODULE_2__.playMode.startGame = false;
       refreshField();
       cardsData.array = addCardsToDom(targetCategory);
@@ -237,8 +367,12 @@ var chooseCategory = function chooseCategory() {
 
       if (clickedCard.getAttribute('data-category') === 'main') {
         if (cardsData.currentCard) {
+          if (!switchButton.classList.contains('switch-on')) {
+            playButton.classList.add('flex');
+          }
+
           _Game_mode__WEBPACK_IMPORTED_MODULE_2__.playMode.startGame = false;
-          console.log(_Game_mode__WEBPACK_IMPORTED_MODULE_2__.playMode.startGame);
+          categoryName.innerText = cardsData.currentCard.toUpperCase().replace(/-/g, ' ');
           refreshField();
           cardsData.array = addCardsToDom(cardsData.currentCard);
         }
@@ -302,7 +436,13 @@ var Card = /*#__PURE__*/function () {
       this.cardWrapper.classList.add('card__wrapper');
       this.card.append(this.cardWrapper);
       if (this.category) this.card.setAttribute('data-category', this.category);
-      this.card.setAttribute('data-name', this.word.replace(/\s+/g, '-').toLowerCase());
+
+      if (this.word !== 'milky way' && this.word !== 'ice skates') {
+        this.card.setAttribute('data-name', this.word.replace(/\s+/g, '-').toLowerCase());
+      } else {
+        this.card.setAttribute('data-name', this.word.replace(/\s+/g, ' ').toLowerCase());
+      }
+
       this.cardFrontSide = document.createElement('div');
       this.cardFrontSide.classList.add('card__side_front');
       this.cardBackSide = document.createElement('div');
@@ -336,7 +476,7 @@ var Card = /*#__PURE__*/function () {
       cardTranslation.classList.add('card__word');
       if (this.translation) cardTranslation.innerHTML = this.translation;
       cardDescriptionBack.append(cardTranslation);
-      this.cardBackSide.append(cardImageBack, cardDescriptionBack); // Game mode 
+      this.cardBackSide.append(cardImageBack, cardDescriptionBack); // Game mode
 
       if (_Game_mode__WEBPACK_IMPORTED_MODULE_0__.playMode.isPlaying) {
         if (this.category !== 'main') {
@@ -406,15 +546,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _data_Cards_data__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../data/Cards_data */ "./src/js/data/Cards_data.js");
 
 var burger = document.querySelector('.hamburger');
+var line = document.querySelector('.hamburger__line');
 var nav = document.querySelector('.navigation');
 var overlay = document.querySelector('.overlay');
 var body = document.querySelector('body');
+var categories = _data_Cards_data__WEBPACK_IMPORTED_MODULE_0__.default[0];
 
 var generateNavigation = function generateNavigation() {
-  _data_Cards_data__WEBPACK_IMPORTED_MODULE_0__.default[0].forEach(function (element) {
+  categories.forEach(function (element) {
     var category = document.createElement('li');
     var dataName = element.replace(/\s+/g, '-').toLowerCase();
     category.innerHTML = "<a href=# data-name=".concat(dataName, " class='category'>").concat(element, "</a>");
+    if (element === 'Main') category.classList.add('active');
     nav.append(category);
   });
 };
@@ -422,6 +565,7 @@ var generateNavigation = function generateNavigation() {
 var slider = function slider() {
   nav.classList.toggle('navigation-active');
   burger.classList.toggle('hamburger-active');
+  line.classList.toggle('hamburger__line_active');
   overlay.classList.toggle('overlay-active');
   body.classList.toggle('fixed-position');
 };
@@ -459,23 +603,16 @@ var addEventListenersToNavigation = function addEventListenersToNavigation() {
   !*** ./src/js/components/Switcher.js ***!
   \***************************************/
 /*! namespace exports */
-/*! export switchedButton [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export default [provided] [no usage info] [missing usage info prevents renaming] */
 /*! other exports [not provided] [no usage info] */
-/*! runtime requirements: __webpack_require__.r, __webpack_exports__, __webpack_require__.d, __webpack_require__.* */
+/*! runtime requirements: __webpack_exports__, __webpack_require__.r, __webpack_require__.d, __webpack_require__.* */
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "switchedButton": () => /* binding */ switchedButton
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
 /* harmony export */ });
 var switchButton = document.querySelector('.switch-btn');
-
-var switchedButton = function switchedButton() {
-  switchButton.addEventListener('click', function () {
-    switchButton.classList.toggle('switch-on');
-    whatIsTextButton();
-  });
-};
 
 var whatIsTextButton = function whatIsTextButton() {
   if (switchButton.classList.contains('switch-on')) {
@@ -485,7 +622,14 @@ var whatIsTextButton = function whatIsTextButton() {
   }
 };
 
+var switchedButton = function switchedButton() {
+  switchButton.addEventListener('click', function () {
+    switchButton.classList.toggle('switch-on');
+    whatIsTextButton();
+  });
+};
 
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (switchedButton);
 
 /***/ }),
 
@@ -947,7 +1091,7 @@ window.onload = function () {
   (0,_Generate_field__WEBPACK_IMPORTED_MODULE_2__.addCardsToDom)('main');
   (0,_components_Navigation__WEBPACK_IMPORTED_MODULE_0__.generateNavigation)();
   (0,_components_Navigation__WEBPACK_IMPORTED_MODULE_0__.addEventListenersToNavigation)();
-  (0,_components_Switcher__WEBPACK_IMPORTED_MODULE_1__.switchedButton)();
+  (0,_components_Switcher__WEBPACK_IMPORTED_MODULE_1__.default)();
   (0,_Generate_field__WEBPACK_IMPORTED_MODULE_2__.chooseCategory)();
   (0,_Game_mode__WEBPACK_IMPORTED_MODULE_3__.setTimeoutToPlayMode)();
 };

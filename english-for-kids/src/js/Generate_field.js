@@ -1,23 +1,27 @@
 import data from './data/Cards_data';
 import Card from './components/Card';
-import { playMode } from './Game_mode';
+import { playMode, clearScore } from './Game_mode';
 
 const cardsData = {
   array: [],
   currentCard: null,
 };
 
-const generateCards = (cardsData) => {
+const playButton = document.querySelector('.play-btn');
+const switchButton = document.querySelector('.switch-btn');
+const repeatButton = document.querySelector('.repeat');
+const categoryName = document.querySelector('.category-name');
+categoryName.innerText = 'Main'.toUpperCase();
+
+const generateCards = (cardsDataArray) => {
   const cards = [];
-  cardsData.forEach((card) => {
+  cardsDataArray.forEach((card) => {
     cards.push(new Card(card));
   });
   return cards;
 };
 
-const filterCategories = (category) => {
-  return data.flatMap((x) => x).filter((element) => element.category === category);
-};
+const filterCategories = (category) => data.flatMap((x) => x).filter((element) => element.category === category);
 
 const refreshField = () => {
   const main = document.querySelector('.wrapper__main');
@@ -26,11 +30,11 @@ const refreshField = () => {
 
 const addCardsToDom = (category) => {
   const main = document.querySelector('.wrapper__main');
-  const cardsData = filterCategories(category);
-  generateCards(cardsData).forEach((card) => {
+  const currentCardsData = filterCategories(category);
+  generateCards(currentCardsData).forEach((card) => {
     main.append(card.generateCard());
   });
-  return cardsData;
+  return currentCardsData;
 };
 
 const chooseCategory = () => {
@@ -39,8 +43,29 @@ const chooseCategory = () => {
 
   nav.addEventListener('click', (e) => {
     playMode.startGame = false;
+    clearScore();
     const targetCategory = e.target.getAttribute('data-name');
+    nav.childNodes.forEach((category) => {
+      if (!e.target.classList.contains('navigation')) {
+        if (category.innerText === e.target.innerText) {
+          categoryName.innerText = e.target.innerText.toUpperCase();
+          category.classList.add('active');
+        } else {
+          category.classList.remove('active');
+        }
+      }
+    });
+
     if (targetCategory) {
+      if (repeatButton && !switchButton.classList.contains('switch-on')) {
+        if (targetCategory === 'main') {
+          repeatButton.classList.remove('flex');
+          playButton.classList.remove('flex');
+        } else {
+          repeatButton.classList.remove('flex');
+          playButton.classList.add('flex');
+        }
+      }
       playMode.startGame = false;
       refreshField();
       cardsData.array = addCardsToDom(targetCategory);
@@ -48,14 +73,16 @@ const chooseCategory = () => {
   });
 
   main.addEventListener('click', (e) => {
-    
     if (!e.target.classList.contains('wrapper')) {
       const clickedCard = e.target.closest('.card');
       cardsData.currentCard = clickedCard.getAttribute('data-name');
       if (clickedCard.getAttribute('data-category') === 'main') {
         if (cardsData.currentCard) {
+          if (!switchButton.classList.contains('switch-on')) {
+            playButton.classList.add('flex');
+          }
           playMode.startGame = false;
-          console.log(playMode.startGame)
+          categoryName.innerText = cardsData.currentCard.toUpperCase().replace(/-/g, ' ');
           refreshField();
           cardsData.array = addCardsToDom(cardsData.currentCard);
         }
