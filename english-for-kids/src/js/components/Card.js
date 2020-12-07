@@ -9,6 +9,7 @@ export default class Card {
     this.translation = translation;
     this.image = image;
     this.audio = audio;
+    this.clicks = 0;
   }
 
   generateCard() {
@@ -102,6 +103,11 @@ export default class Card {
     });
     this.cardFrontSide.addEventListener('click', (e) => {
       if (!e.target.classList.contains('card__button') && !playMode.isPlaying) this.playAudio();
+      let nameOfCard = e.target.closest('.card');
+      let name = nameOfCard.getAttribute('data-name');
+      if(localStorage.getItem(name) !== 0) this.clicks = +(localStorage.getItem(name));
+      this.clicks += 1;
+      if (!playMode.isPlaying) localStorage.setItem(name, this.clicks);
     });
   }
 

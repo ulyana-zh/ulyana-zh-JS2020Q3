@@ -8,6 +8,8 @@ const playMode = {
   clickedCard: null,
   currentCard: null,
   mistakes: 0,
+  clicks: 0, 
+  wrongClicks: 0,
   timer: null,
   error: './src/assets/audio/error.mp3',
   correct: './src/assets/audio/correct.mp3',
@@ -16,7 +18,7 @@ const playMode = {
 };
 
 let {
-  wordsArray, audioArray, clickedCard, currentCard, mistakes, timer,
+  wordsArray, audioArray, clickedCard, currentCard, mistakes, clicks, wrongClicks, timer,
 } = playMode;
 
 const {
@@ -38,8 +40,8 @@ const shuffleArray = (array) => array.sort(() => Math.random() - 0.5);
 const playAudio = (audioSrc) => {
   const audio = new Audio();
   audio.src = audioSrc;
-  audio.load();
-  audio.play();
+  if (audio) audio.load();
+  if (audio)audio.play();
 };
 
 const createWordsArray = () => {
@@ -116,11 +118,13 @@ const showResultFailure = () => {
   overlay.classList.add('overlay_result-active');
   body.classList.add('fixed-position');
   resultImage.classList.add('result__img_failure');
+  let correctWord;
   if (mistakes === 1) {
-    resultMessage.innerText = `Oops! You have ${mistakes} mistake. Try again!`;
+    correctWord = 'mistake';
   } else {
-    resultMessage.innerText = `Oops! You have ${mistakes} mistakes. Try again!`;
+    correctWord = 'mistakes'; 
   }
+  resultMessage.innerText = `Oops! You have ${mistakes} ${correctWord}. Try again!`;
   playAudio(failure);
 };
 
@@ -141,18 +145,24 @@ const checkWord = () => {
   clickedCard = setTargetCard();
   document.querySelector('.wrapper__main').addEventListener('click', (e) => {
     if (e.target.classList.contains('wrapper__main')) return;
-    currentCard = clickedCard.getAttribute('data-name');
-    if (playMode.isPlaying && playMode.startGame && wordsArray.length) {
+    if(clickedCard) currentCard = clickedCard.getAttribute('data-name');
+    if (playMode.isPlaying && playMode.startGame && wordsArray.length && audioArray.length) {
       if (currentCard === wordsArray[0]) {
         clickedCard.classList.add('card_disabled');
         createRightStar();
         shiftArrays();
         playAudio(correct);
         setTimeout(() => playAudio(audioArray[0]), 500);
+        if(localStorage.getItem(`${currentCard}-right`) !== 0) clicks = +(localStorage.getItem(`${currentCard}-right`));
+        clicks += 1;
+        localStorage.setItem(`${currentCard}-right`, clicks);
       } else {
         createWrongStar();
-        mistakes += 1;
         playAudio(error);
+        mistakes += 1;
+        if(localStorage.getItem(`${currentCard}-wrong`) !== 0) wrongClicks = +(localStorage.getItem(`${currentCard}-wrong`));
+        wrongClicks +=1;
+        localStorage.setItem(`${currentCard}-wrong`, wrongClicks);
       }
       if (!wordsArray.length) {
         if (!mistakes) {

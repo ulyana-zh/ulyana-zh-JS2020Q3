@@ -5,12 +5,14 @@ import { playMode, clearScore } from './Game_mode';
 const cardsData = {
   array: [],
   currentCard: null,
+  isStatsOn: false,
 };
 
 const playButton = document.querySelector('.play-btn');
 const switchButton = document.querySelector('.switch-btn');
 const repeatButton = document.querySelector('.repeat');
 const categoryName = document.querySelector('.category-name');
+const stats = document.querySelector('.stats-btn');
 categoryName.innerText = 'Main'.toUpperCase();
 
 const generateCards = (cardsDataArray) => {
@@ -41,6 +43,11 @@ const chooseCategory = () => {
   const nav = document.querySelector('.navigation');
   const main = document.querySelector('.wrapper__main');
 
+  stats.addEventListener('click', () => {
+    cardsData.isStatsOn = true;
+    playMode.isPlaying = false;
+  })
+
   nav.addEventListener('click', (e) => {
     playMode.startGame = false;
     clearScore();
@@ -57,6 +64,7 @@ const chooseCategory = () => {
     });
 
     if (targetCategory) {
+      switchButton.classList.remove('none');
       if (repeatButton && !switchButton.classList.contains('switch-on')) {
         if (targetCategory === 'main') {
           repeatButton.classList.remove('flex');
@@ -67,6 +75,7 @@ const chooseCategory = () => {
         }
       }
       playMode.startGame = false;
+      cardsData.isStatsOn = false;
       refreshField();
       cardsData.array = addCardsToDom(targetCategory);
     } return cardsData.array;
@@ -75,13 +84,14 @@ const chooseCategory = () => {
   main.addEventListener('click', (e) => {
     if (!e.target.classList.contains('wrapper')) {
       const clickedCard = e.target.closest('.card');
-      cardsData.currentCard = clickedCard.getAttribute('data-name');
-      if (clickedCard.getAttribute('data-category') === 'main') {
+      if (!cardsData.isStatsOn) cardsData.currentCard = clickedCard.getAttribute('data-name');
+      if (clickedCard && clickedCard.getAttribute('data-category') === 'main') {
         if (cardsData.currentCard) {
           if (!switchButton.classList.contains('switch-on')) {
             playButton.classList.add('flex');
           }
           playMode.startGame = false;
+          cardsData.isStatsOn = false;
           categoryName.innerText = cardsData.currentCard.toUpperCase().replace(/-/g, ' ');
           refreshField();
           cardsData.array = addCardsToDom(cardsData.currentCard);
