@@ -45,7 +45,6 @@ const chooseCategory = () => {
 
   stats.addEventListener('click', () => {
     cardsData.isStatsOn = true;
-    playMode.isPlaying = false;
   })
 
   nav.addEventListener('click', (e) => {
@@ -65,7 +64,7 @@ const chooseCategory = () => {
     });
 
     if (targetCategory) {
-      //if (switchButton.classList.contains('switch-on')) playMode.isPlaying = false;
+      if (switchButton.classList.contains('switch-on')) playMode.isPlaying = false;
       switchButton.classList.remove('none');
       if (repeatButton && !switchButton.classList.contains('switch-on')) {
         if (targetCategory === 'main') {
