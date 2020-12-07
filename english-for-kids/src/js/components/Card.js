@@ -9,6 +9,7 @@ export default class Card {
     this.translation = translation;
     this.image = image;
     this.audio = audio;
+    this.clicks = 0;
   }
 
   generateCard() {
@@ -20,7 +21,12 @@ export default class Card {
     this.card.append(this.cardWrapper);
 
     if (this.category) this.card.setAttribute('data-category', this.category);
-    this.card.setAttribute('data-name', this.word.replace(/\s+/g, '-').toLowerCase());
+
+    if (this.word !== 'milky way' && this.word !== 'ice skates') {
+      this.card.setAttribute('data-name', this.word.replace(/\s+/g, '-').toLowerCase());
+    } else {
+      this.card.setAttribute('data-name', this.word.replace(/\s+/g, ' ').toLowerCase());
+    }
 
     this.cardFrontSide = document.createElement('div');
     this.cardFrontSide.classList.add('card__side_front');
@@ -69,12 +75,12 @@ export default class Card {
 
     this.cardBackSide.append(cardImageBack, cardDescriptionBack);
 
-    // Game mode 
-    if(playMode.isPlaying) {
+    // Game mode
+    if (playMode.isPlaying) {
       if (this.category !== 'main') {
         this.cardImage.classList.add('card__img_play');
         this.cardDescription.classList.add('card__description_play');
-      }  
+      }
     }
 
     this.addEventListenersToCard();
@@ -89,14 +95,19 @@ export default class Card {
       this.cardWrapper.classList.toggle('flip-card');
     });
     document.querySelector('.wrapper__main').addEventListener('mouseover', (e) => {
-      if(!e.target.closest('.card__side_back')) {
+      if (!e.target.closest('.card__side_back')) {
         if (this.cardWrapper.classList.contains('flip-card')) {
           this.cardWrapper.classList.remove('flip-card');
         }
       }
     });
     this.cardFrontSide.addEventListener('click', (e) => {
-      if(!e.target.classList.contains('card__button') && !playMode.isPlaying) this.playAudio();
+      if (!e.target.classList.contains('card__button') && !playMode.isPlaying) this.playAudio();
+      let nameOfCard = e.target.closest('.card');
+      let name = nameOfCard.getAttribute('data-name');
+      if(localStorage.getItem(name) !== 0) this.clicks = +(localStorage.getItem(name));
+      this.clicks += 1;
+      if (!playMode.isPlaying) localStorage.setItem(name, this.clicks);
     });
   }
 

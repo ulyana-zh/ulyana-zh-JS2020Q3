@@ -1,15 +1,20 @@
 .footer {
-    background-color: rgb(45, 126, 144);
     color: white;
     height: 50px;
-    font-size: 1rem;
+    font-size: 1.5rem;
+    color: #ffffff;
+    background: linear-gradient(to right, #4CA1AF, #2C3E50); 
 }
 
 .wrapper__footer {
     @include flex();
-    justify-content: flex-start;
+    justify-content: center;
     padding-top: 10px;
     padding-bottom: 10px;
+
+    span {
+        margin: 0 10px;
+    }
 }
 
 .logo {
@@ -18,7 +23,6 @@ img {
     height: 25px;
 }
 &__github {
-    margin: 0 10px;
     img {
         width: 25px;
         height: 25px;

@@ -8,7 +8,7 @@
     "dev": "npx webpack --mode development",
     "prod": "npx webpack --mode production",
     "lint": "eslint ./src/js/Game_mode.js",
-    "lint:fix": "eslint ./src/js/Game_mode.js --fix"
+    "lint:fix": "eslint ./src/js/Generate_table.js --fix"
   },
   "keywords": [],
   "author": "",

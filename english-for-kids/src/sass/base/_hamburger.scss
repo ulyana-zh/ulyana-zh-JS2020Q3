@@ -4,7 +4,7 @@
     display: inline-block;
     width: 100%;
     height: 4px; 
-    transition: all .4s ease;
+    transition: all .4s ease-in-out;
     border-radius: 10px;
 }
 
@@ -16,6 +16,8 @@
     margin-right: 53px;
     transition: all 0.8s;
     z-index: 3;
+    transition: all .4s ease-in-out;
+    transform: translateX(0%);
     &::before {
         @extend %hamburger-line;  
         background-color: white; 
@@ -28,6 +30,10 @@
         bottom: 0;
         left: 0;
     }
+
+    @include media-tablet {
+        margin-right: 30px;
+    }
 }
 
 .hamburger__line {
@@ -37,36 +43,25 @@
     left: 0;
 }
 
+.hamburger__line_active {
+    opacity: 0;
+}
+
 .hamburger:hover {
     cursor: pointer;
 }
 
 .hamburger-active {
-    transform: rotate(90deg);
     transition: all 0.8s;
-    position: absolute;
-    top: 10px;
-    left: 100px;
     z-index: 3;
-}
+    transition: all .4s ease-in-out;
 
-.overlay {
-    position: fixed;
-    opacity: 0;
-    visibility: hidden;
-    transition: all 0.8s ease 0s;
-    height: 100%;
-    width: 100%;
-    top: 0;
-    left: 0;
-}
-
-.overlay-active {
-    visibility: visible;
-    opacity: 0;
-    z-index: 1;
-}
-
-.fixed-position {
-    overflow: hidden;
+    &::before {
+        transform: rotate(45deg) translate(-8px, -6px);
+        top: 18px;
+    }
+    &::after {
+        transform: rotate(-45deg) translate(7px, -8px);
+        transition: all .4s ease;
+    }
 }
