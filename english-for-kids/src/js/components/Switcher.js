@@ -10,7 +10,11 @@ const whatIsTextButton = () => {
 
 const switchedButton = () => {
   switchButton.addEventListener('click', () => {
-    switchButton.classList.toggle('switch-on');
+    if(!switchButton.classList.contains('switch-on')) {
+      switchButton.classList.add('switch-on');
+    } else {
+      switchButton.classList.remove('switch-on');  
+    }
     whatIsTextButton();
   });
 };

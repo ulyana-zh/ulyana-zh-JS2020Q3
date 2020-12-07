@@ -3,13 +3,8 @@ const data = [
   [
     {
       category: 'main',
-      word: 'Animals 1',
-      image: './src/assets/img/panda.jpg',
-    },
-    {
-      category: 'main',
-      word: 'Animals 2',
-      image: './src/assets/img/dog.jpg',
+      word: 'Space',
+      image: './src/assets/img/rocket.jpg',
     },
     {
       category: 'main',
@@ -23,23 +18,28 @@ const data = [
     },
     {
       category: 'main',
+      word: 'Animals 1',
+      image: './src/assets/img/animals.jpg',
+    },
+    {
+      category: 'main',
+      word: 'Animals 2',
+      image: './src/assets/img/dog.jpg',
+    },
+    {
+      category: 'main',
       word: 'Fruits',
       image: './src/assets/img/watermelon.jpg',
     },
     {
       category: 'main',
       word: 'Colors',
-      image: './src/assets/img/blue.jpg',
+      image: './src/assets/img/rainbow.jpg',
     },
     {
       category: 'main',
       word: 'Sports',
-      image: './src/assets/img/bicycle.jpg',
-    },
-    {
-      category: 'main',
-      word: 'Space',
-      image: './src/assets/img/rocket.jpg',
+      image: './src/assets/img/ski.jpg',
     },
   ],
   [

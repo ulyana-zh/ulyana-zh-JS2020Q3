@@ -1,11 +1,27 @@
 .card {
     width: calc(100%/4 - 40px);
     min-width: 220px;
-    height: 220px;
+    min-height: 220px;
+    height: calc(60vh/2 - 20px);
     perspective: 800px;
     transition: all 0.7s;
-    margin: 0 10px 20px 10px;
+    margin: 10px 20px 20px 20px;
     border-radius: 19px;
+
+    @include media-big-screen {
+        width: calc(100%/3 - 80px);
+        margin: 10px 40px 20px 40px;
+    }
+
+    @media (max-width: 1017px) {
+        width: calc(100%/3 - 40px);
+        margin: 10px 20px 20px 20px;   
+    }
+
+    @media (max-width: 640px) {
+        width: calc(100%/2 - 20px);
+        margin: 10px 20px 20px 20px;   
+    }
 
     &_disabled {
         opacity: 0.5;
@@ -30,7 +46,11 @@
         width: 100%;
         height: 20%;
         padding: 10px;
-        color: rgb(55, 5, 61);
+        color: #454545;
+
+        .card__word {
+            font-weight: 600;
+        }
         
         &_play {
             display: none;
@@ -88,7 +108,7 @@
     overflow: hidden;
 
     &:hover {
-        box-shadow: 1px 3px 20px rgba(0, 0, 0, 0.1);
+        box-shadow: 1px 3px 20px rgba(29, 0, 35, 0.388);
         cursor: pointer;
     }
  }

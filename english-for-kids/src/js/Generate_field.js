@@ -49,6 +49,7 @@ const chooseCategory = () => {
   })
 
   nav.addEventListener('click', (e) => {
+    if (switchButton.classList.contains('switch-on')) playMode.isPlaying = false;
     playMode.startGame = false;
     clearScore();
     const targetCategory = e.target.getAttribute('data-name');
@@ -64,6 +65,7 @@ const chooseCategory = () => {
     });
 
     if (targetCategory) {
+      //if (switchButton.classList.contains('switch-on')) playMode.isPlaying = false;
       switchButton.classList.remove('none');
       if (repeatButton && !switchButton.classList.contains('switch-on')) {
         if (targetCategory === 'main') {
@@ -95,6 +97,16 @@ const chooseCategory = () => {
           categoryName.innerText = cardsData.currentCard.toUpperCase().replace(/-/g, ' ');
           refreshField();
           cardsData.array = addCardsToDom(cardsData.currentCard);
+
+          nav.childNodes.forEach((category) => {
+            let currentCategory = category.innerText.replace(/\s+/g, '-').toLowerCase();
+              if (currentCategory === cardsData.currentCard) {
+                category.classList.add('active');
+              } else {
+                category.classList.remove('active');
+              }
+          });
+      
         }
       }
     } return cardsData.array;

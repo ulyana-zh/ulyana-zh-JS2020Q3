@@ -30,6 +30,10 @@
         bottom: 0;
         left: 0;
     }
+
+    @include media-tablet {
+        margin-right: 30px;
+    }
 }
 
 .hamburger__line {

@@ -11,7 +11,7 @@ const generateNavigation = () => {
   categories.forEach((element) => {
     const category = document.createElement('li');
     const dataName = element.replace(/\s+/g, '-').toLowerCase();
-    category.innerHTML = `<a href=# data-name=${dataName} class='category'>${element}</a>`;
+    category.innerHTML = `<div class='ico ${dataName}'></div><a href=# data-name=${dataName} class='category'>${element}</a>`;
     if (element === 'Main') category.classList.add('active');
     nav.append(category);
   });

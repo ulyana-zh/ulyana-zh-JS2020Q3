@@ -15,18 +15,24 @@ const generateRows = (wordsData) => {
 const createArrayForTable = () => data.slice(2).flatMap((x) => x);
 let dataForTable = createArrayForTable();
 
-const main = document.querySelector('.wrapper__main');
+const wrapperMain  = document.querySelector('.wrapper__main');
 const switchButton = document.querySelector('.switch-btn');
 const statsButton = document.querySelector('.stats-btn');
-const resetButton = document.createElement('button');
-resetButton.innerText = 'Reset';
+const title = document.querySelector('.category-name');
 const buttons = document.querySelector('.points');
-const repeatWordsButton = document.createElement('button');
+const resetButton = document.createElement('div');
+resetButton.innerText = 'Reset';
+resetButton.classList.add('stats-btn', 'reset-btn');
+const repeatWordsButton = document.createElement('div');
 repeatWordsButton.innerText = 'Repeat difficult words';
+repeatWordsButton.classList.add('stats-btn', 'repeat-words-btn');
 
 const generateTable = () => {
   const table = new Table(dataForTable);
   const head = table.generateHeadOfTheTable();
+  const main = document.createElement('div');
+  main.classList.add('table');
+  wrapperMain.append(main);
   main.append(head);
   const body = document.createElement('tbody');
   head.append(body);
@@ -148,7 +154,7 @@ const generateCards = (cardsDataArray) => {
 const addCardsToDom = () => {
   cardsData.array = filterDifficultWords();
   generateCards(cardsData.array).forEach((card) => {
-    main.append(card.generateCard());
+    wrapperMain.append(card.generateCard());
   });
   return cardsData.array;
 };
@@ -156,17 +162,17 @@ const addCardsToDom = () => {
 const addEventListenerToStatsButtons = () => {
   statsButton.addEventListener('click', () => {
     buttons.innerHTML = '';
+    wrapperMain.innerHTML = '';
     buttons.append(repeatWordsButton, resetButton);
     switchButton.classList.add('none');
     document.querySelector('.repeat').classList.remove('flex');
     document.querySelector('.play-btn').classList.remove('flex');
-    main.innerHTML = '';
     addTableToDom();
   });
 
   resetButton.addEventListener('click', () => {
     localStorage.clear();
-    main.innerHTML = '';
+    wrapperMain.innerHTML = '';
     dataForTable = generateRows(dataForTable);
     const table = generateTable();
     addRowsToDom(table);
@@ -174,8 +180,9 @@ const addEventListenerToStatsButtons = () => {
 
   repeatWordsButton.addEventListener('click', () => {
     filterDifficultWords();
-    main.innerHTML = '';
+    wrapperMain.innerHTML = '';
     buttons.innerHTML = '';
+    title.innerText = 'Repeat'.toUpperCase(); 
     document.querySelector('.switch-btn').classList.remove('none');
     if (switchButton.classList.contains('switch-on')) {
       playMode.isPlaying = false;
