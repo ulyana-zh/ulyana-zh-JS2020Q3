@@ -10,7 +10,6 @@ module.exports = (env, options) => {
 
   const config = {
     mode: isProduction ? 'production' : "development",
-    devtool: isProduction ? 'none' : 'source-map',
     watch: !isProduction,
     entry: {
       main: [path.resolve(__dirname, './src/js/index.js'), './src/sass/style.scss']
