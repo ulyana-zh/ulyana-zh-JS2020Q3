@@ -16,9 +16,10 @@ export default class Table {
     this.table = document.createElement('table');
     this.head = document.createElement('thead');
     this.table.append(this.head);
-    const img = `<img class='sort' src='./src/assets/icons/sort.svg'>`
-    this.head.innerHTML = `
-        <tr>
+    this.tr = document.createElement('tr');
+    this.head.append(this.tr);
+    let img = `<img class='sort-icon' src='./src/assets/icons/sort.svg'>`
+    this.tr.innerHTML = `        
            <th>Categories${img}</th>  
            <th>Words${img}</th> 
            <th>Translation${img}</th> 
@@ -26,8 +27,8 @@ export default class Table {
            <th>Correct${img}</th> 
            <th>Incorrect${img}</th>  
            <th>%${img}</th>   
-        </tr>
         `;
+
     return this.table;
   }
 
