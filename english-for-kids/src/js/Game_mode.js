@@ -146,7 +146,7 @@ const checkWord = () => {
   document.querySelector('.wrapper__main').addEventListener('click', (e) => {
     if (e.target.classList.contains('wrapper__main')) return;
     if(clickedCard) currentCard = clickedCard.getAttribute('data-name');
-    if (playMode.isPlaying && playMode.startGame && wordsArray.length && audioArray.length) {
+    if (playMode.isPlaying && playMode.startGame && !cardsData.isStatsOn && wordsArray.length && audioArray.length) {
       if (currentCard === wordsArray[0]) {
         clickedCard.classList.add('card_disabled');
         createRightStar();

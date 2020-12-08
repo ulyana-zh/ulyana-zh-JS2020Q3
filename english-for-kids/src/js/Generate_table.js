@@ -52,7 +52,7 @@ const deleteTable = () => {
 
 const addEventListener = (table) => {
   dataForTable = generateRows(dataForTable);
-  document.querySelector('tr').addEventListener('click', (e) => {
+  document.querySelector('tr').addEventListener('click', (e) => { 
     switch (e.target.innerText) {
       case 'Categories':
         e.target.classList.toggle('sort');
@@ -173,9 +173,7 @@ const addEventListenerToStatsButtons = () => {
   resetButton.addEventListener('click', () => {
     localStorage.clear();
     wrapperMain.innerHTML = '';
-    dataForTable = generateRows(dataForTable);
-    const table = generateTable();
-    addRowsToDom(table);
+    addTableToDom();
   });
 
   repeatWordsButton.addEventListener('click', () => {
