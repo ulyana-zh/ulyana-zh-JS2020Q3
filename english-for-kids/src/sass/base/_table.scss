@@ -57,11 +57,22 @@ th {
 }
 
 .sort-icon {
+    background-image: url('../assets/icons/sort.svg');
+    background-size: cover; 
     width: 10px;
     height: 10px;
 }
 
-.sort-arrow {
+.sort-arrow-up {
+    background-image: url('../assets/icons/up-arrow.svg');
+    background-size: cover; 
+    width: 10px;
+    height: 10px;   
+}
+
+.sort-arrow-down {
+    background-image: url('../assets/icons/down-arrow.svg');
+    background-size: cover; 
     width: 10px;
     height: 10px;   
 }
