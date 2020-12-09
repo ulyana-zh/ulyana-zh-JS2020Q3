@@ -50,17 +50,34 @@ const deleteTable = () => {
   tableBody.innerHTML = '';
 };
 
+const changeIconToAscendingSort = (icon) => {
+  icon.classList.remove('sort-arrow-down');
+  icon.classList.add('sort-arrow-up');
+}
+
+const changeIconToDescendingSort = (icon) => {
+  icon.classList.remove('sort-arrow-up');
+  icon.classList.add('sort-arrow-down');
+}
+
 const addEventListener = (table) => {
   dataForTable = generateRows(dataForTable);
   document.querySelector('tr').addEventListener('click', (e) => { 
+    const icons = document.querySelectorAll('.sort-icon');
+    icons.forEach(icon => {
+      icon.classList.remove('sort-arrow-down', 'sort-arrow-up');
+    })
+    let icon = e.target.children[0];
     switch (e.target.innerText) {
       case 'Categories':
         e.target.classList.toggle('sort');
         deleteTable();
         if (e.target.classList.contains('sort')) {
           dataForTable.sort((a, b) => a.category.localeCompare(b.category));
+          changeIconToAscendingSort(icon);
         } else {
           dataForTable.sort((a, b) => b.category.localeCompare(a.category));
+          changeIconToDescendingSort(icon);
         }
         addRowsToDom(table);
         break;
@@ -69,8 +86,10 @@ const addEventListener = (table) => {
         deleteTable();
         if (e.target.classList.contains('sort')) {
           dataForTable.sort((a, b) => a.word.localeCompare(b.word));
+          changeIconToAscendingSort(icon);
         } else {
           dataForTable.sort((a, b) => b.word.localeCompare(a.word));
+          changeIconToDescendingSort(icon);
         }
         addRowsToDom(table);
         break;
@@ -79,8 +98,10 @@ const addEventListener = (table) => {
         deleteTable();
         if (e.target.classList.contains('sort')) {
           dataForTable.sort((a, b) => a.translation.localeCompare(b.translation));
+          changeIconToAscendingSort(icon);
         } else {
           dataForTable.sort((a, b) => b.translation.localeCompare(a.translation));
+          changeIconToDescendingSort(icon);
         }
         addRowsToDom(table);
         break;
@@ -89,8 +110,10 @@ const addEventListener = (table) => {
         deleteTable();
         if (e.target.classList.contains('sort')) {
           dataForTable.sort((a, b) => a.trained - b.trained);
+          changeIconToAscendingSort(icon);
         } else {
           dataForTable.sort((a, b) => b.trained - a.trained);
+          changeIconToDescendingSort(icon);
         }
         addRowsToDom(table);
         break;
@@ -99,8 +122,10 @@ const addEventListener = (table) => {
         deleteTable();
         if (e.target.classList.contains('sort')) {
           dataForTable.sort((a, b) => a.correct - b.correct);
+          changeIconToAscendingSort(icon);
         } else {
           dataForTable.sort((a, b) => b.correct - a.correct);
+          changeIconToDescendingSort(icon);
         }
         addRowsToDom(table);
         break;
@@ -109,8 +134,10 @@ const addEventListener = (table) => {
         deleteTable();
         if (e.target.classList.contains('sort')) {
           dataForTable.sort((a, b) => a.incorrect - b.incorrect);
+          changeIconToAscendingSort(icon);
         } else {
           dataForTable.sort((a, b) => b.incorrect - a.incorrect);
+          changeIconToDescendingSort(icon);
         }
         addRowsToDom(table);
         break;
@@ -119,8 +146,10 @@ const addEventListener = (table) => {
         deleteTable();
         if (e.target.classList.contains('sort')) {
           dataForTable.sort((a, b) => a.percent - b.percent);
+          changeIconToAscendingSort(icon);
         } else {
           dataForTable.sort((a, b) => b.percent - a.percent);
+          changeIconToDescendingSort(icon);
         }
         addRowsToDom(table);
         break;

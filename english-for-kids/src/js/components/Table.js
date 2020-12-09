@@ -16,17 +16,16 @@ export default class Table {
     this.table = document.createElement('table');
     this.head = document.createElement('thead');
     this.table.append(this.head);
-    this.tr = document.createElement('tr');
-    this.head.append(this.tr);
-    let img = `<img class='sort-icon' src='./src/assets/icons/sort.svg'>`
-    this.tr.innerHTML = `        
-           <th>Categories${img}</th>  
-           <th>Words${img}</th> 
-           <th>Translation${img}</th> 
-           <th>Trained${img}</th> 
-           <th>Correct${img}</th> 
-           <th>Incorrect${img}</th>  
-           <th>%${img}</th>   
+    this.head.innerHTML = `   
+         <tr>    
+           <th>Categories<div class="sort-icon"></div></th>  
+           <th>Words<div class="sort-icon"></div></th> 
+           <th>Translation<div class="sort-icon"></div></th> 
+           <th>Trained<div class="sort-icon"></div></th> 
+           <th>Correct<div class="sort-icon"></div></th> 
+           <th>Incorrect<div class="sort-icon"></div></th>  
+           <th>%<div class="sort-icon"></div></th>   
+          </tr> 
         `;
 
     return this.table;
